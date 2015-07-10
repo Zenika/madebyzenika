@@ -1,0 +1,58 @@
+@import "variable.less";
+
+@import "header.less";
+
+@import "font-icon/flaticon.less";
+
+@import "landingPage.less";
+
+@import "navBar.less";
+
+@import "input.less";
+
+@import "navPills.less";
+
+@import "barFilter.less";
+
+@import "timelineEvents.less";
+
+@import "filter.less";
+
+@import "project/project.less";
+
+@import "user/user.less";
+
+@import "dashboard/dashboard.less";
+
+body{
+  background: @body-bg;
+}
+
+.row{
+  margin: 0;
+}
+
+.btn-default{
+  &:hover
+  {
+    background: @red;
+    color: white;
+  }
+}
+
+.label{
+  margin-left: 5px;
+  a{
+    text-decoration: none;
+    color: white;
+  }
+
+  &:hover{
+    background: @red;
+  }
+}
+
+.table-responsive {
+  overflow-x: visible !important;
+    overflow-y: visible !important;
+}
