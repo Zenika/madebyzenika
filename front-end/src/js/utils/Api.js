@@ -1,5 +1,6 @@
 var Request = require("superagent");
 var store = require("./LocalStorage/LocalStorage");
+
 module.exports = {
 
   tokenAttribut: "X-Auth-Token",
@@ -37,5 +38,5 @@ module.exports = {
                    .set("Content-Type", "application/json")
                    .set(this.tokenAttribut, this.localStorageToken());
   }
-
+  
 };

@@ -25,7 +25,7 @@ var SignIn = React.createClass({
 
   render: function() {
     var currentUser = this.state.currentUser;
-
+    console.log(currentUser);
     var connectButton = <span className="g-signin"
                               data-clientid="1083777438685-kjrgndua0oiqhlhpl67qdjvjqn4okkoo.apps.googleusercontent.com"
                               data-scope="https://www.googleapis.com/auth/plus.login  https://www.googleapis.com/auth/userinfo.email"
@@ -33,12 +33,13 @@ var SignIn = React.createClass({
                               data-callback="signinCallback"
                               data-approvalprompt="force">
                             </span>;
+
     var disconnectButton = <span key={currentUser.id} >
-                              <span className="userInfoHeader">
+                            <span className="userInfoHeader">
                                 {currentUser.given_name} {currentUser.family_name}
-                                <img src={currentUser.picture} />
-                              </span>
-                              <button className="btn btn-danger btn-sm" onClick={this.disconnect}>Déconnexion</button>
+                              <img src={currentUser.picture} />
+                            </span>
+                            <button className="btn btn-danger btn-sm" onClick={this.disconnect}>Déconnexion</button>
                            </span>;
 
     return <div className="navbar-text">{ this.state.isLoggedIn ? disconnectButton : connectButton }</div>;
@@ -49,7 +50,8 @@ var SignIn = React.createClass({
       // // Autorisation réussie
       // // Masquer le bouton de connexion maintenant que l'utilisateur est autorisé, par exemple :
         this.getFlux().actions.AuthActions.getAuthorizationCode(authResult["code"]).then(function(data) {
-            this.getFlux().actions.AuthActions.getLoginUser(data.access_token, data.userInfo);
+          console.log(data);
+            this.getFlux().actions.AuthActions.setLoginUser(data.access_token, data.userInfo);
             this.setState({ isLoggedIn : true });
         }.bind(this), function(err) {
             console.log(err);

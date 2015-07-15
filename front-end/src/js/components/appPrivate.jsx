@@ -8,7 +8,7 @@ var Fluxxor = require("fluxxor");
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
-var App = React.createClass({
+var AppPrivate = React.createClass({
 
   mixins: [FluxMixin],
 
@@ -17,7 +17,7 @@ var App = React.createClass({
     var currentUser = store.get("currentUser");
 
     if( token && currentUser ) {
-      this.getFlux().actions.AuthActions.setUserInStore(token, currentUser);
+        this.getFlux().actions.AuthActions.getLoginUser(token, currentUser);
     }
   },
 
@@ -28,11 +28,10 @@ var App = React.createClass({
   render: function() {
     return (
         <div>
-          <Header flux={this.props.flux} />
           <RouteHandler {...this.props} />
         </div>
     );
   }
 });
 
-module.exports = App;
+module.exports = AppPrivate;
