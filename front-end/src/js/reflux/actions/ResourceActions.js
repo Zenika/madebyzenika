@@ -38,7 +38,7 @@ ResourceActions.loadResourcesByEvent.listen(function(eventId) {
 
   ResourceService.getResourcesByEvent(eventId).then(function(res) {
     if(res.body){
-      return thisAction.completed({eventId: eventId, res: res.body});
+      return thisAction.completed({ eventId: eventId, resources: res.body});
     }
   }, function(err) {
     return thisActions.failed(err);

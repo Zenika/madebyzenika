@@ -4,15 +4,13 @@ var Reflux = require("reflux");
 var ProjectStore = require("../../../reflux/stores/ProjectStore");
 var ProjectActions = require("../../../reflux/actions/ProjectActions");
 
-//var Fluxxor = require("fluxxor");
 var Router = require("react-router");
 var Link = Router.Link;
 
-// var FluxMixin = Fluxxor.FluxMixin(React);
-// var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var ResourcesOfProject = require("./projectResources.jsx");
 var TimeLine = require("./timeline/timeLine.jsx");
+var ListMembersProject = require("./listMembersProject.jsx");
 
 var projectDetail = React.createClass({
 
@@ -44,10 +42,10 @@ var projectDetail = React.createClass({
 
         </div>
         <div className="row">
-          <h4>Les membres du projet</h4>
-            {/*_.map(this.state.teamProject, function(user) {
-              return <ThumbProjectUser user={user} admin={false}  />;
-            }.bind(this))*/}
+          <div className="col-md-12">
+            <h3>Les membres du projet</h3>
+            <ListMembersProject projectId={project.id} />
+          </div>
         </div>
         <div className="row">
           <div className="col-md-12 project-event">

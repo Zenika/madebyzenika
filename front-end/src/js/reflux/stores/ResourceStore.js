@@ -5,7 +5,7 @@ var ResourceStore = Reflux.createStore({
   data: {
     resource: {},
     resourcesByProject: [],
-    resourcesByEvent: []
+    resourcesByEvent: {}
   },
 
   init: function() {
@@ -22,7 +22,7 @@ var ResourceStore = Reflux.createStore({
   },
 
   onLoadResourcesByEventCompleted: function(resourcesByEvent) {
-    this.data.resourcesByEvent = resourcesByEvent;
+    this.data.resourcesByEvent[resourcesByEvent.eventId] = resourcesByEvent.resources;
     this.trigger(this.data);
   },
 

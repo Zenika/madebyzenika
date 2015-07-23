@@ -30,7 +30,7 @@ var DeleteEvent = React.createClass({
   onConfirm: function() {
     ProjectService.deleteProject(this.props.projectId).then(function(res) {
       this.transitionTo("projects");
-    }, function(err) {
+    }.bind(this), function(err) {
       console.log(err);
     });
   },

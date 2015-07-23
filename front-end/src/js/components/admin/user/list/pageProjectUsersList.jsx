@@ -36,7 +36,6 @@ var PageProjectUsersList = React.createClass({
   },
 
   render: function() {
-    console.log("RENDER");
     var usersNotInProject = this.getUsersNotInProject(this.state.users, this.state.usersByProject);
     var owner = {}
     var ownerId = this.state.project.owner;

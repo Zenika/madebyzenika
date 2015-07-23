@@ -1,30 +1,28 @@
 var React = require("react");
-var Fluxxor = require("fluxxor");
 var _ = require("lodash");
+var Reflux = require("reflux");
+
+var TechnologyStore = require("../../../../reflux/stores/TechnologyStore");
+var TechnologyActions = require("../../../../reflux/actions/TechnologyActions");
+
 var ProjectType = require("../../../../utils/LocalStorage/ProjectType.jsx");
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var currentFilter = React.createClass({
 
-  mixins: [FluxMixin, StoreWatchMixin("ProjectStore", "TechnologyStore")],
+  mixins: [Reflux.connect(TechnologyStore)],
 
-  getStateFromFlux: function() {
-    var flux = this.getFlux();
-
-    var userFilter = flux.store("ProjectStore").filter;
-
+  getInitialState: function() {
     return {
-      userFilter: userFilter
-    };
+      filter: this.props.filter
+    }
   },
 
   componentWillReceiveProps: function(nextProps) {
-    this.setState({ userFilter: nextProps.userFilter});
+    this.setState({ filter: nextProps.filter});
   },
 
   removeFilterType: function(type) {
-      console.log(type);
+      //console.log(type);
   },
 
   tagTypeFilter: function(type) {
@@ -37,24 +35,26 @@ var currentFilter = React.createClass({
     );
   },
 
-  tagTechnologiesFilter: function(technology) {
+  tagTechnologiesFilter: function(technologies) {
+    var technologyName = _.pluck(_.filter(this.state.technologies, { "id": technologies}), "name");
     return (
       <span className="tag label label-default">
-        <span>{_.capitalize(technology)}</span>
+        <span>{_.capitalize(technologyName)}</span>
         <a><i className="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
       </span>
     );
   },
 
   render: function() {
-    var technologyName = this.getFlux().store("TechnologyStore").getTechnologyById(this.state.userFilter.technologies);
-    var type = this.state.userFilter.type;
+    var type = this.state.filter.type;
+    var technologies = this.state.filter.technologies;
+    console.log(this.state);
       return (
         <div className="current-filter">
           <div className="container">
               <b><i className="fa fa-filter"></i> filtres actifs : </b>
-              { type ? this.tagTypeFilter(type) : null }
-              { technologyName ? this.tagTechnologiesFilter(technologyName) : null }
+              { (type != "all") ? this.tagTypeFilter(type) : null }
+              { (technologies != "all") ? this.tagTechnologiesFilter(technologies) : null }
           </div>
         </div>
       );

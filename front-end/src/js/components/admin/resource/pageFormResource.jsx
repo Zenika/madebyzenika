@@ -102,7 +102,6 @@ var AddEvent = React.createClass({
     var resourceTypes = ResourceTypeInputsForm.getResourceTypesAsync(this.state.resourceTypes);
 
     var events = EventInputsForm.getEventAsync(this.state.eventsByProject);
-
     //Update options select resourceType
     _.set(formOptions, "fields.resourceType.options", resourceTypes.optionsType);
 

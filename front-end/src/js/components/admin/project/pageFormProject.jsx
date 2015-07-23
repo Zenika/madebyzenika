@@ -15,6 +15,8 @@ var ProjectTypeActions = require("../../../reflux/actions/ProjectTypeActions");
 var TechnologyStore = require("../../../reflux/stores/TechnologyStore");
 var TechnologyActions = require("../../../reflux/actions/TechnologyActions");
 
+var AuthStore = require("../../../reflux/stores/AuthStore");
+
 var ProjectService = require("../../../utils/ServiceRest/ProjectService");
 
 var ProjectInputsForm = require("../../../utils/form/projectInputsForm.jsx");
@@ -28,8 +30,7 @@ var pageFormProject = React.createClass({
 
   getInitialState: function() {
     return {
-      type: t.struct(ProjectInputsForm.ProjectInputTypes),
-      currentUser: this.props.user
+      type: t.struct(ProjectInputsForm.ProjectInputTypes)
     };
   },
 
@@ -48,7 +49,6 @@ var pageFormProject = React.createClass({
 
   submit: function () {
     var value = this.refs.form.getValue();
-
     if (value) {
       var project = {};
       _.map(value, function(v, k) {
@@ -59,6 +59,7 @@ var pageFormProject = React.createClass({
 
         project.team = this.state.project.team;
         ProjectService.putProject(this.getRouteParamProjectId(), project).then(function(res) {
+          ProjectActions.clearProject();
           this.transitionTo("projectDetail", {projectId: newProject.id});
         }.bind(this), function(err) {
           console.log(err);
@@ -67,10 +68,11 @@ var pageFormProject = React.createClass({
 
       } else {
 
-        project.team = [this.state.currentUser.id];
-        project.owner = this.state.currentUser.id;
-        ProjectService.postProject(project).then(function(newProject) {
-          this.transitionTo("projectDetail", {projectId: newProject.id});
+        project.team = [AuthStore.data.userInfo.id];
+        project.owner = AuthStore.data.userInfo.id
+        ProjectService.postProject(project).then(function(res) {
+          ProjectActions.clearProject();
+          this.transitionTo("projectDetail", {projectId: res.body.id});
         }.bind(this), function(err) {
           console.log(err);
         });

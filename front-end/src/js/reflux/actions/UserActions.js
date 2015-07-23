@@ -31,15 +31,15 @@ UserActions.loadUserById.listen(function(id) {
 });
 
 UserActions.loadUsersByProject.listen(function(projectId) {
-
   var thisAction = this;
-
-  UserService.getUsersByProject(projectId).then(function(res) {
-    return thisAction.completed(res.body);
-  }, function(err) {
-    return thisActions.failed(err);
-  });
-
+  
+  if(projectId) {
+    UserService.getUsersByProject(projectId).then(function(res) {
+      return thisAction.completed(res.body);
+    }, function(err) {
+      return thisActions.failed(err);
+    });
+  }
 });
 
 module.exports = UserActions;

@@ -2,26 +2,22 @@ var React = require("react");
 var Fluxxor = require("fluxxor");
 var _ = require("lodash");
 
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var Reflux = require("reflux");
+var TechnologyStore = require("../../../../reflux/stores/TechnologyStore");
+var TechnologyActions = require("../../../../reflux/actions/TechnologyActions");
+
+var ProjectTypeStore = require("../../../../reflux/stores/ProjectTypeStore");
+var ProjectTypeActions = require("../../../../reflux/actions/ProjectTypeActions");
 
 var SearchForm = require("./SearchForm.jsx");
 
 var BarFilter = React.createClass({
 
-  mixins: [FluxMixin, StoreWatchMixin("ProjectTypeStore", "TechnologyStore")],
+  mixins: [Reflux.connect(ProjectTypeStore), Reflux.connect(TechnologyStore)],
 
   componentDidMount: function() {
-    this.getFlux().actions.ProjectTypeActions.loadProjectTypes();
-    this.getFlux().actions.TechnologyActions.loadTechnologies();
-  },
-
-  getStateFromFlux: function() {
-    var flux = this.getFlux();
-    return {
-      technologies: flux.store("TechnologyStore").technologies,
-      projectTypes: flux.store("ProjectTypeStore").projectTypes
-    };
+    ProjectTypeActions.loadProjectTypes();
+    TechnologyActions.loadTechnologies();
   },
 
   filterProjectType: function(type) {
