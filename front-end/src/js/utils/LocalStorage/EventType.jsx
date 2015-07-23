@@ -1,39 +1,33 @@
 var React = require("react");
-var Fluxxor = require("fluxxor");
+
 var store = require("./LocalStorage");
 var _ = require("lodash");
 
-var EventTypeActions = require("../../actions/EventTypeActions.js");
-
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var Reflux = require("reflux");
+var EventTypeStore = require("../../reflux/stores/EventTypeStore");
+var EventTypeActions = require("../../reflux/actions/EventTypeActions");
 
 
 var EventType = React.createClass({
 
-  mixins: [FluxMixin, StoreWatchMixin("EventTypeStore")],
+  mixins: [Reflux.connect(EventTypeStore)],
 
   componentDidMount: function() {
-    var flux = this.getFlux();
-    if(_.isEmpty(this.getEventTypes())) {
-      flux.actions.EventTypeActions.loadEventTypes();
-    }
+    EventTypeActions.loadEventTypes()
   },
 
-  getStateFromFlux: function() {
+  getInitialState: function() {
     if(_.isEmpty(this.getEventTypes())) {
-      this.fillLocalStorage(this.getFlux().store("EventTypeStore").eventTypes);
+      this.fillLocalStorage(this.state.eventTypes);
     }
 
     return {
-      eventTypeId: this.props.eventType,
-      eventTypes: this.getEventTypes()
+      eventTypeId: this.props.eventType
     };
   },
 
   render: function() {
     var eventType = _.first(_.filter(this.state.eventTypes, "id", this.state.eventTypeId));
-
     if(eventType) {
       if (this.props.icon && this.props.color && eventType) {
         var style = { background: eventType.color };

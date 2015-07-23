@@ -1,5 +1,11 @@
 var React = require("react");
-var Fluxxor = require("fluxxor");
+
+var Reflux = require("reflux");
+var ProjectStore = require("../../../../reflux/stores/ProjectStore");
+var ProjectActions = require("../../../../reflux/actions/ProjectActions");
+
+var AuthStore = require("../../../../reflux/stores/AuthStore");
+
 var _ = require("lodash");
 var Router = require("react-router");
 var Link = Router.Link;
@@ -15,28 +21,19 @@ var ProjectType = require("../../../../utils/LocalStorage/ProjectType.jsx");
 
 var PageTitle = require("../../pageTitle.jsx");
 
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
 var pageProjects = React.createClass({
 
-  mixins: [FluxMixin, StoreWatchMixin("ProjectStore","AuthStore","UserStore")],
+  mixins: [Reflux.connect(ProjectStore)],
 
   componentDidMount: function() {
-    var flux = this.getFlux();
-    var currentUserId = flux.store("AuthStore").userInfo.id;
-    flux.actions.ProjectActions.loadProjectsByUser(currentUserId);
+    ProjectActions.loadProjectsByUser(AuthStore.data.userInfo.id);
   },
 
-  getStateFromFlux: function() {
-    var flux = this.getFlux().store("ProjectStore");
-    return {
-      projects: flux.projectsByUser
-    };
-  },
 
   render: function() {
+    var projects = this.state.projectsByUser;
     this.props.pageTitle = "Liste de mes projets";
+
     return (
       <div id="page-wrapper">
         <div id="wrapper">
@@ -52,16 +49,28 @@ var pageProjects = React.createClass({
                     </tr>
                   </thead>
                   <tbody>
-                    {_.map(this.state.projects, function(project) {
+                    {_.map(projects, function(project) {
                       return (
                         <tr key={project.id}>
                           <td>{project.name}</td>
                           <td>{_.trunc(project.description, {"length": 20, "separator": " "})}</td>
                           <td><ProjectType projectType={project.projectType} /></td>
                           <td>{this.renderProjectActions(project.id)}</td>
-                          <td>{this.renderEventActions(project.id)}</td>
-                          <td>{this.renderResourceActions(project.id)}</td>
-                          <td>{this.renderUserActions(project.id)}</td>
+                          <td>
+                              <Link to="AdminEventsByProjects" className="btn btn-primary" params={{projectId: project.id}}>
+                                Les événements
+                              </Link>
+                          </td>
+                          <td>
+                            <Link to="AdminResourcesByProjects" className="btn btn-primary" params={{projectId: project.id}}>
+                              Les ressources
+                            </Link>
+                          </td>
+                          <td>
+                            <Link to="PageAdminUsersByProject" className="btn btn-primary" params={{projectId: project.id}}>
+                              Les membres
+                            </Link>
+                          </td>
                         </tr>
                       );
                     }.bind(this))}

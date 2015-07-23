@@ -21,8 +21,13 @@ class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
-        ((HttpSecurity)((AuthorizedUrl)((AuthorizedUrl)http.authorizeRequests().antMatchers(new String[]{"/api/oauth2callback"})).permitAll().anyRequest()).authenticated().and()).csrf().disable();
-        http.addFilterBefore(new AuthenticationFilter(this.authenticationManager()), BasicAuthenticationFilter.class);
+        http.authorizeRequests()
+                .antMatchers("/api/oauth2callback").permitAll()
+                .anyRequest().permitAll().and()
+                /*.anyRequest().authenticated().and()*/
+                .csrf().disable();
+
+        //http.addFilterBefore(new AuthenticationFilter(this.authenticationManager()), BasicAuthenticationFilter.class);
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -6,16 +6,23 @@ var _ = require("lodash");
 
 var PageTitle = require("../pageTitle.jsx");
 
-var Fluxxor = require("fluxxor");
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var Reflux = require("reflux");
+
+var EventStore = require("../../../reflux/stores/EventStore");
+var EventActions = require("../../../reflux/actions/EventActions");
+
+var EventTypeStore = require("../../../reflux/stores/EventTypeStore");
+var EventTypeActions = require("../../../reflux/actions/EventTypeActions");
+
+
+var EventService = require("../../../utils/ServiceRest/EventService");
 
 var EventInputsForm = require("../../../utils/form/eventInputsForm.jsx");
 var EventTypeInputsForm = require("../../../utils/form/eventTypeInputsForm.jsx");
 
-var AddEvent = React.createClass({
+var pageFormEvent = React.createClass({
 
-  mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("EventStore","EventTypeStore")],
+  mixins: [Router.Navigation, Reflux.connect(EventStore), Reflux.connect(EventTypeStore)],
 
   getRouteParamEventId: function() {
     var params = this.context.router.getCurrentParams();
@@ -27,38 +34,31 @@ var AddEvent = React.createClass({
     return params.projectId;
   },
 
-  getValueForm: function() {
-    var projectEvent = this.getFlux().store("EventStore").projectEvent;
-    return (this.getRouteParamEventId() === projectEvent.id) ? EventInputsForm.formatData(projectEvent) : false;
-  },
-
-  getStateFromFlux: function() {
+  getInitialState: function() {
     return {
-      options: this.getOptionsForm(),
-      type: t.struct(EventInputsForm.EventInputTypes),
-      value: this.getValueForm()
+      type: t.struct(EventInputsForm.EventInputTypes)
     };
   },
 
   componentDidMount: function() {
-    this.getFlux().actions.EventTypeActions.loadEventTypes();
+    // this.getFlux().actions.EventTypeActions.loadEventTypes();
+    EventTypeActions.loadEventTypes();
     var eventId = this.getRouteParamEventId();
-    if (eventId) { this.getFlux().actions.EventActions.loadEvent(eventId); }
+    if (eventId) { EventActions.loadEvent(eventId); }
   },
 
   onClick: function () {
     var formData = this.refs.form.getValue();
-    var routeParamProjectId = this.getRouteParamProjectId();
+    var routeParamEventId = this.getRouteParamEventId();
 
     if(formData) {
-      if(routeParamProjectId) {
+      if(getRouteParamEventId) {
         var data = EventInputsForm.formatData(formData, routeParamProjectId);
-        console.log(data);
 
-        this.getFlux().actions.EventActions.postEvent(data).then(function() {
-            this.transitionTo("projectDetail", {projectId: routeParamProjectId});
+        EventService.postEvent(data).then(function(res) {
+          this.transitionTo("projectDetail", {projectId: routeParamProjectId});
         }.bind(this), function(err) {
-            console.log(err);
+          console.log(err);
         });
 
       } else {
@@ -66,27 +66,25 @@ var AddEvent = React.createClass({
         var projectId = this.state.value.projectId;
         var newEvent = EventInputsForm.formatData(formData, projectId);
 
-        this.getFlux().actions.EventActions.putEvent(this.getRouteParamEventId(), newEvent).then(function() {
-            this.transitionTo("projectDetail", {projectId: projectId});
+        EventService.putEvent(this.getRouteParamEventId(), newEvent).then(function(res) {
+          this.transitionTo("projectDetail", {projectId: projectId});
         }.bind(this), function(err) {
-            console.log(err);
+          console.log(err);
         });
-
       }
 
     }
   },
 
   render: function () {
-    console.log(this.state.value);
-    var formTitle = function() { return (_.isEmpty(this.state.value)) ? "Ajouter un événement" : "Modifier l'évenement"; }.bind(this);
+    var formTitle = function() { return (_.isEmpty(this.state.event)) ? "Ajouter un événement" : "Modifier l'évenement"; }.bind(this);
 
    return (
      <div id="page-wrapper">
        <div id="wrapper">
          <PageTitle title={formTitle()} />
 
-              <Form ref="form" options={this.state.options} type={this.state.type} value={this.state.value} />
+              <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={EventInputsForm.formatData(this.state.event)} />
               <button className="btn btn-success" onClick={this.onClick}>{ formTitle() }</button>
         </div>
       </div>
@@ -94,15 +92,13 @@ var AddEvent = React.createClass({
   },
 
   getOptionsForm: function() {
-    var flux = this.getFlux();
-
     var formOptions = {
       auto: "placeholders",
       hasError: true,
       fields: EventInputsForm.EventFields
     };
 
-    var eventTypes = EventTypeInputsForm.getEventTypesAsync(flux.store("EventTypeStore").eventTypes);
+    var eventTypes = EventTypeInputsForm.getEventTypesAsync(this.state.eventTypes);
 
     //Update options select eventType
     _.set(formOptions, "fields.eventType.options", eventTypes.optionsType);
@@ -114,4 +110,4 @@ var AddEvent = React.createClass({
   },
 });
 
-module.exports = AddEvent;
+module.exports = pageFormEvent;

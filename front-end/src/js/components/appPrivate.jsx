@@ -4,25 +4,21 @@ var RouteHandler = Router.RouteHandler;
 var Header = require("./header/header.jsx");
 var store = require("../utils/LocalStorage/LocalStorage");
 
-var Fluxxor = require("fluxxor");
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var Reflux = require("reflux");
+
+var AuthStore = require("../reflux/stores/AuthStore");
+var AuthActions = require("../reflux/actions/AuthActions");
 
 var AppPrivate = React.createClass({
 
-  mixins: [FluxMixin],
+  mixins: [Reflux.connect(AuthStore)],
 
   componentDidMount: function() {
-    var token = store.get("access_token");
-    var currentUser = store.get("currentUser");
-
-    if( token && currentUser ) {
-        this.getFlux().actions.AuthActions.getLoginUser(token, currentUser);
-    }
-  },
-
-  getInitialState: function(){
-    return {};
+    // var token = store.get("access_token");
+    // var currentUser = store.get("currentUser");
+    // if( token && currentUser ) {
+    //      AuthActions.setUserInStore(currentUser, token);
+    // }
   },
 
   render: function() {

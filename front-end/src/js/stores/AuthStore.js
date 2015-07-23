@@ -27,7 +27,6 @@ var AuthStore = Fluxxor.createStore({
   },
 
   setUserInfo: function(userInfo) {
-    console.log(userInfo);
     this.userInfo = userInfo.userInfo;
     this.token = userInfo.token;
     this.emit("change");

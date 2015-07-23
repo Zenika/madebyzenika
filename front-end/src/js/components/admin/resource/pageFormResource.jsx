@@ -4,9 +4,18 @@ var _ = require("lodash");
 var t = require("tcomb-form");
 var Form = t.form.Form;
 
-var Fluxxor = require("fluxxor");
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var Reflux = require("reflux");
+
+var ResourceStore = require("../../../reflux/stores/ResourceStore");
+var ResourceActions = require("../../../reflux/actions/ResourceActions");
+
+var ResourceTypeStore = require("../../../reflux/stores/ResourceTypeStore");
+var ResourceTypeActions = require("../../../reflux/actions/ResourceTypeActions");
+
+var EventStore = require("../../../reflux/stores/EventStore");
+var EventActions = require("../../../reflux/actions/EventActions");
+
+var ResourceService = require("../../../utils/ServiceRest/ResourceService");
 
 var PageTitle = require("../pageTitle.jsx");
 
@@ -16,23 +25,20 @@ var EventInputsForm = require("../../../utils/form/eventInputsForm.jsx");
 
 var AddEvent = React.createClass({
 
-  mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("ResourceStore", "ResourceTypeStore", "EventStore")],
+  mixins: [Router.Navigation, Reflux.connect(ResourceStore), Reflux.connect(ResourceTypeStore), Reflux.connect(EventStore)],
 
-  getStateFromFlux: function() {
+  getInitialState: function() {
     return {
-      options: this.getOptionsForm(),
-      type: t.struct(ResourceInputsForm.ResourceInputTypes),
-      value: this.getValueForm()
+      type: t.struct(ResourceInputsForm.ResourceInputTypes)
     };
   },
 
   componentDidMount: function() {
-    var flux = this.getFlux();
-    flux.actions.ResourceTypeActions.loadResourceTypes();
-    flux.actions.EventActions.loadEventsByProject(this.getRouteParamProjectId());
+    ResourceTypeActions.loadResourceTypes();
+    EventActions.loadEventsByProject(this.getRouteParamProjectId());
 
     var resourceId = this.getRouteParamResourceId();
-    if (resourceId) { this.getFlux().actions.ResourceActions.loadResourceById(resourceId); }
+    if (resourceId) { ResourceActions.loadResourceById(resourceId); }
   },
 
   getRouteParamProjectId: function() {
@@ -45,23 +51,16 @@ var AddEvent = React.createClass({
     return params.resourceId;
   },
 
-  getValueForm: function() {
-    var resource = this.getFlux().store("ResourceStore").resource;
-    return (this.getRouteParamResourceId() === resource.id) ? resource : false;
-  },
-
   submit: function () {
     var value = this.refs.form.getValue();
     var routeParamProjectId = this.getRouteParamProjectId();
     var routeParamResourceId = this.getRouteParamResourceId();
-    console.log(value);
+
     if(value) {
       var data = ResourceInputsForm.formatDataProjectResource(value, routeParamProjectId);
 
       if(routeParamResourceId) {
-        console.log(data);
-
-        this.getFlux().actions.ResourceActions.putResource(routeParamResourceId, data).then(function() {
+        ResourceService.putResource(routeParamResourceId, data).then(function(res) {
           this.transitionTo("projectDetail", {projectId: routeParamProjectId});
         }.bind(this), function(err) {
           console.log(err);
@@ -69,24 +68,24 @@ var AddEvent = React.createClass({
 
       } else {
 
-        this.getFlux().actions.ResourceActions.postResource(data).then(function() {
-            this.transitionTo("projectDetail", {projectId: routeParamProjectId});
+        ResourceService.postResource(data).then(function(data) {
+          this.transitionTo("projectDetail", {projectId: routeParamProjectId});
         }.bind(this), function(err) {
-            console.log(err);
+          console.log(err);
+          reject({error: err});
         });
-
       }
     }
   },
 
   render: function () {
-    var formTitle = function() { return (_.isEmpty(this.state.value)) ?  "Ajouter une ressource" : "Modifier la ressource"; }.bind(this);
+    var formTitle = function() { return (_.isEmpty(this.state.resource)) ?  "Ajouter une ressource" : "Modifier la ressource"; }.bind(this);
 
     return (
       <div id="page-wrapper">
         <div id="wrapper">
           <PageTitle title={formTitle()} />
-              <Form ref="form" options={this.state.options} type={this.state.type} value={this.state.value} />
+              <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={this.state.resource} />
               <button className="btn btn-success" onClick={this.submit}>{ formTitle() }</button>
         </div>
       </div>
@@ -94,17 +93,15 @@ var AddEvent = React.createClass({
   },
 
   getOptionsForm: function() {
-    var flux = this.getFlux();
-
     var formOptions = {
       auto: "placeholders",
       hasError: true,
       fields: ResourceInputsForm.ResourceFields
     };
 
-    var resourceTypes = ResourceTypeInputsForm.getResourceTypesAsync(flux.store("ResourceTypeStore").resourceTypes);
+    var resourceTypes = ResourceTypeInputsForm.getResourceTypesAsync(this.state.resourceTypes);
 
-    var events = EventInputsForm.getEventAsync(flux.store("EventStore").eventsByProject);
+    var events = EventInputsForm.getEventAsync(this.state.eventsByProject);
 
     //Update options select resourceType
     _.set(formOptions, "fields.resourceType.options", resourceTypes.optionsType);
@@ -122,7 +119,7 @@ var AddEvent = React.createClass({
   },
 
   componentWillUnmount: function() {
-    this.getFlux().actions.ResourceActions.clearResource();
+    ResourceActions.clearResource();
   }
 
 });

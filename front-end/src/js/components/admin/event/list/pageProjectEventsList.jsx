@@ -1,5 +1,4 @@
 var React = require("react");
-var Fluxxor = require("fluxxor");
 var _ = require("lodash");
 var Router = require("react-router");
 var Link = Router.Link;
@@ -9,17 +8,19 @@ var Table = Bootstrap.Table;
 var DropdownButton = Bootstrap.DropdownButton;
 var MenuItem = Bootstrap.MenuItem;
 
+var Reflux = require("reflux");
+
+var EventStore = require("../../../../reflux/stores/EventStore");
+var EventActions = require("../../../../reflux/actions/EventActions");
+
 var ButtonDeleteEvent = require("../buttonDeleteEvent.jsx");
 var EventType = require("../../../../utils/LocalStorage/EventType.jsx");
 
 var PageTitle = require("../../pageTitle.jsx");
 
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
 var pageProjectEvents = React.createClass({
 
-  mixins: [ Router.Navigation, FluxMixin, StoreWatchMixin("EventStore")],
+  mixins: [ Router.Navigation, Reflux.connect(EventStore)],
 
   getProjectId: function() {
       var params = this.context.router.getCurrentParams();
@@ -27,15 +28,7 @@ var pageProjectEvents = React.createClass({
   },
 
   componentDidMount: function() {
-    var flux = this.getFlux();
-    this.getFlux().actions.EventActions.loadEventsByProject(this.getProjectId());
-  },
-
-  getStateFromFlux: function() {
-    var flux = this.getFlux().store("EventStore");
-    return {
-      events: flux.eventsByProject
-    };
+    EventActions.loadEventsByProject(this.getProjectId());
   },
 
   render: function() {
@@ -45,7 +38,9 @@ var pageProjectEvents = React.createClass({
       <div id="page-wrapper">
         <div id="wrapper">
           <PageTitle title="Liste des événements" />
-
+            <Link  to="addEvent" params={{ projectId: this.getProjectId()}} className="btn btn-success">
+              Ajouter un événement au projet
+            </Link>
             <Table responsive>
               <thead>
                 <tr>
@@ -55,7 +50,7 @@ var pageProjectEvents = React.createClass({
                 </tr>
               </thead>
               <tbody>
-                {_.map(this.state.events, function(event) {
+                {_.map(this.state.eventsByProject, function(event) {
                   return (
                     <tr key={event.id}>
                       <td>{event.name}</td>

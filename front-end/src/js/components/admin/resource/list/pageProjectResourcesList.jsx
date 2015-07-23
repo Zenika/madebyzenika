@@ -1,8 +1,12 @@
 var React = require("react");
-var Fluxxor = require("fluxxor");
+//var Fluxxor = require("fluxxor");
 var _ = require("lodash");
 var Router = require("react-router");
 var Link = Router.Link;
+
+var Reflux = require("reflux");
+var ResourceStore = require("../../../../reflux/stores/ResourceStore");
+var ResourceActions = require("../../../../reflux/actions/ResourceActions");
 
 var Bootstrap = require("react-bootstrap");
 var Table = Bootstrap.Table;
@@ -14,12 +18,12 @@ var ResourceType = require("../../../../utils/LocalStorage/ResourceType.jsx");
 
 var PageTitle = require("../../pageTitle.jsx");
 
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+// var FluxMixin = Fluxxor.FluxMixin(React);
+// var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var pageProjectResources = React.createClass({
 
-  mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("ResourceStore")],
+  mixins: [Router.Navigation, Reflux.connect(ResourceStore)],
 
   getProjectId: function() {
       var params = this.context.router.getCurrentParams();
@@ -27,15 +31,7 @@ var pageProjectResources = React.createClass({
   },
 
   componentDidMount: function() {
-    var flux = this.getFlux();
-    this.getFlux().actions.ResourceActions.loadResourcesByProject(this.getProjectId());
-  },
-
-  getStateFromFlux: function() {
-    var flux = this.getFlux().store("ResourceStore");
-    return {
-      resources: flux.resourcesByProject
-    };
+    ResourceActions.loadResourcesByProject(this.getProjectId());
   },
 
   render: function() {
@@ -45,7 +41,7 @@ var pageProjectResources = React.createClass({
       <div id="page-wrapper">
         <div id="wrapper">
           <PageTitle title="Ressources du projet" />
-            <Link to="addResourceToProject" params={{ projectId: this.getProjectId()}} className="btn btn-success">
+            <Link to="addResourceToProject" className="btn btn-success" params={{ projectId: this.getProjectId()}} >
               Ajouter une ressource au projet
             </Link>
               <Table responsive>
@@ -57,14 +53,14 @@ var pageProjectResources = React.createClass({
                   </tr>
                 </thead>
                 <tbody>
-                  {_.map(this.state.resources, function(resource) {
+                  {_.map(this.state.resourcesByProject, function(resource) {
                     return (
                       <tr key={resource.id}>
                         <td>{resource.name}</td>
-                        <td><a href={resource.link} target="_blank">Lien</a></td>
+                        <td><a href={resource.link} className="btn btn-info" target="_blank">Accèder à la ressource</a></td>
                         <td><ResourceType resourceType={resource.resourceType} /></td>
                         <td>
-                          <Link to="updateResource" params={{resourceId: resource.id, projectId: this.getProjectId()}}>
+                          <Link to="updateResource" className="btn btn-warning" params={{resourceId: resource.id, projectId: this.getProjectId()}}>
                             Modifier
                           </Link>
                         </td>

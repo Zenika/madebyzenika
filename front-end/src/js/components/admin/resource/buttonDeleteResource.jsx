@@ -4,15 +4,13 @@ var Bootstrap = require("react-bootstrap");
 var OverlayMixin = Bootstrap.OverlayMixin;
 var Modal = Bootstrap.Modal;
 
-var Fluxxor = require("fluxxor");
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var ResourceService = require("../../../utils/ServiceRest/ResourceService");
 
-var DeleteEvent = React.createClass({
+var DeleteResource = React.createClass({
 
-  mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("ResourceStore"), OverlayMixin],
+  mixins: [Router.Navigation, OverlayMixin],
 
-  getStateFromFlux: function() {
+  getInitialState: function() {
     return {
       resourceId: this.props.resourceId,
       projectId: this.props.projectId,
@@ -31,17 +29,17 @@ var DeleteEvent = React.createClass({
   },
 
   onConfirm: function() {
-    this.getFlux().actions.ResourceActions.deleteResource(this.state.resourceId).then(function() {
-        this.transitionTo("projectDetail", {projectId: this.state.projectId});
+    ResourceService.deleteResource(this.state.resourceId).then(function(res) {
+      this.transitionTo("projectDetail", {projectId: this.state.projectId});
     }.bind(this), function(err) {
-        console.log(err);
+      console.log(err);
     });
   },
 
   render: function () {
    return (
       <div>
-        <button onClick={this.onClick}>X</button>
+        <button className="btn btn-danger" onClick={this.onClick}>X</button>
       </div>
     );
   },
@@ -66,4 +64,4 @@ var DeleteEvent = React.createClass({
 
 });
 
-module.exports = DeleteEvent;
+module.exports = DeleteResource;

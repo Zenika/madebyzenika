@@ -4,43 +4,46 @@ var Router = require("react-router");
 var t = require("tcomb-form");
 var Form = t.form.Form;
 
-var Fluxxor = require("fluxxor");
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var Reflux = require("reflux");
+
+var ProjectStore = require("../../../reflux/stores/ProjectStore");
+var ProjectActions = require("../../../reflux/actions/ProjectActions");
+
+var ProjectTypeStore = require("../../../reflux/stores/ProjectTypeStore");
+var ProjectTypeActions = require("../../../reflux/actions/ProjectTypeActions");
+
+var TechnologyStore = require("../../../reflux/stores/TechnologyStore");
+var TechnologyActions = require("../../../reflux/actions/TechnologyActions");
+
+var ProjectService = require("../../../utils/ServiceRest/ProjectService");
 
 var ProjectInputsForm = require("../../../utils/form/projectInputsForm.jsx");
 var ProjectTypeInputsForm = require("../../../utils/form/projectTypeInputsForm.jsx");
 var TechnologyInputsForm = require("../../../utils/form/technologyInputsForm.jsx");
+
 var PageTitle = require("../pageTitle.jsx");
 
-var AddProject = React.createClass({
-  mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("ProjectTypeStore", "TechnologyStore", "ProjectStore")],
+var pageFormProject = React.createClass({
+  mixins: [Router.Navigation, Reflux.connect(ProjectStore), Reflux.connect(ProjectTypeStore), Reflux.connect(TechnologyStore)],
 
-  getStateFromFlux: function() {
+  getInitialState: function() {
     return {
-      options: this.getOptionsForm(),
       type: t.struct(ProjectInputsForm.ProjectInputTypes),
-      value: this.getValueForm(),
       currentUser: this.props.user
     };
   },
 
   componentDidMount: function() {
-    this.getFlux().actions.ProjectTypeActions.loadProjectTypes();
-    this.getFlux().actions.TechnologyActions.loadTechnologies();
+    ProjectTypeActions.loadProjectTypes();
+    TechnologyActions.loadTechnologies();
 
     var projectId = this.getRouteParamProjectId();
-    if (projectId) { this.getFlux().actions.ProjectActions.loadProjectById(projectId); }
+    if (projectId) { ProjectActions.loadProject(projectId); }
   },
 
   getRouteParamProjectId: function() {
     var params = this.context.router.getCurrentParams();
     return params.projectId;
-  },
-
-  getValueForm: function() {
-    var project = this.getFlux().store("ProjectStore").project;
-    return (this.getRouteParamProjectId() === project.id) ? project : false;
   },
 
   submit: function () {
@@ -52,25 +55,27 @@ var AddProject = React.createClass({
         project[k] = v;
       });
 
-      if(!_.isEmpty(this.getValueForm())) {
+      if(!_.isEmpty(this.state.project)) {
 
-        project.team = this.getValueForm().team;
-        this.getFlux().actions.ProjectActions.putProject(this.getRouteParamProjectId(), project).then(function(newProject) {
+        project.team = this.state.project.team;
+        ProjectService.putProject(this.getRouteParamProjectId(), project).then(function(res) {
           this.transitionTo("projectDetail", {projectId: newProject.id});
         }.bind(this), function(err) {
-            console.log(err);
+          console.log(err);
+          reject({error: err});
         });
 
       } else {
+
         project.team = [this.state.currentUser.id];
-        this.getFlux().actions.ProjectActions.postProject(project).then(function(newProject) {
+        project.owner = this.state.currentUser.id;
+        ProjectService.postProject(project).then(function(newProject) {
           this.transitionTo("projectDetail", {projectId: newProject.id});
         }.bind(this), function(err) {
-            console.log(err);
+          console.log(err);
         });
 
       }
-      this.getFlux().actions.ProjectActions.clearProject();
     }
   },
 
@@ -79,14 +84,13 @@ var AddProject = React.createClass({
   },
 
   render: function() {
-    console.log();
-    var formTitle = function() { return (_.isEmpty(this.state.value)) ? "Ajouter un projet" : "Modifier le projet"; }.bind(this);
+    var formTitle = function() { return (_.isEmpty(this.state.project)) ? "Ajouter un projet" : "Modifier le projet"; }.bind(this);
     return (
       <div id="page-wrapper">
         <div id="wrapper">
             <PageTitle title={formTitle()} />
             <hr />
-            <Form ref="form" options={this.state.options} type={this.state.type} value={this.state.value}/>
+            <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={this.state.project}/>
             <button className="btn btn-success" onClick={this.submit}>
                 { formTitle() }
             </button>
@@ -96,17 +100,15 @@ var AddProject = React.createClass({
   },
 
   getOptionsForm: function() {
-    var flux = this.getFlux();
-
     var formOptions = {
         auto: "placeholders",
         hasError: true,
         fields: ProjectInputsForm.ProjectFields
     };
 
-    var projectTypes = ProjectTypeInputsForm.getProjectTypesAsync(flux.store("ProjectTypeStore").projectTypes);
+    var projectTypes = ProjectTypeInputsForm.getProjectTypesAsync(this.state.projectTypes);
 
-    var technologies = TechnologyInputsForm.getTechnologiesAsync(flux.store("TechnologyStore").technologies);
+    var technologies = TechnologyInputsForm.getTechnologiesAsync(this.state.technologies);
 
     //Update options select projectType
     _.set(formOptions, "fields.projectType.options", projectTypes.optionsType);
@@ -123,10 +125,10 @@ var AddProject = React.createClass({
     return formOptions;
   },
 
-  componentWillUnmount:	function(){
-    this.getFlux().actions.ProjectActions.clearProject();
+  componentWillUnmount: function() {
+    ProjectActions.clearProject();
   }
 
 });
 
-module.exports = AddProject;
+module.exports = pageFormProject;

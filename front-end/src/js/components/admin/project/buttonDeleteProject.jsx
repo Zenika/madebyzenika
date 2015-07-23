@@ -4,15 +4,13 @@ var Bootstrap = require("react-bootstrap");
 var OverlayMixin = Bootstrap.OverlayMixin;
 var Modal = Bootstrap.Modal;
 
-var Fluxxor = require("fluxxor");
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var ProjectService = require("../../../utils/ServiceRest/ProjectService");
 
 var DeleteEvent = React.createClass({
 
-  mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("ProjectStore"), OverlayMixin],
+  mixins: [Router.Navigation, OverlayMixin],
 
-  getStateFromFlux: function() {
+  getInitialState: function() {
     return {
       projectId: this.props.projectId,
       isModalOpen: false
@@ -30,10 +28,10 @@ var DeleteEvent = React.createClass({
   },
 
   onConfirm: function() {
-    this.getFlux().actions.ProjectActions.deleteProject(this.state.projectId).then(function() {
-        this.transitionTo("projects");
-    }.bind(this), function(err) {
-        console.log(err);
+    ProjectService.deleteProject(this.props.projectId).then(function(res) {
+      this.transitionTo("projects");
+    }, function(err) {
+      console.log(err);
     });
   },
 

@@ -1,12 +1,18 @@
 var React = require("react");
 var Router = require("react-router");
-var Fluxxor = require("fluxxor");
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+// var Fluxxor = require("fluxxor");
+// var FluxMixin = Fluxxor.FluxMixin(React);
+// var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+var Reflux = require("reflux");
+
+var AuthService = require("../../utils/ServiceRest/AuthService");
+var AuthStore = require("../../reflux/stores/AuthStore");
+var AuthActions = require("../../reflux/actions/AuthActions");
 
 var SignIn = React.createClass({
 
-  mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("AuthStore")],
+  mixins: [Router.Navigation, Reflux.connect(AuthStore)],
 
   componentWillMount: function() {
     // Somehow generate a unique ID for every G+ button.
@@ -15,17 +21,16 @@ var SignIn = React.createClass({
     window["signinCallback"] = this.signinCallback;
   },
 
-  getStateFromFlux: function() {
-    var authStore = this.getFlux().store("AuthStore");
-    return {
-      isLoggedIn: authStore.isLoggedIn(),
-      currentUser: authStore.userInfo
-    };
+  getInitialState: function() {
+    // var authStore = this.getFlux().store("AuthStore");
+    // return {
+    //   isLoggedIn: authStore.isLoggedIn(),
+    //   currentUser: authStore.userInfo
+    // };
   },
 
   render: function() {
-    var currentUser = this.state.currentUser;
-    console.log(currentUser);
+    var currentUser = this.state.userInfo;
     var connectButton = <span className="g-signin"
                               data-clientid="1083777438685-kjrgndua0oiqhlhpl67qdjvjqn4okkoo.apps.googleusercontent.com"
                               data-scope="https://www.googleapis.com/auth/plus.login  https://www.googleapis.com/auth/userinfo.email"
@@ -49,12 +54,18 @@ var SignIn = React.createClass({
     if (authResult['access_token']) {
       // // Autorisation réussie
       // // Masquer le bouton de connexion maintenant que l'utilisateur est autorisé, par exemple :
-        this.getFlux().actions.AuthActions.getAuthorizationCode(authResult["code"]).then(function(data) {
-          console.log(data);
-            this.getFlux().actions.AuthActions.setLoginUser(data.access_token, data.userInfo);
-            this.setState({ isLoggedIn : true });
-        }.bind(this), function(err) {
-            console.log(err);
+
+        // this.getFlux().actions.AuthActions.getAuthorizationCode(authResult["code"]).then(function(data) {
+        //     this.getFlux().actions.AuthActions.setLoginUser(data.access_token, data.userInfo);
+        //     this.setState({ isLoggedIn : true });
+        // }.bind(this), function(err) {
+        //     console.log(err);
+        // });
+
+        AuthService.getAuthorizationCodeEvents(authResult["code"]).then(function(res) {
+          AuthActions.setLoginUser(res.body);
+        }, function(err) {
+          console.log(err);
         });
 
     } else if (authResult['error']) {
@@ -66,8 +77,7 @@ var SignIn = React.createClass({
   },
 
   disconnect: function() {
-    this.setState({ isLoggedIn : false });
-    this.getFlux().actions.AuthActions.clearTokenAndUserInfo();
+    AuthActions.clearTokenAndUserInfo();
     this.transitionTo("home");
   },
 

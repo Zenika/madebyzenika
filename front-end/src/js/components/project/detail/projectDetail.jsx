@@ -1,18 +1,22 @@
 var React = require("react");
-var Fluxxor = require("fluxxor");
+var Reflux = require("reflux");
+
+var ProjectStore = require("../../../reflux/stores/ProjectStore");
+var ProjectActions = require("../../../reflux/actions/ProjectActions");
+
+//var Fluxxor = require("fluxxor");
 var Router = require("react-router");
 var Link = Router.Link;
 
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+// var FluxMixin = Fluxxor.FluxMixin(React);
+// var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var ResourcesOfProject = require("./projectResources.jsx");
 var TimeLine = require("./timeline/timeLine.jsx");
-var ThumbProjectUser = require("../../admin/user/list/thumbProjectUser.jsx");
 
 var projectDetail = React.createClass({
 
-  mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("ProjectStore","UserStore")],
+  mixins: [Router.Navigation, Reflux.connect(ProjectStore)],
 
   getProjectId: function() {
       var params = this.context.router.getCurrentParams();
@@ -20,17 +24,7 @@ var projectDetail = React.createClass({
   },
 
   componentDidMount: function() {
-    this.getFlux().actions.ProjectActions.loadProjectById(this.getProjectId());
-    this.getFlux().actions.UserActions.loadUsersByProject(this.getProjectId());
-  },
-
-  getStateFromFlux: function(){
-    var flux = this.getFlux();
-    return {
-      project: flux.store("ProjectStore").project,
-      teamProject: flux.store("UserStore").usersByProject,
-      loading: flux.loading
-    };
+    ProjectActions.loadProject(this.getProjectId());
   },
 
   render: function() {
@@ -51,9 +45,9 @@ var projectDetail = React.createClass({
         </div>
         <div className="row">
           <h4>Les membres du projet</h4>
-            {_.map(this.state.teamProject, function(user) {
+            {/*_.map(this.state.teamProject, function(user) {
               return <ThumbProjectUser user={user} admin={false}  />;
-            }.bind(this))}
+            }.bind(this))*/}
         </div>
         <div className="row">
           <div className="col-md-12 project-event">
@@ -63,19 +57,8 @@ var projectDetail = React.createClass({
 
       </div>
     );
-  },
-
-  componentWillUnmount:	function(){
-    this.getFlux().actions.ProjectActions.clearProject();
   }
+
 });
 
 module.exports = projectDetail;
-
-// Modif et Supp Projet
-// <Link to="updateProject" params={{projectId: this.getProjectId()}} className="btn btn-warning">Modifier le projet</Link>
-// <ButtonDeleteProject projectId={project.id} />
-
-// <div className="col-md-3 project-resource">
-//   <ResourcesOfProject projectId={this.getProjectId()} />
-// </div>
