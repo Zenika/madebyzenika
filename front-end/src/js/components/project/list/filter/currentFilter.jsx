@@ -57,7 +57,7 @@ var currentFilter = React.createClass({
   render: function() {
     var type = this.state.filter.type;
     var technologies = this.state.filter.technologies;
-    console.log(this.state);
+
       return (
         <div className="current-filter">
           <div className="container">

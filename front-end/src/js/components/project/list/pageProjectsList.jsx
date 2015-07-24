@@ -13,6 +13,8 @@ var ProjectActions = require("../../../reflux/actions/ProjectActions");
 var FilterStore = require("../../../reflux/stores/FilterStore");
 var FilterActions = require("../../../reflux/actions/FilterActions");
 
+var SearchForm = require("./filter/SearchForm.jsx");
+
 var pageProjects = React.createClass({
 
   mixins: [Reflux.connect(ProjectStore), Reflux.connect(FilterStore)],
@@ -63,6 +65,7 @@ var pageProjects = React.createClass({
                        filterByTechnology ={this.filterProjectsByTechnologies}
             />
           <CurrentFilter filter={FilterStore.data.filter} />
+          <SearchForm searchHandler={this.filterProjectsByName} />
             <ProjectsList projects={projects}/>
             {/*<button onClick={this.moreProjects}>More result</button>*/}
          </div>

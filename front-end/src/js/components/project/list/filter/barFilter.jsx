@@ -8,8 +8,6 @@ var TechnologyActions = require("../../../../reflux/actions/TechnologyActions");
 var ProjectTypeStore = require("../../../../reflux/stores/ProjectTypeStore");
 var ProjectTypeActions = require("../../../../reflux/actions/ProjectTypeActions");
 
-var SearchForm = require("./SearchForm.jsx");
-
 var BarFilter = React.createClass({
 
   mixins: [Reflux.connect(ProjectTypeStore), Reflux.connect(TechnologyStore)],
@@ -21,10 +19,6 @@ var BarFilter = React.createClass({
 
   filterProjectType: function(type) {
     this.props.filterByType(type);
-  },
-
-  filterProjectName: function(search) {
-    this.props.filterByName(search);
   },
 
   filterTechnology: function(technology) {
@@ -64,12 +58,6 @@ var BarFilter = React.createClass({
                       </li>
                     );
                   }.bind(this))}
-            </ul>
-            <ul className="nav nav-pills">
-              <li className="filterTitle">Par nom de projet <i className="fa fa-angle-right"></i></li>
-              <li>
-                <SearchForm searchHandler={this.filterProjectName} />
-              </li>
             </ul>
           </div>
       </div>

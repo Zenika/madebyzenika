@@ -11,17 +11,20 @@ var AuthActions = require("../reflux/actions/AuthActions");
 
 var AppPrivate = React.createClass({
 
-  mixins: [Reflux.connect(AuthStore)],
+  mixins: [Router.Navigation, Reflux.connect(AuthStore)],
 
   componentDidMount: function() {
-    // var token = store.get("access_token");
-    // var currentUser = store.get("currentUser");
-    // if( token && currentUser ) {
-    //      AuthActions.setUserInStore(currentUser, token);
-    // }
+    var token = store.get("access_token");
+    var currentUser = store.get("currentUser");
+    var isLoggedIn = AuthStore.data.isLoggedIn;
+
+    if(!(token && currentUser)) {
+      this.transitionTo("home");
+    }
   },
 
   render: function() {
+
     return (
         <div>
           <RouteHandler {...this.props} />

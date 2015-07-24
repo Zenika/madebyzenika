@@ -15,8 +15,8 @@ var ResourceTypeForm = {
   ResourceTypeFields: {
     name: {
       type: "text",
-      label: <i>Nom du type de projet</i>,
-      error: <i>A custom error message</i>
+      label: <i>Nom du type de ressource</i>,
+      error: <i>Le nom du type de ressource est requis</i>
     },
     color: {
       type: "color",

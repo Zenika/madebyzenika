@@ -12,6 +12,7 @@ ResourceTypeActions.loadResourceTypes.listen(function() {
   var thisAction = this;
 
   ResourceTypeService.getResourceTypes().then(function(res) {
+
     return thisAction.completed(res.body);
   }, function(err) {
     return thisActions.failed(err);

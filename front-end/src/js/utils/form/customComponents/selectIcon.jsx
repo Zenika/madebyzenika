@@ -2,11 +2,22 @@ var React = require("react");
 var cx = require("classnames");
 var t = require("tcomb-form");
 
-var DateTimePicker = require("react-widgets/lib/DateTimePicker");
+var DropdownList = require("react-widgets").DropdownList;
 
-require("react-widgets/node_modules/globalize/lib/cultures/globalize.culture.fr-FR.js");
+var ListIcons = React.createClass({
+  render: function() {
+    var icon = this.props.item;
+
+    return (
+      <span>
+        <i className={icon.class}></i><b>{icon.class}</b>
+      </span>
+    );
+  }
+})
 
 function selectIcon(locals) {
+  var icons = [{class: "flaticon-talk"},{class: "flaticon-iteration"},{class: "flaticon-study"},{class: "flaticon-documentation"},{class: "flaticon-slide"},{class: "flaticon-depot_git"}];
 
   var formGroupClasses = {
     "form-group": true,
@@ -14,13 +25,10 @@ function selectIcon(locals) {
     "has-error": locals.hasError
   };
 
-  // config contains your new params
-  //  var config = locals.config || {};
-
-    var className = {
-          "from-group": true,
-          "has-error": locals.hasError
-    };
+  var className = {
+    "from-group": true,
+    "has-error": locals.hasError
+  };
 
   return (
     <div className={cx(formGroupClasses)}>
@@ -28,7 +36,15 @@ function selectIcon(locals) {
       {/* add a label if specified */}
       {locals.label ? <label className="control-label">{locals.label}</label> : null}
 
-      <input type="text" />
+      <DropdownList
+         data={icons}
+         textField="class"
+         itemComponent={ListIcons}
+         value={locals.value}
+         name={locals.name}
+         onChange={locals.onChange}
+       />
+
       {locals.hasError ? <span className="help-block error-block">{locals.error}</span> : null}
 
       {/* add a help if specified */}
@@ -38,7 +54,13 @@ function selectIcon(locals) {
   );
 }
 
-var DateTimeField = React.createClass({displayName: "DateTimeField",
+// <input value={locals.value}
+//        name={locals.name}
+//        onChange={locals.onChange}
+//        placeholder={locals.placeholder}
+//        classNames={className}
+// />
+var SelectIcon = React.createClass({displayName: "SelectIcon",
   getInitialState: function () {
     return {
       hasError: false,
@@ -91,15 +113,12 @@ var DateTimeField = React.createClass({displayName: "DateTimeField",
     // handling name attribute
     var name = opts.name || ctx.name;
 
-    // handle min date validation
-    var dateMin = opts.dateMin || null;
-
     var value = this.state.value;
 
     // handling errors
     var error = t.Func.is(opts.error) ? opts.error(this.state.value) : opts.error;
     // using the custom template defined above
-    return dateTimeField({
+    return selectIcon({
       config: opts.config,
       disabled: opts.disabled,
       error: error,
@@ -109,11 +128,10 @@ var DateTimeField = React.createClass({displayName: "DateTimeField",
       name: name,
       onChange: this.onChange,
       placeholder: placeholder,
-      value: value,
-      dateMin: dateMin
+      value: value
     });
 
   }
 });
 
-module.exports = selectIcon;
+module.exports = SelectIcon;

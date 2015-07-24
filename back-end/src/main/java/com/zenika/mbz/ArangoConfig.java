@@ -21,7 +21,6 @@ public class ArangoConfig {
 
     @Value("${datasource.port}")
     private Integer port;
-
     @Value("${datasource.database}")
     private String database;
 

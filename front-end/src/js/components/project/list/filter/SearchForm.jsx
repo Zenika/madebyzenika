@@ -22,7 +22,11 @@ var SearchForm = React.createClass({
   };
 
   return (
-      <Input type="text" valueLink={filterFullText} placeholder="Rechercher un projet"/>
+        <ul className="nav nav-pills">
+          <li className="filterTitle">
+            <Input type="text" valueLink={filterFullText} placeholder="Par nom de projet"/>
+          </li>
+        </ul>
   );
 
   }
