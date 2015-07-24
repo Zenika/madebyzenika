@@ -5,7 +5,11 @@ var Reflux = require("reflux");
 var TechnologyStore = require("../../../../reflux/stores/TechnologyStore");
 var TechnologyActions = require("../../../../reflux/actions/TechnologyActions");
 
+var FilterStore = require("../../../../reflux/stores/FilterStore");
+var FilterActions = require("../../../../reflux/actions/FilterActions");
+
 var ProjectType = require("../../../../utils/LocalStorage/ProjectType.jsx");
+
 
 var currentFilter = React.createClass({
 
@@ -21,8 +25,12 @@ var currentFilter = React.createClass({
     this.setState({ filter: nextProps.filter});
   },
 
-  removeFilterType: function(type) {
-      //console.log(type);
+  removeFilterTechnologies: function() {
+    FilterActions.getFilter(FilterStore.data.filter.type, "all");
+  },
+
+  removeFilterType: function() {
+    FilterActions.getFilter("all", FilterStore.data.filter.technologies);
   },
 
   tagTypeFilter: function(type) {
@@ -30,7 +38,7 @@ var currentFilter = React.createClass({
       <span className="tag label label-default">
         <ProjectType projectType={type} />
         <a><i className="remove glyphicon glyphicon-remove-sign glyphicon-white"
-              onClick={this.removeFilterType.bind(this, type)}></i></a>
+              onClick={this.removeFilterType}></i></a>
       </span>
     );
   },
@@ -40,7 +48,8 @@ var currentFilter = React.createClass({
     return (
       <span className="tag label label-default">
         <span>{_.capitalize(technologyName)}</span>
-        <a><i className="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+        <a><i className="remove glyphicon glyphicon-remove-sign glyphicon-white"
+              onClick={this.removeFilterTechnologies}></i></a>
       </span>
     );
   },
@@ -53,8 +62,8 @@ var currentFilter = React.createClass({
         <div className="current-filter">
           <div className="container">
               <b><i className="fa fa-filter"></i> filtres actifs : </b>
-              { (type != "all") ? this.tagTypeFilter(type) : null }
-              { (technologies != "all") ? this.tagTechnologiesFilter(technologies) : null }
+              { (type != "all") ? this.tagTypeFilter(type) : <span className="tag label label-default">Tous les types</span> }
+              { (technologies != "all") ? this.tagTechnologiesFilter(technologies) : <span className="tag label label-default">Toutes les technologies</span> }
           </div>
         </div>
       );

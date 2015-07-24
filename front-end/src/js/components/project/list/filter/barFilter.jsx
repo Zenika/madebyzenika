@@ -1,5 +1,4 @@
 var React = require("react");
-var Fluxxor = require("fluxxor");
 var _ = require("lodash");
 
 var Reflux = require("reflux");
@@ -79,7 +78,3 @@ var BarFilter = React.createClass({
 });
 
 module.exports = BarFilter;
-
-// <li>
-//   <SearchForm searchHandler={this.filterProjectName} />
-// </li>

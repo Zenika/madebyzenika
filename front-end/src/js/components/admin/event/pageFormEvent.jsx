@@ -41,7 +41,6 @@ var pageFormEvent = React.createClass({
   },
 
   componentDidMount: function() {
-    // this.getFlux().actions.EventTypeActions.loadEventTypes();
     EventTypeActions.loadEventTypes();
     var eventId = this.getRouteParamEventId();
     if (eventId) { EventActions.loadEvent(eventId); }

@@ -1,5 +1,4 @@
 var React = require("react");
-//var Fluxxor = require("fluxxor");
 var _ = require("lodash");
 var Router = require("react-router");
 var Link = Router.Link;
@@ -17,9 +16,6 @@ var ButtonDeleteResource = require("../buttonDeleteResource.jsx");
 var ResourceType = require("../../../../utils/LocalStorage/ResourceType.jsx");
 
 var PageTitle = require("../../pageTitle.jsx");
-
-// var FluxMixin = Fluxxor.FluxMixin(React);
-// var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var pageProjectResources = React.createClass({
 

@@ -1,32 +1,37 @@
 package com.zenika.mbz.authentication.google;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
+import com.arangodb.ArangoDriver;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Named;
+
 @Component
+@PropertySource("classpath:oauth.properties")
 public class OAuthResources {
-    private String clientId = "1083777438685-kjrgndua0oiqhlhpl67qdjvjqn4okkoo.apps.googleusercontent.com";
-    private String clientSecret = "6DsmY0wP6wWzXMGf54ymzkRv";
-    private final String oauthUrl = "https://www.googleapis.com/oauth2/v1/userinfo";
-    public final List<String> scope = Arrays.asList(new String[]{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/plus.login"});
+
+    @Value("${oauth.client}")
+    private String client;
+
+    @Value("${oauth.secret}")
+    private String secret;
 
     public OAuthResources() {
     }
 
-    public String getClientId() {
-        return this.clientId;
+    @Bean
+    @Named("OAuthResources")
+    public HashMap<String, String> getOAuthResources() {
+        HashMap<String, String> resources = new HashMap<String, String>();
+        resources.put("client", this.client);
+        resources.put("secret", this.secret);
+        return resources;
     }
 
-    public String getClientSecret() {
-        return this.clientSecret;
-    }
-
-    public String getOauthUrl() {
-        return "https://www.googleapis.com/oauth2/v1/userinfo";
-    }
-
-    public List<String> getScope() {
-        return this.scope;
-    }
 }

@@ -106,9 +106,9 @@ var PageProjectUsersList = React.createClass({
   },
 
   addUserToProject: function(user) {
-    console.log(user.id);
     var project = this.state.project;
     project.team.push(user.id);
+
     ProjectService.putProject(project.id, project).then(function(res) {
       this.setState({ project: res.body });
     }.bind(this), function(err) {
@@ -121,6 +121,7 @@ var PageProjectUsersList = React.createClass({
     var team = _.remove(project.team, function(memberId) {
       return memberId != userId;
     });
+    
     project.team = team;
 
     ProjectService.putProject(project.id, project).then(function(res) {

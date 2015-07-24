@@ -86,24 +86,3 @@ var pageProjects = React.createClass({
 });
 
 module.exports = pageProjects;
-
-
-
-// }
-// else {
-//   return (
-//     <div>
-//       <BarFilter filterByType={this.filterProjectsByType}
-//                 filterByName={this.filterProjectsByName} />
-//
-//       <div className="container">
-//         <div className="row">
-//           <div className="valign-wrapper">
-//             <h4 className="valign">Aucun projets correpond � la recherche</h4>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-//
-// }

@@ -58,9 +58,11 @@ var pageFormProject = React.createClass({
       if(!_.isEmpty(this.state.project)) {
 
         project.team = this.state.project.team;
+        project.owner = this.state.project.owner;
+
         ProjectService.putProject(this.getRouteParamProjectId(), project).then(function(res) {
           ProjectActions.clearProject();
-          this.transitionTo("projectDetail", {projectId: newProject.id});
+          this.transitionTo("projectDetail", {projectId: res.body.id});
         }.bind(this), function(err) {
           console.log(err);
           reject({error: err});

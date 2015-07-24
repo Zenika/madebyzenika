@@ -3,35 +3,44 @@ package com.zenika.mbz;
 import com.arangodb.ArangoConfigure;
 import com.arangodb.ArangoDriver;
 import com.arangodb.ArangoHost;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.inject.Named;
 
-@Component
+@Configuration
+@PropertySource("classpath:datasource.properties")
 public class ArangoConfig {
 
     public ArangoDriver driver;
 
-    public ArangoConfig(){
-        // Initialize configure
-        ArangoConfigure configure = new ArangoConfigure();
-        configure.setArangoHost(new ArangoHost("127.0.0.1", 8529));
-        configure.init();
+    @Value("${datasource.host}")
+    private String host;
 
-        // Create Driver (this instance is thread-safe)
-        ArangoDriver arangoDriver = new ArangoDriver(configure);
-        arangoDriver.setDefaultDatabase("madebyzenika");
-        this.driver = arangoDriver;
-    }
+    @Value("${datasource.port}")
+    private Integer port;
+
+    @Value("${datasource.database}")
+    private String database;
 
     @Bean
     @Named("ArangoDriver")
     public ArangoDriver getDriver() {
-        return driver;
+        // Initialize configure
+        ArangoConfigure configure = new ArangoConfigure();
+        configure.setArangoHost(new ArangoHost(this.host, this.port));
+        configure.init();
+
+        // Create Driver (this instance is thread-safe)
+        ArangoDriver arangoDriver = new ArangoDriver(configure);
+        arangoDriver.setDefaultDatabase(this.database);
+        return arangoDriver;
     }
 
     public void setDriver(ArangoDriver driver) {
         this.driver = driver;
     }
+
 }

@@ -18,7 +18,9 @@ import com.zenika.mbz.authentication.TokenService;
 import com.zenika.mbz.authentication.google.OAuthResources;
 import com.zenika.mbz.model.User;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.springframework.http.HttpStatus;
@@ -28,18 +30,24 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OAuthFlow {
+
     @Inject
-    private OAuthResources resources;
+    @Named("OAuthResources")
+    private HashMap<String, String> resources;
+
     @Inject
     @Named("TokenService")
     private TokenService tokenService;
+
     @Inject
     @Named("ArangoDriver")
     private ArangoDriver driver;
+
     private static final HttpTransport TRANSPORT = new NetHttpTransport();
     private static final JacksonFactory JSON_FACTORY = new JacksonFactory();
     private static final String USER_COLLECTION = "User";
     private static final String RESTRICT_DOMAIN = "zenika.com";
+    private static final List<String> SCOPE = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/plus.login");
     private static final Gson GSON = new Gson();
 
     public OAuthFlow() {
@@ -50,7 +58,12 @@ public class OAuthFlow {
         ResponseEntity response = new ResponseEntity(HttpStatus.OK);
 
         try {
-            GoogleTokenResponse e = (new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY, this.resources.getClientId(), this.resources.getClientSecret(), code, "postmessage")).setScopes(this.resources.scope).execute();
+            GoogleTokenResponse e = (new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY,
+                                                                             this.resources.get("client"),
+                                                                             this.resources.get("secret"),
+                                                                              code, "postmessage"))
+                                    .setScopes(SCOPE)
+                                    .execute();
             GoogleCredential credential = this.getCredentialFromTokenResponse(e);
             Oauth2 oauth2 = (new Builder(TRANSPORT, JSON_FACTORY, credential)).build();
             Userinfoplus userInfo = this.getUserInfo(oauth2);
@@ -68,7 +81,7 @@ public class OAuthFlow {
     }
 
     public GoogleCredential getCredentialFromTokenResponse(GoogleTokenResponse tokenResponse) {
-        return (new com.google.api.client.googleapis.auth.oauth2.GoogleCredential.Builder()).setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(this.resources.getClientId(), this.resources.getClientSecret()).build().setFromTokenResponse(tokenResponse);
+        return (new com.google.api.client.googleapis.auth.oauth2.GoogleCredential.Builder()).setJsonFactory(JSON_FACTORY).setTransport(TRANSPORT).setClientSecrets(this.resources.get("client"), this.resources.get("secret")).build().setFromTokenResponse(tokenResponse);
     }
 
     public Userinfoplus getUserInfo(Oauth2 oauth2) throws IOException {
