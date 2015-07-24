@@ -6,5 +6,7 @@ ADD arango-data/ arango-data/
 
 ADD standalone.sh /commands/standalone.sh
 
+EXPOSE 8529
+
 # start script
 ENTRYPOINT ["/scripts/commands.sh"]

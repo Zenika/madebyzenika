@@ -1,4 +1,3 @@
-
 #Installation
 
 ```
@@ -17,14 +16,17 @@ docker run -p 8529:8529 -d --name arangodb arango/mbz standalone --disable-authe
 ```
 
 ## Back-end
+Création de l'image:
 ```
-cd back-end
+docker build -t springboot/mbz back-end/
 ```
 
-Lancer le backend:
+Démarrer le container
 ```
-mvn spring-boot:run
+docker run -p 8080:8080 -d --name springboot --link arangodb:db -e OAUTH_CLIENT=<clientIdGoogle> -e OAUTH_SECRET=<secretClientGoogle> springboot/mbz
 ```
+
+**Accessible depuis http://localhost:8080**
 
 ## Front-End
 ```
