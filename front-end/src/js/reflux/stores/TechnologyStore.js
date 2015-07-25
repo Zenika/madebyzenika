@@ -3,12 +3,18 @@ var TechnologyActions = require("../actions/TechnologyActions");
 
 var TechnologyStore = Reflux.createStore({
   data: {
+    technology: {},
     technologies: [],
     technologiesByProject: []
   },
 
   init: function() {
     this.listenToMany(TechnologyActions);
+  },
+
+  onLoadTechnologyCompleted: function(technology) {
+      this.data.technology = technology;
+      this.trigger(this.data);
   },
 
   onLoadTechnologiesCompleted: function(technologies) {

@@ -21,7 +21,7 @@ var Header = React.createClass({
           <div id="navbar" className="navbar-collapse collapse">
             <ul className="nav navbar-nav">
                 <li><Link to="projects" >Les projets</Link></li>
-                <li><Link to="dashboard" >Dashboard</Link></li>
+                <li><Link to="dashboard" >Mon espace</Link></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <SignIn flux={this.props.flux}/>

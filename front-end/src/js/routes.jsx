@@ -18,6 +18,7 @@ var PageFormEvent = require("./components/admin/event/pageFormEvent.jsx");
 var PageFormEventType = require("./components/admin/eventType/pageFormEventType.jsx");
 var PageFormResource = require("./components/admin/resource/pageFormResource.jsx");
 var PageFormResourceType = require("./components/admin/resourceType/pageFormResourceType.jsx");
+var PageFormTechnology = require("./components/admin/technology/formTechnology.jsx");
 
 var PageAdminProjects = require("./components/admin/project/list/pageProjectsList.jsx");
 var PageAdminEventsByProject = require("./components/admin/event/list/pageProjectEventsList.jsx");
@@ -25,6 +26,7 @@ var PageAdminEventTypes = require("./components/admin/eventType/list/pageEventTy
 var PageAdminResourcesByProject = require("./components/admin/resource/list/pageProjectResourcesList.jsx");
 var PageAdminUsersByProject = require("./components/admin/user/list/pageProjectUsersList.jsx");
 var PageAdminResourceTypes = require("./components/admin/resourceType/list/pageResourceTypeList.jsx");
+var PageAdminTechnologies = require("./components/admin/technology/pageTechnologiesList.jsx");
 
 var PageProjects = require("./components/project/list/pageProjectsList.jsx");
 var PageProjectsByTechnology = require("./components/technology/projectsListByTechnology.jsx");
@@ -51,6 +53,8 @@ var routes = (
 
         <Route handler={PageAdminResourceTypes} name="AdminResourceTypes" path="resourceTypes" />
 
+        <Route handler={PageAdminTechnologies} name="AdminTechnologies" path="technologies" />
+
         <Route handler={PageAdminUsersByProject} name="PageAdminUsersByProject" path="users/project/:projectId" />
 
         <Route handler={PageFormProject}>
@@ -76,6 +80,10 @@ var routes = (
         <Route handler={PageFormResourceType}>
           <Route name="addResourceType" path="addResourceType" />
           <Route name="updateResourceType" path="updateResourceType/:resourceTypeId" />
+        </Route>
+
+        <Route handler={PageFormTechnology}>
+          <Route name="updateTechnology" path="updateTechnology/:technologyId" />
         </Route>
 
       </Route>

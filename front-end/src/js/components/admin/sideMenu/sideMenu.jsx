@@ -17,10 +17,11 @@ var SideMenu = React.createClass({
           </div>
           <div className="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <li><Link to="dashboard">Dashboard<span className="pull-right hidden-xs showopacity icon-home-house-streamline"></span></Link></li>
-              <li><Link to="AdminProjects">Mes projets<span className="pull-right hidden-xs showopacity icon-browser-streamline-window"></span></Link></li>
-              <li><Link to="AdminEventTypes">Types d'événements<span className="pull-right hidden-xs showopacity icon-book-read-streamline"></span></Link></li>
-              <li><Link to="AdminResourceTypes">Type de ressources<span className="pull-right hidden-xs showopacity icon-calendar"></span></Link></li>
+              <li><Link to="dashboard">Tableau de bord<span className="pull-right hidden-xs showopacity"></span></Link></li>
+              <li><Link to="AdminProjects">Mes projets<span className="pull-right hidden-xs showopacity"></span></Link></li>
+              <li><Link to="AdminEventTypes">Types d'événements<span className="pull-right hidden-xs showopacity"></span></Link></li>
+              <li><Link to="AdminResourceTypes">Type de ressources<span className="pull-right hidden-xs showopacity"></span></Link></li>
+              <li><Link to="AdminTechnologies">Stack techniques<span className="pull-right hidden-xs showopacity"></span></Link></li>
             </ul>
           </div>
         </div>

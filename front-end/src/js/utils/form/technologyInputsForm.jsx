@@ -1,7 +1,20 @@
+var React = require("react");
 var t = require("tcomb-form");
 var _ = require("lodash");
 
 var TechnologyForm = {
+
+  TechnologyForm: t.struct({
+    name: t.Str
+  }),
+
+  TechnologyFields: {
+    name: {
+      type: "text",
+      label: <i>Nom de la technologie</i>,
+      error: <i>Le nom de la technologie est requis</i>
+    }
+  },
 
   arrayOfTagsTechnologies: t.subtype(t.list(t.Str), function (list) {
     var validate = true;
