@@ -7,18 +7,16 @@ var DropdownList = require("react-widgets").DropdownList;
 var ListIcons = React.createClass({
   render: function() {
     var icon = this.props.item;
-
+    var iconClass = "icon-"+icon;
     return (
       <span>
-        <i className={icon.class}></i><b>{icon.class}</b>
+        <i className={iconClass}></i><b>{icon}</b>
       </span>
     );
   }
 })
 
 function selectIcon(locals) {
-  var icons = [{class: "flaticon-talk"},{class: "flaticon-iteration"},{class: "flaticon-study"},{class: "flaticon-documentation"},{class: "flaticon-slide"},{class: "flaticon-depot_git"}];
-
   var formGroupClasses = {
     "form-group": true,
     "has-feedback": true,
@@ -35,14 +33,16 @@ function selectIcon(locals) {
 
       {/* add a label if specified */}
       {locals.label ? <label className="control-label">{locals.label}</label> : null}
-
       <DropdownList
-         data={icons}
+         data={locals.optionsData}
          textField="class"
          itemComponent={ListIcons}
          value={locals.value}
          name={locals.name}
          onChange={locals.onChange}
+         caseSensitive={false}
+         minLength={2}
+         filter="contains"
        />
 
       {locals.hasError ? <span className="help-block error-block">{locals.error}</span> : null}
@@ -128,7 +128,8 @@ var SelectIcon = React.createClass({displayName: "SelectIcon",
       name: name,
       onChange: this.onChange,
       placeholder: placeholder,
-      value: value
+      value: value,
+      optionsData: opts.options
     });
 
   }

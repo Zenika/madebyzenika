@@ -7,6 +7,9 @@ require("!style!css!less!../assets/less/style.less");
 // CSS multi select field
 require("!style!css!react-select/dist/default.css");
 
+// CSS Fontello
+require("!style!css!../assets/fontello/css/fontello.css");
+
 // CSS super select field
 require("!style!css!react-super-select/lib/react-super-select.css");
 
@@ -18,10 +21,6 @@ var Actions = require("./actions/Actions");
 var Routes = require("./routes.jsx");
 
 var flux = new Fluxxor.Flux(Stores, Actions);
-
-// flux.on("dispatch", function(type, payload) {
-//   console.log("Dispatch:", type, payload);
-// });
 
 Router.run(Routes, function(Handler, state) {
   React.render(

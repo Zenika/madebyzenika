@@ -26,7 +26,7 @@ var PageEventTypeList = React.createClass({
     return (
       <div id="page-wrapper">
         <div id="wrapper">
-          <PageTitle title="Les types de ressource" />
+          <PageTitle title="Les types d'événement" />
             <Link to="addEventType" className="btn btn-success">Ajouter un type d'événement</Link>
 
                 <Table responsive className="table-responsive">

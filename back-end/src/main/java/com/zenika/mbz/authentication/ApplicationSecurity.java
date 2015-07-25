@@ -22,7 +22,7 @@ class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/oauth2callback").permitAll()
+                .antMatchers("/api/oauth2callback","/api/metrics","/api/health").permitAll()
                 .anyRequest().authenticated().and()
                 .csrf().disable();
 

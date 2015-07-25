@@ -1,18 +1,4 @@
 var React = require("react");
-var Fluxxor = require("fluxxor");
-var _ = require("lodash");
-
-var PageFormEventType = React.createClass({
-
-  render: function() {
-    return <h1>Page form eventType</h1>
-  }
-
-});
-
-module.exports = PageFormEventType;
-
-var React = require("react");
 var Router = require("react-router");
 var t = require("tcomb-form");
 var Form = t.form.Form;
@@ -25,28 +11,32 @@ var Reflux = require("reflux");
 var EventTypeStore = require("../../../reflux/stores/EventTypeStore");
 var EventTypeActions = require("../../../reflux/actions/EventTypeActions");
 
+var FontIconStore = require("../../../reflux/stores/FontIconStore");
+var FontIconActions = require("../../../reflux/actions/FontIconActions");
+
 var EventTypeService = require("../../../utils/ServiceRest/EventTypeService");
 
 var EventTypeInputsForm = require("../../../utils/form/eventTypeInputsForm.jsx");
 
 var PageFormEventType = React.createClass({
 
-  mixins: [Router.Navigation, Reflux.connect(EventTypeStore)],
+  mixins: [Router.Navigation, Reflux.connect(EventTypeStore), Reflux.connect(FontIconStore)],
 
   getRouteParamEventTypeId: function() {
     var params = this.context.router.getCurrentParams();
     return params.eventTypeId;
   },
 
+  componentDidMount: function() {
+    FontIconActions.getFontIcons();
+    var eventTypeId = this.getRouteParamEventTypeId();
+    if (eventTypeId) { EventTypeActions.loadEventTypeById(eventTypeId); }
+  },
+
   getInitialState: function() {
     return {
       type: EventTypeInputsForm.EventTypeForm
     };
-  },
-
-  componentDidMount: function() {
-    var eventTypeId = this.getRouteParamEventTypeId();
-    if (eventTypeId) { EventTypeActions.loadEventTypeById(eventTypeId); }
   },
 
   onClick: function () {
@@ -96,6 +86,8 @@ var PageFormEventType = React.createClass({
       hasError: true,
       fields: EventTypeInputsForm.EventTypeFields
     };
+
+    _.set(formOptions, "fields.classicon.options", this.state.fonts);
 
     return formOptions;
   },

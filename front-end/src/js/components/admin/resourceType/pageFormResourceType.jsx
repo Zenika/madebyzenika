@@ -11,13 +11,22 @@ var Reflux = require("reflux");
 var ResourceTypeStore = require("../../../reflux/stores/ResourceTypeStore");
 var ResourceTypeActions = require("../../../reflux/actions/ResourceTypeActions");
 
+var FontIconStore = require("../../../reflux/stores/FontIconStore");
+var FontIconActions = require("../../../reflux/actions/FontIconActions");
+
 var ResourceTypeService = require("../../../utils/ServiceRest/ResourceTypeService");
 
 var ResourceTypeInputsForm = require("../../../utils/form/resourceTypeInputsForm.jsx");
 
 var PageFormResourceType = React.createClass({
 
-  mixins: [Router.Navigation, Reflux.connect(ResourceTypeStore)],
+  mixins: [Router.Navigation, Reflux.connect(ResourceTypeStore), Reflux.connect(FontIconStore)],
+
+  componentDidMount: function() {
+    FontIconActions.getFontIcons();
+    var resourceTypeId = this.getRouteParamResourceTypeId();
+    if (resourceTypeId) { ResourceTypeActions.loadResourceTypeById(resourceTypeId); }
+  },
 
   getRouteParamResourceTypeId: function() {
     var params = this.context.router.getCurrentParams();
@@ -28,11 +37,6 @@ var PageFormResourceType = React.createClass({
     return {
       type: ResourceTypeInputsForm.ResourceTypeForm
     };
-  },
-
-  componentDidMount: function() {
-    var resourceTypeId = this.getRouteParamResourceTypeId();
-    if (resourceTypeId) { ResourceTypeActions.loadResourceTypeById(resourceTypeId); }
   },
 
   onClick: function () {
@@ -82,6 +86,8 @@ var PageFormResourceType = React.createClass({
       hasError: true,
       fields: ResourceTypeInputsForm.ResourceTypeFields
     };
+
+    _.set(formOptions, "fields.classicon.options", this.state.fonts);
 
     return formOptions;
   },

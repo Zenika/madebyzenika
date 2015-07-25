@@ -4,9 +4,9 @@ module.exports = {
       loaders: [
         { test: /\.(js|jsx)$/, loader: 'jsx-loader' },
         { test: /\.(less)$/, loader: 'style!css!less' },
-        { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
+        { test: /\.(json)$/, loader: 'json-loader' },
         { test: /\.(gif|png|jpg)$/, loader: "url-loader?mimetype=image/png" },
-        { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
+        { test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/, loader: 'url-loader' }
       ],
     },
     entry:[
