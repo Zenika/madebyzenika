@@ -9,4 +9,4 @@ ADD standalone.sh /commands/standalone.sh
 EXPOSE 8529
 
 # start script
-ENTRYPOINT ["/scripts/commands.sh"]
+ENTRYPOINT ["/scripts/commands.sh","standalone","--disable-authentication"]

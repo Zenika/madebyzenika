@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: arangodb
+  labels:
+    name: arangodb
+spec:
+  containers:
+  - image: arangodb/arangodb:latest
+    name: arangodb
+    ports:
+    - containerPort: 8529
+      name: arangodb
+    volumeMounts:
+    - name: arangodb-persistent-storage
+      mountPath: /data
+  volumes:
+  - name: arangodb-persistent-storage
+    gcePersistentDisk:
+      pdName: arangodb-disk
+      fsType: ext4

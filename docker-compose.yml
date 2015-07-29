@@ -1,0 +1,11 @@
+arangocompose:
+  image: arangodb
+  ports:
+    - "8529:8529"
+  volumes_from:
+    - datapersist
+datapersist:
+  image: ubuntu:14.04
+  volumes:
+    - /data
+  read_only: true
