@@ -25,6 +25,6 @@ var flux = new Fluxxor.Flux(Stores, Actions);
 Router.run(Routes, function(Handler, state) {
   React.render(
     <Handler flux={flux} />,
-      document.getElementById("app")
+      document.body
   );
 });

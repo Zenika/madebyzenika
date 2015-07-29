@@ -52,17 +52,8 @@ var SignIn = React.createClass({
 
   signinCallback: function (authResult) {
     if (authResult['access_token']) {
-      // // Autorisation réussie
-      // // Masquer le bouton de connexion maintenant que l'utilisateur est autorisé, par exemple :
-
-        // this.getFlux().actions.AuthActions.getAuthorizationCode(authResult["code"]).then(function(data) {
-        //     this.getFlux().actions.AuthActions.setLoginUser(data.access_token, data.userInfo);
-        //     this.setState({ isLoggedIn : true });
-        // }.bind(this), function(err) {
-        //     console.log(err);
-        // });
-
         AuthService.getAuthorizationCodeEvents(authResult["code"]).then(function(res) {
+          console.log(res);
           AuthActions.setLoginUser(res.body);
         }, function(err) {
           console.log(err);

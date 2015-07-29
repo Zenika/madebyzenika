@@ -21,8 +21,15 @@ public class ArangoConfig {
 
     @Value("${datasource.port}")
     private Integer port;
+
     @Value("${datasource.database}")
     private String database;
+
+    @Value("${datasource.user}")
+    private String user;
+
+    @Value("${datasource.password}")
+    private String password;
 
     @Bean
     @Named("ArangoDriver")
@@ -30,6 +37,8 @@ public class ArangoConfig {
         // Initialize configure
         ArangoConfigure configure = new ArangoConfigure();
         configure.setArangoHost(new ArangoHost(this.host, this.port));
+        configure.setUser(this.user);
+        configure.setPassword(this.password);
         configure.init();
 
         // Create Driver (this instance is thread-safe)

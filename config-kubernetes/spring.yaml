@@ -12,6 +12,10 @@ spec:
     - containerPort: 8080
       name: spring
     env:
+    - name: SGBD_USER
+      value: zenika
+    - name: SGBD_PASSWORD
+      value: zenika
     - name: OAUTH_CLIENT
       value: 1083777438685-kjrgndua0oiqhlhpl67qdjvjqn4okkoo.apps.googleusercontent.com
     - name: OAUTH_SECRET
