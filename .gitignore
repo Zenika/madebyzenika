@@ -53,6 +53,9 @@ dist
 ### NodeJs ###
 node_modules
 
+### Bundle JS ###
+build
+
 ### ArangoDB ###
 journals/
 
