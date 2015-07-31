@@ -1,35 +1,34 @@
 var React = require("react");
 var Router = require("react-router");
 var Link = Router.Link;
-var moment = require("moment");
+var moment = require("moment").locale("fr");
 var _ = require("lodash");
 
 var Bootstrap = require("react-bootstrap");
 var Accordion = Bootstrap.Accordion;
 var Panel = Bootstrap.Panel;
-
-var Fluxxor = require("fluxxor");
-var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+//
+// var Fluxxor = require("fluxxor");
+// var FluxMixin = Fluxxor.FluxMixin(React);
+// var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var ResourcesOfProject = React.createClass({
 
-  mixins: [FluxMixin, StoreWatchMixin("ResourceStore")],
+  mixins: [],
 
-  getStateFromFlux: function(){
-    var flux = this.getFlux().store("ResourceStore");
-    return {
-      resources: flux.resourcesByProject,
-      projectId: this.props.projectId
-    };
-  },
+  // getStateFromFlux: function(){
+  //   var flux = this.getFlux().store("ResourceStore");
+  //   return {
+  //     resources: flux.resourcesByProject,
+  //     projectId: this.props.projectId
+  //   };
+  // },
 
   componentDidMount: function() {
-    this.getFlux().actions.ResourceActions.loadResourcesByProject(this.props.projectId);
+    //this.getFlux().actions.ResourceActions.loadResourcesByProject(this.props.projectId);
   },
 
   getResourceDate: function(timestamp) {
-    moment.locale("fr");
     return moment(timestamp).format("Do MMMM YYYY");
   },
 

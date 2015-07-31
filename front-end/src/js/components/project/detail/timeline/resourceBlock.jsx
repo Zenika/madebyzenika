@@ -8,7 +8,7 @@ var ResourceType = require("../../../../utils/LocalStorage/ResourceType.jsx");
 var ResourceBlock = React.createClass({
 
   componentDidMount: function() {
-    moment.locale('fr');
+    moment.locale("fr");
   },
 
   getInitialState: function() {

@@ -29,7 +29,7 @@ var App = React.createClass({
   render: function() {
     return (
         <div>
-          <Header flux={this.props.flux} />
+          <Header />
           <RouteHandler {...this.props} />
         </div>
     );

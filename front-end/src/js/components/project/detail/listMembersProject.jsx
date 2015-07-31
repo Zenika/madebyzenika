@@ -27,7 +27,7 @@ var listMembersProject = React.createClass({
 
       { _.map(this.state.usersByProject, function(user) {
         return (
-          <div className="col-md-2">
+          <div key={user.id} className="col-md-2">
               <blockquote>
                 <img src={user.imageUrl} height="80" width="80" />
                 <small>{user.familyName} {user.givenName}</small>

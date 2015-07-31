@@ -5,9 +5,14 @@ var buildPath = path.resolve(__dirname, 'public', 'build');
 var mainPath = path.resolve(__dirname, 'src', 'js', 'app.js');
 
 var config = {
-
   // We change to normal source mapping
   devtool: 'source-map',
+  plugins: [
+     new Webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+     new Webpack.optimize.DedupePlugin(),
+     new Webpack.optimize.OccurenceOrderPlugin(),
+     new Webpack.optimize.UglifyJsPlugin({minimize: true})
+  ],
   entry: mainPath,
   output: {
     path: buildPath,
@@ -21,7 +26,6 @@ var config = {
         include: path.join(__dirname, 'src/js'),
         exclude: [nodeModulesPath]
       },
-      { test: /\.(js|jsx)$/, loader: 'jsx-loader' },
       { test: /\.(less)$/, loader: 'style!css!less' },
       { test: /\.(json)$/, loader: 'json-loader' },
       { test: /\.(gif|png|jpg)$/, loader: "url-loader?mimetype=image/png" },

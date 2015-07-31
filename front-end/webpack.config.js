@@ -1,5 +1,5 @@
 var path = require('path');
-var webpack = require('webpack');
+var Webpack = require('webpack');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
 var buildPath = path.resolve(__dirname, 'public', 'build');
 var mainPath = path.resolve(__dirname, 'src', 'js', 'app.js');
@@ -17,8 +17,8 @@ module.exports = {
     publicPath: '/build/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new Webpack.HotModuleReplacementPlugin(),
+    new Webpack.NoErrorsPlugin()
   ],
   resolve: {
     extensions: ['', '.js', '.jsx']

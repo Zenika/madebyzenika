@@ -34,6 +34,7 @@ var currentFilter = React.createClass({
   },
 
   tagTypeFilter: function(type) {
+    console.log(type);
     return (
       <span className="tag label label-default">
         <ProjectType projectType={type} />

@@ -43,7 +43,7 @@ var PageResourceTypeList = React.createClass({
                         <tr key={resourceType.id}>
                           <td>{resourceType.name}</td>
                           <td style={{background: resourceType.color, color:"black"}}>{resourceType.color}</td>
-                          <td><i className={resourceType.classicon}></i></td>
+                          <td><i className={"fa fa-"+resourceType.classicon}></i></td>
                           <td>
                               <Link to="updateResourceType" className="btn btn-warning" params={{resourceTypeId: resourceType.id}}>
                                 Modifier

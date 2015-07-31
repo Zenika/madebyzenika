@@ -7,10 +7,10 @@ var DropdownList = require("react-widgets").DropdownList;
 var ListIcons = React.createClass({
   render: function() {
     var icon = this.props.item;
-    var iconClass = "icon-"+icon;
+    var iconClass = "fa fa-"+icon;
     return (
       <span>
-        <i className={iconClass}></i><b>{icon}</b>
+        <i className={iconClass}></i><b> {icon}</b>
       </span>
     );
   }

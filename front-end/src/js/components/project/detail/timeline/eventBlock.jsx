@@ -17,8 +17,8 @@ var EventBlock = React.createClass({
   mixins: [Reflux.connect(ResourceStore), OverlayMixin],
 
   componentDidMount: function() {
-    moment.locale('fr');
     ResourceActions.loadResourcesByEvent(this.props.event.id);
+    moment.locale("fr");
   },
 
   getInitialState: function() {
@@ -72,7 +72,7 @@ var EventBlock = React.createClass({
         <div className="modal-body text-danger">
           <div className="list-group">
           {_.map(this.state.resourcesByEvent[eventId], function(resource) {
-            return <a href={resource.link} target="_blank" className="list-group-item">{resource.name}</a>;
+            return <a key={resource.id} href={resource.link} target="_blank" className="list-group-item">{resource.name}</a>;
           })}
         </div>
         </div>

@@ -45,7 +45,7 @@ module.exports = function () {
 
   // We fire up the development server and give notice in the terminal
   // that we are starting the initial bundle
-  bundler.listen(8000, 'localhost', function () {
+  bundler.listen(3001, 'localhost', function () {
     console.log('Bundling project, please wait...');
   });
 

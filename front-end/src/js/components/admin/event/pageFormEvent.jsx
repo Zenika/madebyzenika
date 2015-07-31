@@ -48,10 +48,22 @@ var pageFormEvent = React.createClass({
 
   onClick: function () {
     var formData = this.refs.form.getValue();
+    var routeParamProjectId = this.getRouteParamProjectId();
     var routeParamEventId = this.getRouteParamEventId();
 
     if(formData) {
-      if(getRouteParamEventId) {
+      if(routeParamEventId) {
+        var projectId = this.state.event.projectId;
+        var newEvent = EventInputsForm.formatData(formData, projectId);
+
+        EventService.putEvent(this.getRouteParamEventId(), newEvent).then(function(res) {
+          this.transitionTo("projectDetail", {projectId: projectId});
+        }.bind(this), function(err) {
+          console.log(err);
+        });
+
+      } else {
+
         var data = EventInputsForm.formatData(formData, routeParamProjectId);
 
         EventService.postEvent(data).then(function(res) {
@@ -60,22 +72,12 @@ var pageFormEvent = React.createClass({
           console.log(err);
         });
 
-      } else {
-
-        var projectId = this.state.value.projectId;
-        var newEvent = EventInputsForm.formatData(formData, projectId);
-
-        EventService.putEvent(this.getRouteParamEventId(), newEvent).then(function(res) {
-          this.transitionTo("projectDetail", {projectId: projectId});
-        }.bind(this), function(err) {
-          console.log(err);
-        });
       }
-
     }
   },
 
   render: function () {
+    console.log(this.getRouteParamEventId(), this.getRouteParamProjectId());
     var formTitle = function() { return (_.isEmpty(this.state.event)) ? "Ajouter un événement" : "Modifier l'évenement"; }.bind(this);
 
    return (

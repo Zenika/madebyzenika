@@ -17,17 +17,22 @@ var ProjectType = React.createClass({
   },
 
   getInitialState: function() {
-    if(_.isEmpty(this.getProjectTypes())) {
-      this.fillLocalStorage(this.state.projectTypes);
-    }
-
     return {
       projectTypeId: this.props.projectType,
     };
   },
 
+  componentWillReceiveProps: function(nextProps) {
+      this.setState({ projectTypeId: nextProps.projectType });
+  },
+
   render: function() {
+    if(_.isEmpty(this.getProjectTypes())) {
+      this.fillLocalStorage(this.state.projectTypes);
+    }
+
     var projectType = _.first(_.filter(this.state.projectTypes, "id", this.state.projectTypeId));
+    
     if(projectType) {
       if (this.props.icon && this.props.color && projectType) {
         var style = { background: projectType.color };
@@ -56,6 +61,7 @@ var ProjectType = React.createClass({
   },
 
   fillLocalStorage: function(projectTypes) {
+    console.log(projectTypes);
     store.set("projectTypes", projectTypes);
   },
 

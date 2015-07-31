@@ -49,12 +49,11 @@ var formTechnology = React.createClass({
         // });
 
       } else {
-
-        // TechnologyService.postTechnology(formData).then(function(res) {
-        //   this.transitionTo("PageAdminTechnologies");
-        // }.bind(this), function(err) {
-        //   console.log(err);
-        // });
+        TechnologyService.postTechnology(formData).then(function(res) {
+          this.props.technoAdded();
+        }.bind(this), function(err) {
+          console.log(err);
+        });
 
       }
 

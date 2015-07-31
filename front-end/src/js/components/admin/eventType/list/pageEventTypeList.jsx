@@ -43,7 +43,7 @@ var PageEventTypeList = React.createClass({
                         <tr key={eventType.id}>
                           <td>{eventType.name}</td>
                           <td style={{background: eventType.color, color:"black"}}>{eventType.color}</td>
-                          <td><i className={eventType.classicon}></i></td>
+                          <td><i className={"fa fa-"+eventType.classicon}></i></td>
                           <td>
                               <Link to="updateEventType" className="btn btn-warning" params={{eventTypeId: eventType.id}}>
                                 Modifier

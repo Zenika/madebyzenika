@@ -17,29 +17,33 @@ var EventType = React.createClass({
   },
 
   getInitialState: function() {
-    if(_.isEmpty(this.getEventTypes())) {
-      this.fillLocalStorage(this.state.eventTypes);
-    }
-
     return {
       eventTypeId: this.props.eventType
     };
   },
 
+  componentWillReceiveProps: function(nextProps) {
+      this.setState({ eventTypeId: nextProps.eventType });
+  },
+
   render: function() {
+    if(_.isEmpty(this.getEventTypes())) {
+      this.fillLocalStorage(this.state.eventTypes);
+    }
+
     var eventType = _.first(_.filter(this.state.eventTypes, "id", this.state.eventTypeId));
     if(eventType) {
       if (this.props.icon && this.props.color && eventType) {
         var style = { background: eventType.color };
         return (
           <div className="cd-timeline-img cd-icon" style={style}>
-            <h3><i className={eventType.classicon}></i></h3>
+            <h3><i className={"fa fa-"+eventType.classicon}></i></h3>
           </div>
         );
 
       } else if(this.props.icon){
 
-        return <i className={eventType.classicon}></i>;
+        return <i className={"fa fa-"+eventType.classicon}></i>;
 
       } else if(this.props.label){
 

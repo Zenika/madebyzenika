@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ihm
+  labels:
+    name: ihm
+spec:
+  containers:
+  - image: eu.gcr.io/mbzenika/ihm:latest
+    name: ihm
+    ports:
+    - containerPort: 80
+      name: ihm
+    env:
+    - name: ENVIRONMENT
+      value: production

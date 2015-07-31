@@ -56,7 +56,7 @@ var EventService = {
 
   putEvent: function(idEvent, event) {
     return new Promise(function(resolve, reject) {
-      Api.postRequestWithTokenHeader("/events/" + idEvent, event)
+      Api.putRequestWithTokenHeader("/events/" + idEvent, event)
          .end(function(err, res) {
            if (err) { reject(err); }
            else { resolve(res); }

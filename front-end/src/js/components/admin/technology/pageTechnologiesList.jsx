@@ -23,6 +23,10 @@ var PageTechnologiesList = React.createClass({
     TechnologyActions.loadTechnologies();
   },
 
+  refreshTechnologiesTable: function() {
+    console.log("techno added");
+    TechnologyActions.loadTechnologies();
+  },
 
   render: function() {
     var technologies = this.state.technologies;
@@ -32,7 +36,7 @@ var PageTechnologiesList = React.createClass({
         <div id="wrapper">
           <PageTitle title="Les technologies" />
                 {/*<Link to="addTechnology" className="btn btn-success">Ajouter une Technologie</Link>*/}
-                <FormTechnology />
+                <FormTechnology technoAdded={this.refreshTechnologiesTable}/>
                 <hr />
                 <h4>Liste des technologies</h4>
                 <Table responsive className="table-responsive">
@@ -47,9 +51,6 @@ var PageTechnologiesList = React.createClass({
                         <tr key={technology.id}>
                           <td>{technology.name}</td>
                           <td>
-                              <Link to="updateTechnology" className="btn btn-warning" params={{technologyId: technology.id}}>
-                                Modifier
-                              </Link>
                           </td>
                           <td></td>
                         </tr>
@@ -65,3 +66,7 @@ var PageTechnologiesList = React.createClass({
 });
 
 module.exports = PageTechnologiesList;
+
+// <Link to="updateTechnology" className="btn btn-warning" params={{technologyId: technology.id}}>
+//   Modifier
+// </Link>

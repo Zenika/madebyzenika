@@ -23,7 +23,6 @@ var UserStore = Reflux.createStore({
   },
 
   onLoadUsersByProjectCompleted: function(usersByProject) {
-    console.log(usersByProject);
     this.data.usersByProject = usersByProject;
     this.trigger(this.data);
   },

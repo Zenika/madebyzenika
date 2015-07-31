@@ -20,11 +20,15 @@ var ResourceType = React.createClass({
     };
   },
 
+  componentWillReceiveProps: function(nextProps) {
+      this.setState({ resourceTypeId: nextProps.resourceType });
+  },
+
   render: function() {
     if(_.isEmpty(this.getResourceTypes())) {
       this.fillLocalStorage(this.state.resourceTypes);
     }
-    
+
     var resourceType = _.first(_.filter(this.state.resourceTypes, "id", this.state.resourceTypeId));
 
     if(resourceType) {
@@ -32,13 +36,13 @@ var ResourceType = React.createClass({
         var style = { background: resourceType.color };
         return (
           <div className="cd-timeline-img cd-icon" style={style}>
-            <h3><i className={resourceType.classicon}></i></h3>
+            <h3><i className={"fa fa-"+resourceType.classicon}></i></h3>
           </div>
         );
 
       } else if(this.props.icon){
 
-        return <i className={resourceType.classicon}></i>;
+        return <i className={"fa fa-"+resourceType.classicon}></i>;
 
       }  else if(this.props.label){
 

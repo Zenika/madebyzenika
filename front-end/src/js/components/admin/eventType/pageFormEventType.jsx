@@ -47,7 +47,7 @@ var PageFormEventType = React.createClass({
       if(routeParamEventTypeId) {
 
         EventTypeService.putEventType(routeParamEventTypeId, formData).then(function(res) {
-          this.transitionTo("PageAdminEventTypes");
+          this.transitionTo("AdminEventTypes");
         }.bind(this), function(err) {
           console.log(err);
         });
@@ -55,7 +55,7 @@ var PageFormEventType = React.createClass({
       } else {
 
         EventTypeService.postEventType(formData).then(function(res) {
-          this.transitionTo("PageAdminEventTypes");
+          this.transitionTo("AdminEventTypes");
         }.bind(this), function(err) {
           console.log(err);
         });

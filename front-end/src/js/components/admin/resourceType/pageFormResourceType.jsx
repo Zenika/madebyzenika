@@ -47,7 +47,7 @@ var PageFormResourceType = React.createClass({
       if(routeParamResourceTypeId) {
 
         ResourceTypeService.putResourceType(routeParamResourceTypeId, formData).then(function(res) {
-          this.transitionTo("PageAdminResourceTypes");
+          this.transitionTo("AdminResourceTypes");
         }.bind(this), function(err) {
           console.log(err);
         });
@@ -55,7 +55,7 @@ var PageFormResourceType = React.createClass({
       } else {
 
         ResourceTypeService.postResourceType(formData).then(function(res) {
-          this.transitionTo("PageAdminResourceTypes");
+          this.transitionTo("AdminResourceTypes");
         }.bind(this), function(err) {
           console.log(err);
         });
@@ -72,7 +72,6 @@ var PageFormResourceType = React.createClass({
      <div id="page-wrapper">
        <div id="wrapper">
          <PageTitle title={formTitle()} />
-
               <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={this.state.resourceType} />
               <button className="btn btn-success" onClick={this.onClick}>{ formTitle() }</button>
         </div>
