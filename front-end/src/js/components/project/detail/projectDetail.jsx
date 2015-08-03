@@ -56,7 +56,7 @@ var projectDetail = React.createClass({
       </div>
     );
   },
-  
+
   componentWillUnmount: function() {
     ProjectActions.clearProject();
   }

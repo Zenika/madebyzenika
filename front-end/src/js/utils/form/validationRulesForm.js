@@ -4,7 +4,8 @@ var Validation = {
 
   MinMax: function(min, max) {
     return t.subtype(t.Str, function (n) {
-      return n.length >= min && n.length <= max;
+      var stringTrimmed = n.trim();
+      return stringTrimmed.length >= min && stringTrimmed.length <= max;
     });
   },
 
