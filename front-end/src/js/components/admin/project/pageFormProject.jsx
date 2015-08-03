@@ -15,6 +15,9 @@ var ProjectTypeActions = require("../../../reflux/actions/ProjectTypeActions");
 var TechnologyStore = require("../../../reflux/stores/TechnologyStore");
 var TechnologyActions = require("../../../reflux/actions/TechnologyActions");
 
+var NotificationStore = require("../../../reflux/stores/NotificationStore");
+var NotificationActions = require("../../../reflux/actions/NotificationActions");
+
 var AuthStore = require("../../../reflux/stores/AuthStore");
 
 var ProjectService = require("../../../utils/ServiceRest/ProjectService");
@@ -26,7 +29,7 @@ var TechnologyInputsForm = require("../../../utils/form/technologyInputsForm.jsx
 var PageTitle = require("../pageTitle.jsx");
 
 var pageFormProject = React.createClass({
-  mixins: [Router.Navigation, Reflux.connect(ProjectStore), Reflux.connect(ProjectTypeStore), Reflux.connect(TechnologyStore)],
+  mixins: [Router.Navigation, Reflux.connect(ProjectStore), Reflux.connect(ProjectTypeStore), Reflux.connect(TechnologyStore), Reflux.connect(NotificationStore)],
 
   getInitialState: function() {
     return {
@@ -62,6 +65,7 @@ var pageFormProject = React.createClass({
 
         ProjectService.putProject(this.getRouteParamProjectId(), project).then(function(res) {
           ProjectActions.clearProject();
+          NotificationActions.setNotification("Le projet a bien été mis à jour", "success");
           this.transitionTo("projectDetail", {projectId: res.body.id});
         }.bind(this), function(err) {
           console.log(err);
@@ -74,6 +78,7 @@ var pageFormProject = React.createClass({
         project.owner = AuthStore.data.userInfo.id
         ProjectService.postProject(project).then(function(res) {
           ProjectActions.clearProject();
+          NotificationActions.setNotification("Le projet a bien été ajouté", "success");
           this.transitionTo("projectDetail", {projectId: res.body.id});
         }.bind(this), function(err) {
           console.log(err);

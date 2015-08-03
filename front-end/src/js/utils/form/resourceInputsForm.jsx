@@ -15,16 +15,16 @@ var ResourceForm = {
   ResourceFields: {
     name: {
       type: "text",
-      label: <i>Nom de la ressource</i>,
+      label: <i>Nom de la ressource <span className="text-danger">*</span></i>,
       error: <i>Le nom de la ressource doit avoir entre 3 et 80 caractères</i>
     },
     link: {
       type: "text",
-      label: <i>Lien de la ressource</i>,
+      label: <i>Lien de la ressource (www.domain.extension)<span className="text-danger">*</span></i>,
       error: <i>Le lien de la ressource doit être une URL valide</i>
     },
     resourceType: {
-      label: <i>Type de la ressource</i>,
+      label: <i>Type de la ressource <span className="text-danger">*</span></i>,
       error: <i>Veuillez renseigner le type de la ressource</i>
     },
     eventId: {

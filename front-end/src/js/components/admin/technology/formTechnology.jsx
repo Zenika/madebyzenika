@@ -11,13 +11,16 @@ var Reflux = require("reflux");
 var TechnologyStore = require("../../../reflux/stores/TechnologyStore");
 var TechnologyActions = require("../../../reflux/actions/TechnologyActions");
 
+var NotificationStore = require("../../../reflux/stores/NotificationStore");
+var NotificationActions = require("../../../reflux/actions/NotificationActions");
+
 var TechnologyService = require("../../../utils/ServiceRest/TechnologyService");
 
 var TechnologyInputsForm = require("../../../utils/form/technologyInputsForm.jsx");
 
 var formTechnology = React.createClass({
 
-  mixins: [Router.Navigation, Reflux.connect(TechnologyStore)],
+  mixins: [Router.Navigation, Reflux.connect(TechnologyStore), Reflux.connect(NotificationStore)],
 
   componentDidMount: function() {
     var technologyId = this.getRouteParamTechnologyId();
@@ -50,6 +53,7 @@ var formTechnology = React.createClass({
 
       } else {
         TechnologyService.postTechnology(formData).then(function(res) {
+          NotificationActions.setNotification("La technologie a bien été ajouté", "success");
           this.props.technoAdded();
         }.bind(this), function(err) {
           console.log(err);

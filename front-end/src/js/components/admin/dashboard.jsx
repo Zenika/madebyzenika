@@ -10,7 +10,7 @@ var Dashboard = React.createClass({
     return (
       <div id="page-wrapper">
         <div id="wrapper">
-            <PageTitle fonticon="icon-map-streamline-user" title="mon espace" />
+            <PageTitle fonticon="icon-map-streamline-user" title="mon espace (PAGE EN TRAVAUX)" />
 
              <div className="row">
                  <div className="col-lg-3 col-md-6">

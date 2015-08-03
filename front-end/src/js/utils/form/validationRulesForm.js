@@ -10,7 +10,7 @@ var Validation = {
 
   isAnUrl: function() {
       return t.subtype(t.Str, function (n) {
-        var urlPattern = "(http|ftp|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?";
+        var urlPattern = "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?";
         return (n.match(urlPattern)) ? true : false;
       });
   },

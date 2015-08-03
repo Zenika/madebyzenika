@@ -15,17 +15,17 @@ var ResourceTypeForm = {
   ResourceTypeFields: {
     name: {
       type: "text",
-      label: <i>Nom du type de ressource</i>,
+      label: <i>Nom du type de ressource <span className="text-danger">*</span></i>,
       error: <i>Le nom du type de ressource est requis</i>
     },
     color: {
       type: "color",
-      label: <i>La couleur du type de ressource</i>,
+      label: <i>La couleur du type de ressource <span className="text-danger">*</span></i>,
       error: <i>Le couleur du type de ressource est requis</i>
     },
     classicon: {
       factory: SelectIcon,
-      label: <i>L'icône du type de ressource</i>,
+      label: <i>L'icône du type de ressource <span className="text-danger">*</span></i>,
       error: <i>L'icône du type de ressource est requis</i>
     }
   },

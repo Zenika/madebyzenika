@@ -14,6 +14,8 @@ var EventActions = require("../../../reflux/actions/EventActions");
 var EventTypeStore = require("../../../reflux/stores/EventTypeStore");
 var EventTypeActions = require("../../../reflux/actions/EventTypeActions");
 
+var NotificationStore = require("../../../reflux/stores/NotificationStore");
+var NotificationActions = require("../../../reflux/actions/NotificationActions");
 
 var EventService = require("../../../utils/ServiceRest/EventService");
 
@@ -22,7 +24,7 @@ var EventTypeInputsForm = require("../../../utils/form/eventTypeInputsForm.jsx")
 
 var pageFormEvent = React.createClass({
 
-  mixins: [Router.Navigation, Reflux.connect(EventStore), Reflux.connect(EventTypeStore)],
+  mixins: [Router.Navigation, Reflux.connect(EventStore), Reflux.connect(EventTypeStore), Reflux.connect(NotificationStore)],
 
   getRouteParamEventId: function() {
     var params = this.context.router.getCurrentParams();
@@ -57,6 +59,7 @@ var pageFormEvent = React.createClass({
         var newEvent = EventInputsForm.formatData(formData, projectId);
 
         EventService.putEvent(this.getRouteParamEventId(), newEvent).then(function(res) {
+          NotificationActions.setNotification("L'événement a bien été mis à jour", "success");
           this.transitionTo("projectDetail", {projectId: projectId});
         }.bind(this), function(err) {
           console.log(err);
@@ -67,6 +70,7 @@ var pageFormEvent = React.createClass({
         var data = EventInputsForm.formatData(formData, routeParamProjectId);
 
         EventService.postEvent(data).then(function(res) {
+          NotificationActions.setNotification("L'événement a bien été ajouté", "success");
           this.transitionTo("projectDetail", {projectId: routeParamProjectId});
         }.bind(this), function(err) {
           console.log(err);

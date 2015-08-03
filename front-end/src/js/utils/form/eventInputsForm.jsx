@@ -18,21 +18,21 @@ var EventForm = {
   EventFields: {
     name: {
       type: "text",
-      label: <i>Nom de l'événement</i>,
+      label: <i>Nom de l'événement <span className="text-danger">*</span></i>,
       error: <i>Le nom de l'événement doit avoir entre 3 et 20 caractères</i>
     },
     description: {
       type: "textarea",
-      label: <i>Description de l'événement</i>,
+      label: <i>Description de l'événement <span className="text-danger">*</span></i>,
       error: <i>La description de l'événement doit avoir entre 20 et 400 caractères</i>
     },
     eventType: {
-      label: <i>Type d'événement</i>,
+      label: <i>Type d'événement <span className="text-danger">*</span></i>,
       error: <i>Veuillez renseigner le type d'événement</i>
     },
     dateStart: {
       factory: DateTimeField,
-      label: <i>Date du début de l'événement</i>,
+      label: <i>Date du début de l'événement <span className="text-danger">*</span></i>,
       error: <i>Date du début de l'événement requis</i>
     },
     dateEnd: {

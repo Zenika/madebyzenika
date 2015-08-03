@@ -17,20 +17,20 @@ var ProjectForm = {
   ProjectFields: {
     name: {
       type: "text",
-      label: <i>Nom du projet</i>,
+      label: <i>Nom du projet <span className="text-danger">*</span></i>,
       error: <i>Le nom du projet doit avoir entre 3 et 20 caractères</i>
     },
     description: {
       type: "textarea",
-      label: <i>Description du projet</i>,
+      label: <i>Description du projet <span className="text-danger">*</span></i>,
       error: <i>La description du projet doit avoir entre 20 et 400 caractères</i>
     },
     agency: {
-      label: <i>Agence</i>,
+      label: <i>Agence <span className="text-danger">*</span></i>,
       error: <i>Veuillez renseigner une agence</i>
     },
     projectType: {
-      label: <i>Type de projet</i>,
+      label: <i>Type de projet <span className="text-danger">*</span></i>,
       error: <i>Veuillez renseigner le type du projet</i>
     },
     technologies: {

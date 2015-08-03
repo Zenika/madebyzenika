@@ -37,7 +37,7 @@ var routes = (
 
     <Route handler={Home} name="home" path="/" />
 
-    <Route handler={AppPrivate}>
+    <Route handler={AppPrivate} name="AppPrivate">
 
       <Route handler={Admin} path="/admin/">
 

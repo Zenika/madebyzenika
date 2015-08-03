@@ -53,7 +53,6 @@ var SignIn = React.createClass({
   signinCallback: function (authResult) {
     if (authResult['access_token']) {
         AuthService.getAuthorizationCodeEvents(authResult["code"]).then(function(res) {
-          console.log(res);
           AuthActions.setLoginUser(res.body);
         }, function(err) {
           console.log(err);

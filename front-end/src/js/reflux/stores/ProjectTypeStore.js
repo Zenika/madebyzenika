@@ -11,7 +11,6 @@ var ProjectTypeStore = Reflux.createStore({
   },
 
   onLoadProjectTypesCompleted: function(projectTypes) {
-      console.log(projectTypes);
       this.data.projectTypes = projectTypes;
       this.trigger(this.data);
   },

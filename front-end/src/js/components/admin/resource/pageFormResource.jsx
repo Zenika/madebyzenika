@@ -15,6 +15,9 @@ var ResourceTypeActions = require("../../../reflux/actions/ResourceTypeActions")
 var EventStore = require("../../../reflux/stores/EventStore");
 var EventActions = require("../../../reflux/actions/EventActions");
 
+var NotificationStore = require("../../../reflux/stores/NotificationStore");
+var NotificationActions = require("../../../reflux/actions/NotificationActions");
+
 var ResourceService = require("../../../utils/ServiceRest/ResourceService");
 
 var PageTitle = require("../pageTitle.jsx");
@@ -25,7 +28,7 @@ var EventInputsForm = require("../../../utils/form/eventInputsForm.jsx");
 
 var AddEvent = React.createClass({
 
-  mixins: [Router.Navigation, Reflux.connect(ResourceStore), Reflux.connect(ResourceTypeStore), Reflux.connect(EventStore)],
+  mixins: [Router.Navigation, Reflux.connect(ResourceStore), Reflux.connect(ResourceTypeStore), Reflux.connect(EventStore), Reflux.connect(NotificationStore)],
 
   getInitialState: function() {
     return {
@@ -61,6 +64,7 @@ var AddEvent = React.createClass({
 
       if(routeParamResourceId) {
         ResourceService.putResource(routeParamResourceId, data).then(function(res) {
+          NotificationActions.setNotification("La ressource a bien été mis à jour", "success");
           this.transitionTo("projectDetail", {projectId: routeParamProjectId});
         }.bind(this), function(err) {
           console.log(err);
@@ -69,6 +73,7 @@ var AddEvent = React.createClass({
       } else {
 
         ResourceService.postResource(data).then(function(data) {
+          NotificationActions.setNotification("La ressource a bien été ajouté", "success");
           this.transitionTo("projectDetail", {projectId: routeParamProjectId});
         }.bind(this), function(err) {
           console.log(err);

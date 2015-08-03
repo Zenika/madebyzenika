@@ -14,13 +14,16 @@ var EventTypeActions = require("../../../reflux/actions/EventTypeActions");
 var FontIconStore = require("../../../reflux/stores/FontIconStore");
 var FontIconActions = require("../../../reflux/actions/FontIconActions");
 
+var NotificationStore = require("../../../reflux/stores/NotificationStore");
+var NotificationActions = require("../../../reflux/actions/NotificationActions");
+
 var EventTypeService = require("../../../utils/ServiceRest/EventTypeService");
 
 var EventTypeInputsForm = require("../../../utils/form/eventTypeInputsForm.jsx");
 
 var PageFormEventType = React.createClass({
 
-  mixins: [Router.Navigation, Reflux.connect(EventTypeStore), Reflux.connect(FontIconStore)],
+  mixins: [Router.Navigation, Reflux.connect(EventTypeStore), Reflux.connect(FontIconStore), Reflux.connect(NotificationStore)],
 
   getRouteParamEventTypeId: function() {
     var params = this.context.router.getCurrentParams();
@@ -47,6 +50,7 @@ var PageFormEventType = React.createClass({
       if(routeParamEventTypeId) {
 
         EventTypeService.putEventType(routeParamEventTypeId, formData).then(function(res) {
+          NotificationActions.setNotification("Le type d'événement a bien été mis à jour", "success");
           this.transitionTo("AdminEventTypes");
         }.bind(this), function(err) {
           console.log(err);
@@ -55,6 +59,7 @@ var PageFormEventType = React.createClass({
       } else {
 
         EventTypeService.postEventType(formData).then(function(res) {
+          NotificationActions.setNotification("Le type d'événement a bien été ajouté", "success");
           this.transitionTo("AdminEventTypes");
         }.bind(this), function(err) {
           console.log(err);

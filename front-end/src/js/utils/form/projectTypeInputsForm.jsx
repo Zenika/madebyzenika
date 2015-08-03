@@ -11,7 +11,7 @@ var ProjectTypeForm = {
   ProjectTypeFields: {
     name: {
       type: "text",
-      label: <i>Nom du type de projet</i>,
+      label: <i>Nom du type de projet <span className="text-danger">*</span></i>,
       error: <i>A custom error message</i>
     }
   },

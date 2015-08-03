@@ -15,17 +15,17 @@ var EventTypeForm = {
   EventTypeFields: {
     name: {
       type: "text",
-      label: <i>Nom du type d'événement</i>,
+      label: <i>Nom du type d'événement <span className="text-danger">*</span></i>,
       error: <i>Le nom du type d'événement est requis</i>
     },
     color: {
       type: "color",
-      label: <i>La couleur du type d'événement</i>,
+      label: <i>La couleur du type d'événement <span className="text-danger">*</span></i>,
       error: <i>Le couleur du type d'événement est requis</i>
     },
     classicon: {
       factory: SelectIcon,
-      label: <i>L'icône du type d'événement</i>,
+      label: <i>L'icône du type d'événement <span className="text-danger">*</span></i>,
       error: <i>L'icône du type d'événement est requis</i>
     }
   },

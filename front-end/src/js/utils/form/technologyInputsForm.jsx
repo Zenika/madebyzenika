@@ -11,7 +11,7 @@ var TechnologyForm = {
   TechnologyFields: {
     name: {
       type: "text",
-      label: <i>Nom de la technologie</i>,
+      label: <i>Nom de la technologie <span className="text-danger">*</span></i>,
       error: <i>Le nom de la technologie est requis</i>
     }
   },

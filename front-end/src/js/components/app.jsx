@@ -6,12 +6,17 @@ var store = require("../utils/LocalStorage/LocalStorage");
 
 var Reflux = require("reflux");
 
+var NotificationStore = require("../reflux/stores/NotificationStore");
+var NotificationActions = require("../reflux/actions/NotificationActions");
+
 var AuthStore = require("../reflux/stores/AuthStore");
 var AuthActions = require("../reflux/actions/AuthActions");
 
+var Notification = require("./notification.jsx");
+
 var App = React.createClass({
 
-  mixins: [Reflux.connect(AuthStore)],
+  mixins: [Reflux.connect(AuthStore), Reflux.connect(NotificationStore)],
 
   componentDidMount: function() {
     var token = store.get("access_token");
@@ -31,6 +36,7 @@ var App = React.createClass({
         <div>
           <Header />
           <RouteHandler {...this.props} />
+          <Notification notif={this.state.notification}/>
         </div>
     );
   }

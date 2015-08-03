@@ -11,7 +11,6 @@ ProjectTypeActions.loadProjectTypes.listen(function() {
   var thisAction = this;
 
   ProjectTypeService.getProjectTypes().then(function(res) {
-    console.log(res);
     return thisAction.completed(res.body);
   }, function(err) {
     return thisActions.failed(err);

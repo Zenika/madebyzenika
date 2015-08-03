@@ -2,9 +2,10 @@ var React = require("react");
 var Router = require("react-router");
 var Link = Router.Link;
 
-var SignIn = require("./signIn.jsx");
+var SignIn = require("./signIn.jsx"); 
 
 var Header = React.createClass({
+
   render: function() {
     return (
       <nav className="navbar navbar-default" id="mainMenu">
