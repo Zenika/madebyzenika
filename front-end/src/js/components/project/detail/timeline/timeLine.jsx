@@ -49,6 +49,11 @@ var timeLine = React.createClass({
     });
 
     return resourcesWithFlag;
+  },
+
+  componentWillUnmount: function() {
+    EventActions.clearEventsByProject();
+    ResourceActions.clearResourcesByProject();
   }
 
 });

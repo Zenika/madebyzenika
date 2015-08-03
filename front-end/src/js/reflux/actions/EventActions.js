@@ -4,7 +4,8 @@ var EventService = require("../../utils/ServiceRest/EventService");
 var EventActions = Reflux.createActions({
     "loadEvent": {children: ["completed","failed"]},
     "loadEventsByProject": {children: ["completed","failed"]},
-    "clearEvent": "clearEvent"
+    "clearEvent": "clearEvent",
+    "clearEventsByProject": "clearEventsByProject"
 });
 
 // Get event by Id

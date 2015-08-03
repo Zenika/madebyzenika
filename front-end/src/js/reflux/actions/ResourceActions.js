@@ -5,7 +5,8 @@ var ResourceActions = Reflux.createActions({
     "loadResourceById": {children: ["completed","failed"]},
     "loadResourcesByProject": {children: ["completed","failed"]},
     "loadResourcesByEvent": {children: ["completed","failed"]},
-    "clearResource": "clearResource"
+    "clearResource": "clearResource",
+    "clearResourcesByProject": "clearResourcesByProject"
 });
 
 // Get resource by Id

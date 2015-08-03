@@ -4,7 +4,8 @@ var UserService = require("../../utils/ServiceRest/UserService");
 var UserActions = Reflux.createActions({
     "loadUsers": {children: ["completed","failed"]},
     "loadUserById": {children: ["completed","failed"]},
-    "loadUsersByProject": {children: ["completed","failed"]}
+    "loadUsersByProject": {children: ["completed","failed"]},
+    "clearUsersByProject": "clearUsersByProject"
 });
 
 UserActions.loadUsers.listen(function() {
@@ -32,7 +33,7 @@ UserActions.loadUserById.listen(function(id) {
 
 UserActions.loadUsersByProject.listen(function(projectId) {
   var thisAction = this;
-  
+
   if(projectId) {
     UserService.getUsersByProject(projectId).then(function(res) {
       return thisAction.completed(res.body);

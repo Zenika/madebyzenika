@@ -81,7 +81,6 @@ var pageFormEvent = React.createClass({
   },
 
   render: function () {
-    console.log(this.getRouteParamEventId(), this.getRouteParamProjectId());
     var formTitle = function() { return (_.isEmpty(this.state.event)) ? "Ajouter un événement" : "Modifier l'évenement"; }.bind(this);
 
    return (
@@ -113,6 +112,10 @@ var pageFormEvent = React.createClass({
 
     return formOptions;
   },
+
+  componentWillUnmount: function() {
+    EventActions.clearEvent();
+  }
 });
 
 module.exports = pageFormEvent;

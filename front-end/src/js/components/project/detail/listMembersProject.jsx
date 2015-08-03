@@ -37,6 +37,10 @@ var listMembersProject = React.createClass({
       })}
       </div>
     )
+  },
+
+  componentWillUnmount: function() {
+    UserActions.clearUsersByProject();
   }
 });
 

@@ -30,6 +30,10 @@ var ResourceStore = Reflux.createStore({
     this.data.resource = {};
   },
 
+  onClearResourcesByProject: function() {
+    this.data.resourcesByProject = {};
+  },
+
   getInitialState: function() {
     return this.data;
   }

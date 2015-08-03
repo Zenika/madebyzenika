@@ -22,7 +22,11 @@ var EventStore = Reflux.createStore({
   },
 
   clearEvent: function() {
-    this.data.event = {}
+    this.data.event = {};
+  },
+
+  clearEventsByProject: function() {
+    this.data.eventsByProject = {};
   },
 
   getInitialState: function() {

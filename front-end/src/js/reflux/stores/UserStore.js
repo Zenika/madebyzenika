@@ -27,6 +27,10 @@ var UserStore = Reflux.createStore({
     this.trigger(this.data);
   },
 
+  onClearUsersByProject: function() {
+    this.data.usersByProject = {};
+  },
+
   getInitialState: function() {
     return this.data;
   }
