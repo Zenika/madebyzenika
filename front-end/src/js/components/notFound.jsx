@@ -7,7 +7,6 @@ var NotFound = React.createClass({
   render: function() {
     return (
         <div>
-          <Header flux={this.props.flux} />
           <h1>404</h1>
         </div>
     );
