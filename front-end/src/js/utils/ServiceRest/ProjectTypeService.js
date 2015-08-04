@@ -12,7 +12,18 @@ var ProjectTypeService = {
             else { resolve(res); }
         });
     });
-  }
+  },
+
+  getProjectTypesByName: function(name) {
+    return new Promise(function(resolve, reject) {
+      Api.getRequestWithTokenHeader("/projectTypes")
+        .query({ name: name })
+        .end(function(err, res) {
+            if (err) { reject(err); }
+            else { resolve(res); }
+        });
+    });
+  },
 
 };
 

@@ -5,7 +5,8 @@ var TechnologyStore = Reflux.createStore({
   data: {
     technology: {},
     technologies: [],
-    technologiesByProject: []
+    technologiesByProject: [],
+    technologiesByName: []
   },
 
   init: function() {
@@ -24,6 +25,11 @@ var TechnologyStore = Reflux.createStore({
 
   onLoadTechnologiesByProjectIdCompleted: function(projectId, technologiesByProject) {
     this.data.technologiesByProject[projectId] = technologiesByProject;
+    this.trigger(this.data);
+  },
+
+  onLoadTechnologiesByNameCompleted: function(technologies) {
+    this.data.technologiesByName = technologies;
     this.trigger(this.data);
   },
 

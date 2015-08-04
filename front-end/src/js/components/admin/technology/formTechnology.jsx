@@ -1,5 +1,7 @@
 var React = require("react");
 var Router = require("react-router");
+var Bootstrap = require("react-bootstrap");
+var Alert = Bootstrap.Alert;
 var t = require("tcomb-form");
 var Form = t.form.Form;
 var _ = require("lodash");
@@ -52,23 +54,51 @@ var formTechnology = React.createClass({
         // });
 
       } else {
-        TechnologyService.postTechnology(formData).then(function(res) {
-          NotificationActions.setNotification("La technologie a bien été ajouté", "success");
-          this.props.technoAdded();
+        TechnologyService.getTechnologiesByName(formData.name).then(function(res) {
+          if (res.body.length > 0) {
+            this.handleAlertShow();
+          } else {
+            TechnologyService.postTechnology(formData).then(function(res) {
+              NotificationActions.setNotification("La technologie a bien été ajouté", "success");
+              this.props.technoAdded();
+            }.bind(this), function(err) {
+              console.log(err);
+            });
+          }
         }.bind(this), function(err) {
           console.log(err);
         });
+
 
       }
 
     }
   },
 
+  technoAlreadyExist: function() {
+    return (
+      <Alert bsStyle='warning' onDismiss={this.handleAlertDismiss} dismissAfter={5000}>
+        <h4>Oups :-(! </h4>
+        <p>Impossible d'ajouter la technologie, celle-ci est déjà présente sur le site.</p>
+      </Alert>
+    )
+  },
+
+  handleAlertDismiss: function() {
+    this.setState({ alertVisible: false });
+  },
+
+  handleAlertShow: function() {
+    this.setState({ alertVisible: true });
+  },
+
   render: function () {
     var formTitle = function() { return (_.isEmpty(this.state.technology)) ? "Ajouter une technologie" : "Modifier une technologie"; }.bind(this);
+    var warning = function() { return (this.state.alertVisible) ? this.technoAlreadyExist() : null; }.bind(this);
 
    return (
      <div>
+      {warning()}
       <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={this.state.technology} />
       <button className="btn btn-success" onClick={this.onClick}>{ formTitle() }</button>
     </div>

@@ -5,7 +5,7 @@ var NotificationActions = require("../actions/NotificationActions");
 
 var notificationStore = Reflux.createStore({
   data: {
-    notification: {} 
+    notification: {}
   },
 
   init: function() {
@@ -22,6 +22,7 @@ var notificationStore = Reflux.createStore({
   onClearNotification: function() {
     this.data.notification.message = "";
     this.data.notification.level = "";
+    this.data.notification.position = "tc";
     this.trigger(this.data);
   },
 

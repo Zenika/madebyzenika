@@ -24,6 +24,17 @@ var EventTypeService = {
     });
   },
 
+  getEventTypesByName: function(name) {
+    return new Promise(function(resolve, reject) {
+      Api.getRequestWithTokenHeader("/eventTypes")
+        .query({ name: name })
+        .end(function(err, res) {
+            if (err) { reject(err); }
+            else { resolve(res); }
+        });
+    });
+  },
+
   postEventType: function (eventType) {
     return new Promise(function(resolve, reject) {
       Api.postRequestWithTokenHeader("/eventTypes/", eventType)

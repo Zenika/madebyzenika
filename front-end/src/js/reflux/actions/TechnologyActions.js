@@ -4,7 +4,8 @@ var TechnologyService = require("../../utils/ServiceRest/TechnologyService");
 var TechnologyActions = Reflux.createActions({
     "loadTechnologies": {children: ["completed","failed"]},
     "loadTechnology": {children: ["completed","failed"]},
-    "loadTechnologiesByProjectId": {children: ["completed","failed"]}
+    "loadTechnologiesByProjectId": {children: ["completed","failed"]},
+    "loadTechnologiesByName": {children: ["completed","failed"]}
 });
 
 TechnologyActions.loadTechnologies.listen(function() {
@@ -42,5 +43,15 @@ TechnologyActions.loadTechnologiesByProjectId.listen(function(projectId) {
 
 });
 
+TechnologyActions.loadTechnologiesByName.listen(function(name) {
+  var thisAction = this;
+
+  TechnologyService.getTechnologiesByName(name).then(function(res) {
+    return thisAction.completed(res.body);
+  }, function(err) {
+    return thisActions.failed(err);
+  });
+
+});
 
 module.exports = TechnologyActions;

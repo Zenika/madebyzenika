@@ -26,12 +26,24 @@ var TechnologyService = {
 
   getTechnologiesByProjectId: function(projectId) {
       return new Promise(function(resolve, reject) {
-        Api.getRequestWithTokenHeader("/technologies?project=" + projectId)
+        Api.getRequestWithTokenHeader("/technologies")
+          .query({ project: projectId })
           .end(function(err, res) {
             if (err) { reject(err); }
             else { resolve(res); }
           });
       });
+  },
+
+  getTechnologiesByName: function(name) {
+    return new Promise(function(resolve, reject) {
+      Api.getRequestWithTokenHeader("/technologies")
+        .query({ name: name })
+        .end(function(err, res) {
+            if (err) { reject(err); }
+            else { resolve(res); }
+        });
+    });
   },
 
   postTechnology: function(technology) {

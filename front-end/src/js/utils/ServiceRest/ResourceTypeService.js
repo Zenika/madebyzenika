@@ -24,6 +24,17 @@ var ResourceTypeService = {
     });
   },
 
+  getResourceTypesByName: function(name) {
+    return new Promise(function(resolve, reject) {
+      Api.getRequestWithTokenHeader("/resourceTypes")
+        .query({ name: name })
+        .end(function(err, res) {
+            if (err) { reject(err); }
+            else { resolve(res); }
+        });
+    });
+  },
+
   postResourceType: function (resourceType) {
     return new Promise(function(resolve, reject) {
       Api.postRequestWithTokenHeader("/resourceTypes/", resourceType)
