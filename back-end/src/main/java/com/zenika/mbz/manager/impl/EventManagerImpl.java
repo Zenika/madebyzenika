@@ -1,6 +1,5 @@
 package com.zenika.mbz.manager.impl;
 
-import com.arangodb.ArangoException;
 import com.zenika.mbz.manager.EventManager;
 import com.zenika.mbz.model.Event;
 import com.zenika.mbz.repository.DataRepository;
@@ -27,6 +26,11 @@ public class EventManagerImpl implements EventManager {
 
     public List<Event> findEventsByProject(String projectId) {
         return this.eventRepository.findEventsByProject(projectId);
+    }
+
+    @Override
+    public List<Event> findByName(String name) {
+        return dataRepository.findByName(name);
     }
 
     public List<Event> save(List<Event> events) {

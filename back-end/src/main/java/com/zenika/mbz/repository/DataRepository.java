@@ -6,17 +6,19 @@ import com.zenika.mbz.model.Project;
 import java.util.List;
 
 public interface DataRepository<T> {
-    T findById(String var1);
+    T findById(String id);
 
     List<T> findAll();
 
-    List<T> save(List<T> var1);
+    List<T> findByName(String name);
 
-    T save(T var1);
+    List<T> save(List<T> ts);
 
-    T update(String var1, T var2);
+    T save(T t);
 
-    void delete(String var1);
+    T update(String id, T t);
+
+    void delete(String id);
 
     List<T> deleteAll();
 }

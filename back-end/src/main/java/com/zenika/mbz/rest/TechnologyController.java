@@ -36,6 +36,11 @@ public class TechnologyController extends MainController {
         return this.technologyManager.findTechnologiesByProject(id);
     }
 
+    @RequestMapping(method = {RequestMethod.GET}, params = {"name"})
+    public List<Technology> getTechnologyByName(@RequestParam("name") String name) {
+        return this.technologyManager.findByName(name);
+    }
+
     @RequestMapping(consumes = {"application/json"},method = {RequestMethod.POST})
     public Technology postTechnology(@Valid @RequestBody Technology event) {
         return this.technologyManager.save(event);

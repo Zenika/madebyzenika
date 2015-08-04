@@ -25,6 +25,11 @@ public class ResourceTypeController extends MainController {
         return this.resourceTypeManager.findById(id);
     }
 
+    @RequestMapping(method = {RequestMethod.GET}, params = {"name"})
+    public List<ResourceType> getResourceTypeByName(@RequestParam("name") String name) {
+        return this.resourceTypeManager.findByName(name);
+    }
+
     @RequestMapping(consumes = {"application/json"}, method = {RequestMethod.POST})
     public ResourceType postResourceType(@Valid @RequestBody ResourceType resourceType) {
         return this.resourceTypeManager.save(resourceType);

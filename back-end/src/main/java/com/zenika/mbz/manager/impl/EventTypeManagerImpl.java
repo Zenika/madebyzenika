@@ -25,6 +25,11 @@ public class EventTypeManagerImpl implements EventTypeManager{
     }
 
     @Override
+    public List<EventType> findByName(String name) {
+        return dataRepository.findByName(name);
+    }
+
+    @Override
     public List<EventType> save(List<EventType> eventTypes) {
         return dataRepository.save(eventTypes);
     }

@@ -8,6 +8,8 @@ public interface DataManager<T> {
 
     T findById(String var1);
 
+    List<T> findByName(String name);
+
     List<T> save(List<T> var1);
 
     T save(T var1);

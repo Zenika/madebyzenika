@@ -29,6 +29,11 @@ public class ProjectManagerImpl implements ProjectManager {
     }
 
     @Override
+    public List<Project> findByName(String name) {
+        return dataRepository.findByName(name);
+    }
+
+    @Override
     public List<Project> findByType(Integer skip, Integer limit, String typeId) {
         return projectRepository.findByType(skip, limit, typeId);
     }

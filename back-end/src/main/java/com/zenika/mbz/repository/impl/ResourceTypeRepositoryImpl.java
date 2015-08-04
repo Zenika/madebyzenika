@@ -4,5 +4,4 @@ import com.zenika.mbz.model.ResourceType;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ResourceTypeRepositoryImpl extends AbstractRepository<ResourceType>{
-}
+public class ResourceTypeRepositoryImpl extends AbstractRepository<ResourceType> {}

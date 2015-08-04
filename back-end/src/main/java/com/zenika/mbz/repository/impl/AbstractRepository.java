@@ -36,6 +36,23 @@ public abstract class AbstractRepository<T extends Entity> implements DataReposi
         return (T) this.factoryDocument(docEntity);
     }
 
+    @Override
+    public List<T> findByName(String name) {
+        String query = "FOR t IN " + this.collectionName +
+                       " FILTER LIKE(t.name, @name, true)" +
+                       " RETURN t";
+
+        Map<String, Object> bindVars = new HashMap<String, Object>();
+        bindVars.put("name", name);
+
+        List listDocEntity = null;
+        try {
+            listDocEntity = this.driver.executeDocumentQuery(query, bindVars, null, this.className).asList();
+        } catch (ArangoException e) {
+            e.printStackTrace();
+        }
+        return this.factoryListDocument(listDocEntity);
+    }
     public List<T> findAll() {
         List listDocEntity = null;
         try {

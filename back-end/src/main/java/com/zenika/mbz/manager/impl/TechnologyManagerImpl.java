@@ -28,6 +28,11 @@ public class TechnologyManagerImpl implements TechnologyManager {
     }
 
     @Override
+    public List<Technology> findByName(String name) {
+        return dataRepository.findByName(name);
+    }
+
+    @Override
     public List<Technology> findTechnologiesByProject(String projectId) {
         return technologyRepository.findTechnologiesByProject(projectId);
     }

@@ -25,6 +25,9 @@ public class ResourceTypeManagerImpl implements ResourceTypeManager{
     }
 
     @Override
+    public List<ResourceType> findByName(String name) { return dataRepository.findByName(name); }
+
+    @Override
     public List<ResourceType> save(List<ResourceType> resourceTypes) {
         return dataRepository.save(resourceTypes);
     }
@@ -48,4 +51,5 @@ public class ResourceTypeManagerImpl implements ResourceTypeManager{
     public List<ResourceType> deleteAll() {
         return dataRepository.deleteAll();
     }
+
 }

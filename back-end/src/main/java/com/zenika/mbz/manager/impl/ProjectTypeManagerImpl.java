@@ -21,6 +21,11 @@ public class ProjectTypeManagerImpl implements ProjectTypeManager {
         return this.dataRepository.findById(id);
     }
 
+    @Override
+    public List<ProjectType> findByName(String name) {
+        return dataRepository.findByName(name);
+    }
+
     public List<ProjectType> save(List<ProjectType> projectTypes) {
         return this.dataRepository.save(projectTypes);
     }

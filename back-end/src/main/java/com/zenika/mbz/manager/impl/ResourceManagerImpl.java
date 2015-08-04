@@ -29,6 +29,11 @@ public class ResourceManagerImpl implements ResourceManager {
     }
 
     @Override
+    public List<Resource> findByName(String name) {
+        return dataRepository.findByName(name);
+    }
+
+    @Override
     public List<Resource> findByProject(String projectId) {
         return resourceRepository.findByProject(projectId);
     }

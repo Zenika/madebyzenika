@@ -34,6 +34,11 @@ public class UserManagerImpl implements UserManager {
         return this.dataRepository.save(users);
     }
 
+    @Override
+    public List<User> findByName(String name) {
+        return dataRepository.findByName(name);
+    }
+
     public User save(User user) {
         return (User)this.dataRepository.save(user);
     }

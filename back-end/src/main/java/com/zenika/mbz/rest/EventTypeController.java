@@ -8,11 +8,8 @@ import com.zenika.mbz.model.ProjectType;
 import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/eventTypes"}, produces = {"application/json"})
@@ -32,6 +29,11 @@ public class EventTypeController extends MainController{
     @RequestMapping(value = {"/{id}"}, method = {RequestMethod.GET})
     public EventType getEventTypeById(@PathVariable("id") String id) {
         return this.eventTypeManager.findById(id);
+    }
+
+    @RequestMapping(method = {RequestMethod.GET}, params = {"name"})
+    public List<EventType> getResourceTypeByName(@RequestParam("name") String name) {
+        return this.eventTypeManager.findByName(name);
     }
 
     @RequestMapping(consumes = {"application/json"}, method = {RequestMethod.POST})

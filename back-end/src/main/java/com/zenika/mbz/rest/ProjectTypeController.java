@@ -6,11 +6,8 @@ import com.zenika.mbz.model.ProjectType;
 import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = {"/projectTypes"}, produces = {"application/json"})
@@ -29,6 +26,11 @@ public class ProjectTypeController {
     @RequestMapping(value = {"/{id}"}, method = {RequestMethod.GET})
     public ProjectType getProjectById(@PathVariable("id") String id) {
         return this.projectTypeManager.findById(id);
+    }
+
+    @RequestMapping(method = {RequestMethod.GET}, params = {"name"})
+    public List<ProjectType> getResourceTypeByName(@RequestParam("name") String name) {
+        return this.projectTypeManager.findByName(name);
     }
 
     @RequestMapping(consumes = {"application/json"}, method = {RequestMethod.POST})

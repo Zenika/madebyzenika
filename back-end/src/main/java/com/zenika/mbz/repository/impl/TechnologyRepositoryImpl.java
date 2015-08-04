@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,4 +43,6 @@ public class TechnologyRepositoryImpl extends AbstractRepository<Technology> imp
         }
         return this.factoryListDocument(listDocEntity);
     }
+
+
 }
