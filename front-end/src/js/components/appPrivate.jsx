@@ -1,6 +1,7 @@
 var React = require("react");
 var Router = require("react-router");
 var RouteHandler = Router.RouteHandler;
+var Transition = Router.Transition;
 var Header = require("./header/header.jsx");
 var store = require("../utils/LocalStorage/LocalStorage");
 
@@ -30,16 +31,6 @@ var AppPrivate = React.createClass({
       }
     }
   },
-
-  // componentDidMount: function() {
-  //   var token = store.get("access_token");
-  //   var currentUser = store.get("currentUser");
-  //   var isLoggedIn = AuthStore.data.isLoggedIn;
-  //
-  //   if(!(token && currentUser)) {
-  //     this.transitionTo("home");
-  //   }
-  // },
 
   render: function() {
 
