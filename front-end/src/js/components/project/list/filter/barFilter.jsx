@@ -1,7 +1,11 @@
 var React = require("react");
 var _ = require("lodash");
+var Bootstrap = require("react-bootstrap");
+var DropdownButton = Bootstrap.DropdownButton;
+var MenuItem = Bootstrap.MenuItem;
 
 var Reflux = require("reflux");
+
 var TechnologyStore = require("../../../../reflux/stores/TechnologyStore");
 var TechnologyActions = require("../../../../reflux/actions/TechnologyActions");
 
@@ -15,6 +19,7 @@ var BarFilter = React.createClass({
   componentDidMount: function() {
     ProjectTypeActions.loadProjectTypes();
     TechnologyActions.loadTechnologies();
+    TechnologyActions.loadTechnologiesByScore();
   },
 
   filterProjectType: function(type) {
@@ -24,6 +29,7 @@ var BarFilter = React.createClass({
   filterTechnology: function(technology) {
     this.props.filterByTechnology(technology);
   },
+
 
   render: function() {
     return (
@@ -50,14 +56,25 @@ var BarFilter = React.createClass({
                   <li onClick={this.filterTechnology.bind(this, "all")}>
                     <a>Toutes</a>
                   </li>
-                  { _.map(this.state.technologies, function(technology) {
+                  { _.map(this.state.technologiesByScore.slice(0, 4), function(technology) {
                     return (
-                      <li onClick={this.filterTechnology.bind(this, technology.id)}
-                              key={technology.id}>
-                        <a>{_.capitalize(technology.name)}</a>
+                      <li onClick={this.filterTechnology.bind(this, technology.id)} key={technology.id}>
+                        <a>{_.capitalize(technology.name) } ({technology.score})</a>
                       </li>
                     );
                   }.bind(this))}
+                  <li>
+                    <DropdownButton title='Autres technologies' bsStyle="default">
+                      { _.map(this.state.technologiesByScore.slice(4), function(technology) {
+                        return (
+                          <li onClick={this.filterTechnology.bind(this, technology.id)}
+                                  key={technology.id}>
+                            <a>{_.capitalize(technology.name) } ({technology.score})</a>
+                          </li>
+                        );
+                      }.bind(this))}
+                    </DropdownButton>
+                  </li>
             </ul>
           </div>
       </div>
