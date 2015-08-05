@@ -10,10 +10,11 @@ var Router = require("react-router");
 var Link = Router.Link;
 
 
-var ResourcesOfProject = require("./projectResources.jsx");
 var TimeLine = require("./timeline/timeLine.jsx");
 var ListMembersProject = require("./listMembersProject.jsx");
-var TechnologiesOfProject = require("./projectTechnologies.jsx");
+var TechnologiesProject = require("./projectTechnologies.jsx");
+var ResourcesProject = require("./projectResources.jsx");
+var EventsProject = require("./projectEvents.jsx");
 
 var MEANS = "means";
 var TIMELINE = "timeline";
@@ -57,8 +58,8 @@ var projectDetail = React.createClass({
         <div className="row">
           <div className="col-md-12">
             <Nav bsStyle='tabs' activeKey={this.state.tab} onSelect={this.handleSelect}>
-              <NavItem eventKey={MEANS} href='/home'>Les moyens</NavItem>
-              <NavItem eventKey={TIMELINE} title='Item'>La timeline</NavItem>
+              <NavItem eventKey={MEANS} href='/home'><i className="fa fa-gears"></i> Les moyens</NavItem>
+              <NavItem eventKey={TIMELINE} title='Item'><i className="fa fa-clock-o"></i> La timeline</NavItem>
             </Nav>
           </div>
         </div>
@@ -72,12 +73,22 @@ var projectDetail = React.createClass({
   tabSelected: function() {
     if(this.state.tab == MEANS) {
       return (
-        <div className="col-md-12">
-          <div className="col-md-6">
-            <ListMembersProject projectId={this.state.project.id} />
+        <div>
+          <div className="col-md-12">
+            <div className="col-md-6">
+              <ListMembersProject projectId={this.state.project.id} />
+            </div>
+            <div className="col-md-6">
+              <TechnologiesProject projectId={this.state.project.id} />
+            </div>
           </div>
-          <div className="col-md-6">
-            <TechnologiesOfProject projectId={this.state.project.id} />
+          <div className="col-md-12">
+            <div className="col-md-6">
+              <ResourcesProject projectId={this.state.project.id} />
+            </div>
+            <div className="col-md-6">
+              <EventsProject projectId={this.state.project.id} />
+            </div>
           </div>
         </div>
       )

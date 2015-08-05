@@ -66,12 +66,26 @@ var pageProjects = React.createClass({
             />
           <CurrentFilter filter={FilterStore.data.filter} />
           <SearchForm searchHandler={this.filterProjectsByName} />
-            <ProjectsList projects={projects}/>
+          {this.getProjects(projects)}
             {/*<button onClick={this.moreProjects}>More result</button>*/}
          </div>
       );
 
 
+  },
+
+  getProjects: function(projects) {
+      if(projects.length > 0) {
+        return <ProjectsList projects={projects} />
+      } else {
+        return (
+          <div className="container">
+            <div className="row">
+              <h3 className="text-center">Aucun projet correspond à votre recherche</h3>
+            </div>
+         </div>
+        );
+      }
   },
 
   moreProjects: function() {

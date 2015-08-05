@@ -36,7 +36,7 @@ var currentFilter = React.createClass({
   tagTypeFilter: function(type) {
     console.log(type);
     return (
-      <span className="tag label label-default">
+      <span className="tag label label-red">
         <ProjectType projectType={type} />
         <a><i className="remove glyphicon glyphicon-remove-sign glyphicon-white"
               onClick={this.removeFilterType}></i></a>
@@ -47,7 +47,7 @@ var currentFilter = React.createClass({
   tagTechnologiesFilter: function(technologies) {
     var technologyName = _.pluck(_.filter(this.state.technologies, { "id": technologies}), "name");
     return (
-      <span className="tag label label-default">
+      <span className="tag label label-red">
         <span>{_.capitalize(technologyName)}</span>
         <a><i className="remove glyphicon glyphicon-remove-sign glyphicon-white"
               onClick={this.removeFilterTechnologies}></i></a>

@@ -1,64 +1,64 @@
 var React = require("react");
-var Router = require("react-router");
-var Link = Router.Link;
-var moment = require("moment").locale("fr");
-var _ = require("lodash");
-
+var Reflux = require("reflux");
 var Bootstrap = require("react-bootstrap");
-var Accordion = Bootstrap.Accordion;
-var Panel = Bootstrap.Panel;
-//
-// var Fluxxor = require("fluxxor");
-// var FluxMixin = Fluxxor.FluxMixin(React);
-// var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var Table = Bootstrap.Table;
+var moment = require("moment");
 
-var ResourcesOfProject = React.createClass({
+var Reflux = require("reflux");
+var ResourceStore = require("../../../reflux/stores/ResourceStore");
+var ResourceActions = require("../../../reflux/actions/ResourceActions");
 
-  mixins: [],
+var ResourceType = require("../../../utils/LocalStorage/ResourceType.jsx");
 
-  // getStateFromFlux: function(){
-  //   var flux = this.getFlux().store("ResourceStore");
-  //   return {
-  //     resources: flux.resourcesByProject,
-  //     projectId: this.props.projectId
-  //   };
-  // },
+var projectEvents = React.createClass({
+
+  mixins: [Reflux.connect(ResourceStore)],
 
   componentDidMount: function() {
-    //this.getFlux().actions.ResourceActions.loadResourcesByProject(this.props.projectId);
+    moment.locale("fr");
+    ResourceActions.loadResourcesByProject(this.props.projectId);
   },
 
-  getResourceDate: function(timestamp) {
-    return moment(timestamp).format("Do MMMM YYYY");
+  componentWillReceiveProps: function(nextProps) {
+    ResourceActions.loadResourcesByProject(nextProps.projectId);
   },
 
   render: function() {
-    console.log(this.props.projectId);
-    var projectId = this.state.projectId;
+    var resources = this.state.resourcesByProject;
+    var nbResources = 0;
+    if( resources ) nbResources = resources.length;
+
     return (
-      <div>
-        <h3><i className="icon-book-read-streamline"></i> ressources</h3>
-          <Accordion>
-            {_.map(this.state.resources, function(resource) {
-              var lastModified = this.getResourceDate(resource.lastModified);
-              return (
-                <Panel header={resource.name} eventKey={resource.id}>
-                  <a href={resource.link} target="_blank">Accèder à la ressource</a>
-                </Panel>
-              );
-            }.bind(this))
-            }
-          </Accordion>
-      </div>
-    );
-  },
-
-  // componentWillUnmount:	function(){
-  //   this.getFlux().actions.EventActions.clearEventsByProject();
-  // }
-
+      <div className="row">
+        <div className="panel panel-default">
+          <div className="panel-heading"><h3><i className="fa fa-book"></i> {nbResources} ressources</h3></div>
+          <div className="panel-body">
+                <Table responsive className="table-responsive">
+                  <thead>
+                    <tr>
+                      <th>Nom</th>
+                      <th>Dernière MAJ</th>
+                      <th>Type de ressource</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {_.map(resources, function(resource) {
+                      return (
+                        <tr key={resource.id}>
+                          <td>{resource.name}</td>
+                          <td>{moment(resource.lastModified).fromNow()}</td>
+                          <td><ResourceType resourceType={resource.resourceType} /></td>
+                          <td><a href={resource.link} className="btn btn-info" target="_blank"><i className="fa fa-eye"></i></a></td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+            </div>
+          </div>
+        </div>
+    )
+  }
 });
 
-module.exports = ResourcesOfProject;
-
-// <ButtonDeleteResource projectId={projectId} resourceId={resource.id} />
+module.exports = projectEvents;
