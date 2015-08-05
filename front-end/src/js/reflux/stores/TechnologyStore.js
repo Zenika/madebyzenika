@@ -25,6 +25,7 @@ var TechnologyStore = Reflux.createStore({
   },
 
   onLoadTechnologiesByProjectIdCompleted: function(projectId, technologiesByProject) {
+    //console.log(projectId, technologiesByProject);
     this.data.technologiesByProject[projectId] = technologiesByProject;
     this.trigger(this.data);
   },

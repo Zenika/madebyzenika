@@ -24,17 +24,25 @@ var listMembersProject = React.createClass({
   render: function() {
     return (
       <div className="row">
-
-      { _.map(this.state.usersByProject, function(user) {
-        return (
-          <div key={user.id} className="col-md-2">
-              <blockquote>
-                <img src={user.imageUrl} height="80" width="80" />
-                <small>{user.familyName} {user.givenName}</small>
-              </blockquote>
+        <div className="panel panel-default">
+          <div className="panel-heading"><h3><i className="fa fa-users"></i> {this.state.usersByProject.length} membres</h3></div>
+          <div className="panel-body">
+            { _.map(this.state.usersByProject, function(user) {
+              return (
+                <div key={user.id} className=".col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                  <div className="panel">
+                    <div className="panel-heading">
+                      <img src={user.imageUrl}  height="80" width="80" />
+                    </div>
+                    <div className="panel-body">
+                      <h5><b>{user.familyName}</b> <br /> {user.givenName}</h5>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
-        )
-      })}
+        </div>
       </div>
     )
   },

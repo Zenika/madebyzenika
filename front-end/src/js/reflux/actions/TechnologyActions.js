@@ -7,7 +7,7 @@ var TechnologyActions = Reflux.createActions({
     "loadTechnology": {children: ["completed","failed"]},
     "loadTechnologiesByProjectId": {children: ["completed","failed"]},
     "loadTechnologiesByName": {children: ["completed","failed"]},
-    "loadTechnologiesByScore": {children: ["completed","failed"]},
+    "loadTechnologiesByScore": {children: ["completed","failed"]}
 });
 
 TechnologyActions.loadTechnologies.listen(function() {
