@@ -22,7 +22,6 @@ var notificationStore = Reflux.createStore({
   onClearNotification: function() {
     this.data.notification.message = "";
     this.data.notification.level = "";
-    this.data.notification.position = "tc";
     this.trigger(this.data);
   },
 
