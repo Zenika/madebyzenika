@@ -10,13 +10,18 @@ var UserActions = require("../../../../reflux/actions/UserActions");
 var ProjectStore = require("../../../../reflux/stores/ProjectStore");
 var ProjectActions = require("../../../../reflux/actions/ProjectActions");
 
+var NotificationStore = require("../../../../reflux/stores/NotificationStore");
+var NotificationActions = require("../../../../reflux/actions/NotificationActions");
+
 var ProjectService = require("../../../../utils/ServiceRest/ProjectService");
 
 var PageTitle = require("../../pageTitle.jsx");
 
+var FormProjectUser = require("./formProjectUser.jsx");
+
 var PageProjectUsersList = React.createClass({
 
-  mixins: [Router.Navigation, Reflux.connect(UserStore), Reflux.connect(ProjectStore)],
+  mixins: [Router.Navigation, Reflux.connect(UserStore), Reflux.connect(ProjectStore), Reflux.connect(NotificationStore)],
 
   componentDidMount: function() {
       UserActions.loadUsers();
@@ -36,48 +41,33 @@ var PageProjectUsersList = React.createClass({
   },
 
   render: function() {
-    var usersNotInProject = this.getUsersNotInProject(this.state.users, this.state.usersByProject);
     var owner = {}
     var ownerId = this.state.project.owner;
     owner = _.first(_.filter(this.state.usersByProject, "id", ownerId));
-
     return (
       <div id="page-wrapper">
         <div id="wrapper">
-              <div className="row">
-                <div className="col-md-3">
-                  {owner ? this.getOwnerThumb(owner) : null}
-                </div>
-                <div className="col-md-8">
-                  <h3>Ajouter un membre au projet</h3>
-                  <DropdownList
-                   data={usersNotInProject}
-                   textField="familyName"
-                   caseSensitive={false}
-                   minLength={2}
-                   onSelect={this.addUserToProject}
-                   itemComponent={ListUser}
-                   filter="contains"  />
-                </div>
-              </div>
-              <PageTitle title="Membres du projet" />
-              <div className="row">
-                {_.map(this.state.usersByProject, function(user) {
-                  if(user.id != ownerId) {
-                    return this.getUserThumb(user);
-                  }
-                }.bind(this))}
-              </div>
+          <div className="row">
+            <div className="col-md-3">
+              {owner ? this.getOwnerThumb(owner) : null}
+            </div>
+            <FormProjectUser users={this.state.users}
+                             usersInProject={this.state.usersByProject}
+                             owner={this.state.project.owner}
+                             addUser={this.addUserToProject}
+            />
+            <PageTitle title="Membres du projet" />
+            <div className="row">
+              {_.map(this.state.usersByProject, function(user) {
+                if(user.id != ownerId) {
+                  return this.getUserThumb(user);
+                }
+              }.bind(this))}
+            </div>
+          </div>
         </div>
       </div>
     )
-  },
-
-  getUsersNotInProject: function(users, usersInProject) {
-    _.remove(users, function(user) {
-      return _.find(usersInProject, user);
-    });
-    return users;
   },
 
   getUserThumb: function(user) {
@@ -110,7 +100,9 @@ var PageProjectUsersList = React.createClass({
     project.team.push(user.id);
 
     ProjectService.putProject(project.id, project).then(function(res) {
-      this.setState({ project: res.body });
+      NotificationActions.setNotification("Un nouveau membre a été ajouté au projet", "success");
+      UserActions.loadUsersByProject(res.body.id);
+      UserActions.loadUsers();
     }.bind(this), function(err) {
       console.log(err);
     });
@@ -121,11 +113,13 @@ var PageProjectUsersList = React.createClass({
     var team = _.remove(project.team, function(memberId) {
       return memberId != userId;
     });
-    
+
     project.team = team;
 
     ProjectService.putProject(project.id, project).then(function(res) {
-      this.setState({ project: res.body });
+      NotificationActions.setNotification("Un membre a été supprimé du projet", "success");
+      UserActions.loadUsersByProject(res.body.id);
+      UserActions.loadUsers();
     }.bind(this), function(err) {
       console.log(err);
     });
@@ -136,18 +130,5 @@ var PageProjectUsersList = React.createClass({
   }
 
 });
-
-var ListUser = React.createClass({
-  render: function() {
-    var user = this.props.item;
-    return (
-      <span>
-        <img src={user.imageUrl} height="40" width="40" />
-        <strong> { user.familyName }</strong>
-        { " " + user.givenName }
-      </span>
-    );
-  }
-})
 
 module.exports = PageProjectUsersList;

@@ -37,7 +37,7 @@ var DeleteEvent = React.createClass({
 
   render: function () {
    return (
-        <a onClick={this.onClick}>Supprimer</a>
+        <a onClick={this.onClick} className="btn btn-danger">Supprimer</a>
     );
   },
 

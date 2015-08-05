@@ -55,21 +55,24 @@ var pageProjects = React.createClass({
                           <td>{project.name}</td>
                           <td>{_.trunc(project.description, {"length": 20, "separator": " "})}</td>
                           <td><ProjectType projectType={project.projectType} /></td>
-                          <td>{this.renderProjectActions(project.id)}</td>
+                          <td><Link to="updateProject" className="btn btn-warning"  params={{projectId: project.id}}>Modifier</Link></td>
                           <td>
-                              <Link to="AdminEventsByProjects" className="btn btn-primary" params={{projectId: project.id}}>
-                                Les événements
-                              </Link>
+                            <Link to="AdminEventsByProjects" className="btn btn-primary" params={{projectId: project.id}}>
+                              Gérer les événements
+                            </Link>
                           </td>
                           <td>
                             <Link to="AdminResourcesByProjects" className="btn btn-primary" params={{projectId: project.id}}>
-                              Les ressources
+                              Gérer les ressources
                             </Link>
                           </td>
                           <td>
                             <Link to="PageAdminUsersByProject" className="btn btn-primary" params={{projectId: project.id}}>
-                              Les membres
+                              Gérer les membres
                             </Link>
+                          </td>
+                          <td>
+                            <ButtonDeleteProject projectId={project.id} />
                           </td>
                         </tr>
                       );
@@ -78,57 +81,6 @@ var pageProjects = React.createClass({
                 </Table>
         </div>
     </div>
-    );
-  },
-
-  renderProjectActions: function(projectId) {
-    return (
-      <DropdownButton title="Projet">
-        <MenuItem eventKey="1">
-          <Link to="updateProject" params={{projectId: projectId}}>Modifier</Link>
-        </MenuItem>
-        <MenuItem eventKey="2">
-          <ButtonDeleteProject projectId={projectId} />
-        </MenuItem>
-      </DropdownButton>
-    );
-  },
-
-  renderEventActions: function(projectId) {
-    return (
-      <DropdownButton title="Evénement">
-        <MenuItem eventKey="1">
-          <Link to="addEvent" params={{projectId: projectId}}>Ajouter un événement</Link>
-        </MenuItem>
-        <MenuItem eventKey="2">
-          <Link to="AdminEventsByProjects" params={{projectId: projectId}}>
-            Liste des événements
-          </Link>
-        </MenuItem>
-      </DropdownButton>
-    );
-  },
-
-  renderResourceActions: function(projectId) {
-    return (
-      <DropdownButton title="Ressource">
-        <MenuItem eventKey="1">
-          <Link to="addResourceToProject" params={{projectId: projectId}}>Ajouter une ressource</Link>
-        </MenuItem>
-        <MenuItem eventKey="2">
-          <Link to="AdminResourcesByProjects" params={{projectId: projectId}}>
-            Liste des ressources
-          </Link>
-        </MenuItem>
-      </DropdownButton>
-    );
-  },
-
-  renderUserActions: function(projectId) {
-    return (
-      <Link to="PageAdminUsersByProject" params={{projectId: projectId}}>
-        <Button>Membres</Button>
-      </Link>
     );
   }
 

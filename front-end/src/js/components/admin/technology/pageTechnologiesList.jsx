@@ -24,7 +24,6 @@ var PageTechnologiesList = React.createClass({
   },
 
   refreshTechnologiesTable: function() {
-    console.log("techno added");
     TechnologyActions.loadTechnologies();
   },
 
@@ -38,7 +37,7 @@ var PageTechnologiesList = React.createClass({
             <FormTechnology technoAdded={this.refreshTechnologiesTable}/>
             <hr />
             <h4>Liste des technologies</h4>
-              <ul class="list-group">
+              <ul className="list-group">
               {_.map(technologies, function(technology) {
                 return (
                   <div className="col-md-4" key={technology.id}>
@@ -58,7 +57,3 @@ var PageTechnologiesList = React.createClass({
 });
 
 module.exports = PageTechnologiesList;
-
-// <Link to="updateTechnology" className="btn btn-warning" params={{technologyId: technology.id}}>
-//   Modifier
-// </Link>
