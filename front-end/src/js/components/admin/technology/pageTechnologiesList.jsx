@@ -20,7 +20,7 @@ var PageTechnologiesList = React.createClass({
   mixins: [Reflux.connect(TechnologyStore)],
 
   componentDidMount: function() {
-    TechnologyActions.loadTechnologies();
+    TechnologyActions.loadTechnologiesByScore();
   },
 
   refreshTechnologiesTable: function() {
@@ -29,36 +29,28 @@ var PageTechnologiesList = React.createClass({
   },
 
   render: function() {
-    var technologies = this.state.technologies;
+    var technologies = this.state.technologiesByScore;
 
     return (
       <div id="page-wrapper">
-        <div id="wrapper">
-          <PageTitle title="Les technologies" />
-                {/*<Link to="addTechnology" className="btn btn-success">Ajouter une Technologie</Link>*/}
-                <FormTechnology technoAdded={this.refreshTechnologiesTable}/>
-                <hr />
-                <h4>Liste des technologies</h4>
-                <Table responsive className="table-responsive">
-                  <thead>
-                    <tr>
-                      <th>Nom</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {_.map(technologies, function(technology) {
-                      return (
-                        <tr key={technology.id}>
-                          <td>{technology.name}</td>
-                          <td>
-                          </td>
-                          <td></td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-        </div>
+            <div className="row">
+          <PageTitle title="Les stacks techniques des projets" />
+            <FormTechnology technoAdded={this.refreshTechnologiesTable}/>
+            <hr />
+            <h4>Liste des technologies</h4>
+              <ul class="list-group">
+              {_.map(technologies, function(technology) {
+                return (
+                  <div className="col-md-4" key={technology.id}>
+                    <li className="list-group-item">
+                      <span className="badge">{technology.score}</span>
+                      {technology.name}
+                    </li>
+                  </div>
+                );
+            })}
+            </ul>
+            </div>
     </div>
     )
   }
