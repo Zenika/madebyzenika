@@ -23,7 +23,9 @@ var timeLine = React.createClass({
   },
 
   render: function() {
-    var eventsAndResources = _.union(this.state.eventsByProject, this.flagResources(this.state.resourcesByProject));
+    var eventsAndResources = _.sortBy(
+                                _.union(this.state.eventsByProject, this.flagResources(this.state.resourcesByProject))
+                              , "dateStart").reverse();
     return (
       <div className="row">
         <div className="col-md-12">
@@ -45,9 +47,8 @@ var timeLine = React.createClass({
 
   flagResources: function(resources) {
     var resourcesWithFlag = _.map(resources, function(resource) {
-      return _.extend({}, resource, {isResource: true});
+      return _.extend({}, resource, {isResource: true, dateStart: resource.lastModified });
     });
-
     return resourcesWithFlag;
   },
 

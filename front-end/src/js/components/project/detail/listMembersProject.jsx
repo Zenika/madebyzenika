@@ -12,10 +12,9 @@ var listMembersProject = React.createClass({
 
   mixins: [Reflux.connect(UserStore)],
 
-  // componentDidMount: function() {
-  //   console.log(this.props.projectId);
-  //   UserActions.loadUsersByProject(this.props.projectId);
-  // },
+  componentDidMount: function() {
+    UserActions.loadUsersByProject(this.props.projectId);
+  },
 
   componentWillReceiveProps: function(nextProps) {
     UserActions.loadUsersByProject(nextProps.projectId);
