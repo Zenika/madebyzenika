@@ -35,8 +35,7 @@ var pageProjectEvents = React.createClass({
     this.props.pageTitle = "Liste de mes projets";
 
     return (
-      <div id="page-wrapper">
-        <div id="wrapper">
+      <div>
           <PageTitle title="Liste des événements" />
             <Link  to="addEvent" params={{ projectId: this.getProjectId()}} className="btn btn-success">
               Ajouter un événement au projet
@@ -63,7 +62,6 @@ var pageProjectEvents = React.createClass({
                 }.bind(this))}
               </tbody>
             </Table>
-        </div>
     </div>
     );
   }

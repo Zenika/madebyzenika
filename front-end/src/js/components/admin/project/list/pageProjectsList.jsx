@@ -7,6 +7,7 @@ var ProjectActions = require("../../../../reflux/actions/ProjectActions");
 var AuthStore = require("../../../../reflux/stores/AuthStore");
 
 var _ = require("lodash");
+
 var Router = require("react-router");
 var Link = Router.Link;
 
@@ -35,8 +36,7 @@ var pageProjects = React.createClass({
     this.props.pageTitle = "Liste de mes projets";
 
     return (
-      <div id="page-wrapper">
-        <div id="wrapper">
+      <div>
           <PageTitle title="Mes projets" />
             <Link to="addProject" className="btn btn-success">Ajouter un projet</Link>
 
@@ -79,7 +79,6 @@ var pageProjects = React.createClass({
                     }.bind(this))}
                   </tbody>
                 </Table>
-        </div>
     </div>
     );
   }

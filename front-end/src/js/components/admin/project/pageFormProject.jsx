@@ -1,6 +1,8 @@
 var React = require("react");
 var _ = require("lodash");
+
 var Router = require("react-router");
+
 var t = require("tcomb-form");
 var Form = t.form.Form;
 
@@ -29,6 +31,7 @@ var TechnologyInputsForm = require("../../../utils/form/technologyInputsForm.jsx
 var PageTitle = require("../pageTitle.jsx");
 
 var pageFormProject = React.createClass({
+
   mixins: [Router.Navigation, Reflux.connect(ProjectStore), Reflux.connect(ProjectTypeStore), Reflux.connect(TechnologyStore), Reflux.connect(NotificationStore)],
 
   getInitialState: function() {
@@ -95,15 +98,13 @@ var pageFormProject = React.createClass({
   render: function() {
     var formTitle = function() { return (_.isEmpty(this.state.project)) ? "Ajouter un projet" : "Modifier le projet"; }.bind(this);
     return (
-      <div id="page-wrapper">
-        <div id="wrapper">
+      <div>
             <PageTitle title={formTitle()} />
             <hr />
             <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={this.state.project}/>
             <button className="btn btn-success" onClick={this.submit}>
                 { formTitle() }
             </button>
-        </div>
       </div>
     );
   },

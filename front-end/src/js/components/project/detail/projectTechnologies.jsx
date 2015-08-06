@@ -5,10 +5,6 @@ var Reflux = require("reflux");
 var TechnologyStore = require("../../../reflux/stores/TechnologyStore");
 var TechnologyActions = require("../../../reflux/actions/TechnologyActions");
 
-var Router = require("react-router");
-var Link = Router.Link;
-
-
 var projectTechnologies = React.createClass({
 
   mixins: [Reflux.connect(TechnologyStore)],

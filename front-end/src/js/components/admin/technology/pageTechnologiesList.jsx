@@ -31,8 +31,7 @@ var PageTechnologiesList = React.createClass({
     var technologies = this.state.technologiesByScore;
 
     return (
-      <div id="page-wrapper">
-            <div className="row">
+      <div>
           <PageTitle title="Les stacks techniques des projets" />
             <FormTechnology technoAdded={this.refreshTechnologiesTable}/>
             <hr />
@@ -49,7 +48,6 @@ var PageTechnologiesList = React.createClass({
                 );
             })}
             </ul>
-            </div>
     </div>
     )
   }

@@ -16,11 +16,12 @@ var EventService = {
 
   getEventsByProject: function(projectId) {
     return new Promise(function(resolve, reject) {
-      Api.getRequestWithTokenHeader("/events?project=" + projectId)
-         .end(function(err, res) {
-           if (err) { reject(err); }
-           else { resolve(res); }
-         });
+      Api.getRequestWithTokenHeader("/events")
+        .query({ project: projectId })
+        .end(function(err, res) {
+         if (err) { reject(err); }
+         else { resolve(res); }
+       });
     });
   },
 

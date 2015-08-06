@@ -4,10 +4,6 @@ var Reflux = require("reflux");
 var UserStore = require("../../../reflux/stores/UserStore");
 var UserActions = require("../../../reflux/actions/UserActions");
 
-var Router = require("react-router");
-var Link = Router.Link;
-
-
 var listMembersProject = React.createClass({
 
   mixins: [Reflux.connect(UserStore)],

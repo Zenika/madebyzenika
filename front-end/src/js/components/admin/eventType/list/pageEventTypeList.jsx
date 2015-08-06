@@ -1,5 +1,7 @@
 var React = require("react");
+
 var _ = require("lodash");
+
 var Router = require("react-router");
 var Link = Router.Link;
 
@@ -24,8 +26,7 @@ var PageEventTypeList = React.createClass({
     var eventTypes = this.state.eventTypes;
 
     return (
-      <div id="page-wrapper">
-        <div id="wrapper">
+      <div>
           <PageTitle title="Les types d'événement" />
             <Link to="addEventType" className="btn btn-success">Ajouter un type d'événement</Link>
 
@@ -55,7 +56,6 @@ var PageEventTypeList = React.createClass({
                     })}
                   </tbody>
                 </Table>
-        </div>
     </div>
     )
   }

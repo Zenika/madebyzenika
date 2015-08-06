@@ -26,7 +26,8 @@ var ResourceService = {
 
   getResourcesByProject: function(projectId) {
     return new Promise(function(resolve, reject) {
-      Api.getRequestWithTokenHeader("/resources?project=" + projectId)
+      Api.getRequestWithTokenHeader("/resources")
+        .query({ project: projectId })
         .end(function(err, res){
           if (err) { reject(err); }
           else { resolve(res); }
@@ -36,7 +37,8 @@ var ResourceService = {
 
   getResourcesByEvent: function(eventId) {
     return new Promise(function(resolve, reject) {
-      Api.getRequestWithTokenHeader("/resources?event=" + eventId)
+      Api.getRequestWithTokenHeader("/resources")
+        .query({ event: eventId })
         .end(function(err, res){
           if (err) { reject(err); }
           else { resolve(res); }

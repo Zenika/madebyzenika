@@ -2,9 +2,9 @@ var React = require("react");
 var Reflux = require("reflux");
 var Bootstrap = require("react-bootstrap");
 var Table = Bootstrap.Table;
+
 var moment = require("moment");
 
-var Reflux = require("reflux");
 var ResourceStore = require("../../../reflux/stores/ResourceStore");
 var ResourceActions = require("../../../reflux/actions/ResourceActions");
 

@@ -37,6 +37,5 @@ module.exports = {
     return  Request.del(this.getUrl() + request)
                    .set("Content-Type", "application/json")
                    .set(this.tokenAttribut, this.localStorageToken());
-  }
-  
+  }  
 };

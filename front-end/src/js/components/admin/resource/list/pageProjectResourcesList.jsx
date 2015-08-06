@@ -34,8 +34,7 @@ var pageProjectResources = React.createClass({
     this.props.pageTitle = "Liste des ressources";
 
     return (
-      <div id="page-wrapper">
-        <div id="wrapper">
+      <div>
           <PageTitle title="Ressources du projet" />
             <Link to="addResourceToProject" className="btn btn-success" params={{ projectId: this.getProjectId()}} >
               Ajouter une ressource au projet
@@ -66,7 +65,6 @@ var pageProjectResources = React.createClass({
                   }.bind(this))}
                 </tbody>
               </Table>
-        </div>
     </div>
     );
   }

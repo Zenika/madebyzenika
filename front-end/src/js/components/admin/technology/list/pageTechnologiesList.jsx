@@ -1,5 +1,6 @@
 var React = require("react");
 var _ = require("lodash");
+
 var Router = require("react-router");
 var Link = Router.Link;
 
@@ -31,7 +32,6 @@ var PageTechnologiesList = React.createClass({
       <div id="page-wrapper">
         <div id="wrapper">
           <PageTitle title="Les technologies" />
-                {/*<Link to="addTechnology" className="btn btn-success">Ajouter une Technologie</Link>*/}
                 <FormTechnology />
                 <Table responsive className="table-responsive">
                   <thead>

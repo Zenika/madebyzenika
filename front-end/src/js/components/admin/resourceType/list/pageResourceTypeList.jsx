@@ -1,5 +1,6 @@
 var React = require("react");
 var _ = require("lodash");
+
 var Router = require("react-router");
 var Link = Router.Link;
 
@@ -24,8 +25,7 @@ var PageResourceTypeList = React.createClass({
     var resourceTypes = this.state.resourceTypes;
 
     return (
-      <div id="page-wrapper">
-        <div id="wrapper">
+      <div>
           <PageTitle title="Les types de ressource" />
             <Link to="addResourceType" className="btn btn-success">Ajouter un type de ressource</Link>
 
@@ -55,7 +55,6 @@ var PageResourceTypeList = React.createClass({
                     })}
                   </tbody>
                 </Table>
-        </div>
     </div>
     )
   }

@@ -1,6 +1,5 @@
 var React = require("react");
 var _ = require("lodash");
-var Router = require("react-router");
 var DropdownList = require("react-widgets").DropdownList;
 
 var formProjectUser = React.createClass({

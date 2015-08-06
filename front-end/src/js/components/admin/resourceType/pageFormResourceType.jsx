@@ -112,13 +112,11 @@ var PageFormResourceType = React.createClass({
     var warning = function() { return (this.state.alertVisible) ? this.resourceTypeAlreadyExist() : null; }.bind(this);
 
    return (
-     <div id="page-wrapper">
-       <div id="wrapper">
+     <div>
          <PageTitle title={formTitle()} />
             {warning()}
             <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={this.state.resourceType} />
             <button className="btn btn-success" onClick={this.onClick}>{ formTitle() }</button>
-        </div>
       </div>
     );
   },

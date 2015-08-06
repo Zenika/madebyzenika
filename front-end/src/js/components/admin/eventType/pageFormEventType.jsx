@@ -1,7 +1,10 @@
 var React = require("react");
+
 var Router = require("react-router");
+
 var Bootstrap = require("react-bootstrap");
 var Alert = Bootstrap.Alert;
+
 var t = require("tcomb-form");
 var Form = t.form.Form;
 var _ = require("lodash");
@@ -114,13 +117,11 @@ var PageFormEventType = React.createClass({
     var warning = function() { return (this.state.alertVisible) ? this.eventTypeAlreadyExist() : null; }.bind(this);
 
    return (
-     <div id="page-wrapper">
-       <div id="wrapper">
+     <div>
          <PageTitle title={formTitle()} />
               {warning()}
               <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={this.state.eventType} />
               <button className="btn btn-success" onClick={this.onClick}>{ formTitle() }</button>
-        </div>
       </div>
     );
   },

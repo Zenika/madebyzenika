@@ -1,8 +1,5 @@
 var React = require("react");
 var Router = require("react-router");
-// var Fluxxor = require("fluxxor");
-// var FluxMixin = Fluxxor.FluxMixin(React);
-// var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Reflux = require("reflux");
 
@@ -19,14 +16,6 @@ var SignIn = React.createClass({
     this.callbackName = _.uniqueId("gPlusCallback-");
     // Google va chercher le callback dans le namespace global
     window["signinCallback"] = this.signinCallback;
-  },
-
-  getInitialState: function() {
-    // var authStore = this.getFlux().store("AuthStore");
-    // return {
-    //   isLoggedIn: authStore.isLoggedIn(),
-    //   currentUser: authStore.userInfo
-    // };
   },
 
   render: function() {

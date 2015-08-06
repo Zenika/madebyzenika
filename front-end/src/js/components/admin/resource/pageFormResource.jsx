@@ -1,6 +1,9 @@
 var React = require("react");
+
 var Router = require("react-router");
+
 var _ = require("lodash");
+
 var t = require("tcomb-form");
 var Form = t.form.Form;
 
@@ -87,12 +90,10 @@ var AddEvent = React.createClass({
     var formTitle = function() { return (_.isEmpty(this.state.resource)) ?  "Ajouter une ressource" : "Modifier la ressource"; }.bind(this);
 
     return (
-      <div id="page-wrapper">
-        <div id="wrapper">
+      <div>
           <PageTitle title={formTitle()} />
               <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={this.state.resource} />
               <button className="btn btn-success" onClick={this.submit}>{ formTitle() }</button>
-        </div>
       </div>
     );
   },

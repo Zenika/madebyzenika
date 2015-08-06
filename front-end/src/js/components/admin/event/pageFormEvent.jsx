@@ -1,5 +1,7 @@
 var React = require("react");
+
 var Router = require("react-router");
+
 var t = require("tcomb-form");
 var Form = t.form.Form;
 var _ = require("lodash");
@@ -84,14 +86,12 @@ var pageFormEvent = React.createClass({
     var formTitle = function() { return (_.isEmpty(this.state.event)) ? "Ajouter un événement" : "Modifier l'évenement"; }.bind(this);
 
    return (
-     <div id="page-wrapper">
-       <div id="wrapper">
+       <div>
          <PageTitle title={formTitle()} />
 
               <Form ref="form" options={this.getOptionsForm()} type={this.state.type} value={EventInputsForm.formatData(this.state.event)} />
               <button className="btn btn-success" onClick={this.onClick}>{ formTitle() }</button>
         </div>
-      </div>
     );
   },
 
