@@ -31,7 +31,7 @@ var projectEvents = React.createClass({
     return (
       <div className="row">
         <div className="panel panel-default">
-          <div className="panel-heading"><h3><i className="fa fa-book"></i> {nbResources} ressources</h3></div>
+          <div className="panel-heading"><h4><i className="fa fa-book"></i> {nbResources} ressources</h4></div>
           <div className="panel-body">
                 <Table responsive className="table-responsive">
                   <thead>
