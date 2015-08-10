@@ -2,8 +2,6 @@ var React = require("react");
 var Router = require("react-router");
 var Link = Router.Link;
 
-var SignIn = require("./signIn.jsx");
-
 var Reflux = require("reflux");
 
 var AuthStore = require("../../reflux/stores/AuthStore");
@@ -11,7 +9,36 @@ var AuthActions = require("../../reflux/actions/AuthActions");
 
 var Header = React.createClass({
 
-  mixins: [Reflux.connect(AuthStore)],
+  mixins: [Router.Navigation, Reflux.connect(AuthStore)],
+
+  componentDidMount: function() {
+    window.addEventListener('google-loaded',this.gapiRender);
+  },
+
+  componentDidUpdate: function() {
+    if(!this.state.isLoggedIn)
+      this.gapiRender();
+  },
+
+  gapiRender: function() {
+    gapi.signin2.render('g-signin2', {
+			'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+      'onsuccess': this.signinCallback,
+      'theme': 'light',
+      'clientid': "1083777438685-kjrgndua0oiqhlhpl67qdjvjqn4okkoo",
+      'cookiepolicy':"single_host_origin",
+      'accesstype': "offline",
+		});
+  },
+
+  getConnectButton: function() {
+      return (
+        <div id="g-signin2" data-onsuccess={this.signinCallback}>
+          <span class="icon"></span>
+          <span class="buttonText">Google</span>
+        </div>
+      );
+  },
 
   getMenuItems: function(isLoggedIn) {
     if(isLoggedIn) {
@@ -27,6 +54,15 @@ var Header = React.createClass({
   },
 
   render: function() {
+    var currentUser = this.state.userInfo;
+
+    var disconnectButton = <span key={currentUser.id} >
+                            <span className="userInfoHeader">
+                                {currentUser.given_name} {currentUser.family_name}
+                              <img src={currentUser.picture} />
+                            </span>
+                            <button className="btn btn-danger btn-sm" onClick={this.disconnect}>Déconnexion</button>
+                           </span>;
     return (
       <nav className="navbar navbar-default" id="mainMenu">
         <div className="container">
@@ -42,13 +78,31 @@ var Header = React.createClass({
           <div id="navbar" className="navbar-collapse collapse">
               {this.getMenuItems(this.state.isLoggedIn)}
             <ul className="nav navbar-nav navbar-right">
-              <SignIn />
+              <div className="navbar-text">{ this.state.isLoggedIn ? disconnectButton : this.getConnectButton() }</div>
             </ul>
           </div>
         </div>
       </nav>
     );
+  },
+
+  signinCallback: function (authResult) {
+    if (authResult["code"]) {
+        AuthActions.loadAuthorizationCode(authResult["code"]);
+    } else if (authResult['error']) {
+      console.log("Une erreur s'est produite : " + authResult['error']);
+    }
+  },
+
+  disconnect: function() {
+    AuthActions.clearTokenAndUserInfo();
+    this.transitionTo("home");
+  },
+
+  componentWillUnmount: function() {
+    delete window[this.callbackName];
   }
+
 });
 
 module.exports = Header;

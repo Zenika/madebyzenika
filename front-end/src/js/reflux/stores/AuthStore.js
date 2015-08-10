@@ -23,13 +23,10 @@ var authStore = Reflux.createStore({
     this.trigger(this.data);
   },
 
-  onSetLoginUser: function(authInfo) {
-    this.data.userInfo = authInfo.userInfo;
-    this.data.token = authInfo.access_token;
-    this.data.isLoggedIn = true;
+  onLoadAuthorizationCodeCompleted: function(authInfo) {
     store.set("currentUser", authInfo.userInfo);
     store.set("access_token", authInfo.access_token);
-
+    this.onSetUserInStore(authInfo.userInfo, authInfo.access_token)
     this.trigger(this.data);
   },
 
