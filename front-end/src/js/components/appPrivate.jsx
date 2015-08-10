@@ -33,7 +33,6 @@ var AppPrivate = React.createClass({
   },
 
   render: function() {
-
     return (
         <div>
           <RouteHandler {...this.props} />
