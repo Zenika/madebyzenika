@@ -29,10 +29,11 @@ var ResourceBlock = React.createClass({
         <ResourceType resourceType={resource.resourceType} icon={true} color={true} />
 
         <div className="cd-timeline-content">
+          Dernière modification {moment(resource.lastModified).fromNow()}
           <h2>{resource.name}</h2>
           <ResourceType resourceType={resource.resourceType} label={true} />
           <p><a href={resource.link} target="_blank" className="btn btn-primary">Accèder à la ressource</a></p>
-          <span className="cd-date">Dernière modification {moment(resource.lastModified).fromNow()}</span>
+          <span className="cd-date"></span>
         </div>
       </div>
     );

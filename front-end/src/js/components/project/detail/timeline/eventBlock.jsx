@@ -48,19 +48,16 @@ var EventBlock = React.createClass({
         <EventType eventType={event.eventType} icon={true} color={true} />
 
         <div className="cd-timeline-content">
+          {moment(event.dateStart).format('LL')} {(event.dateEnd !== null) ? "-" + moment(event.dateEnd).format('LL') : null }
           <h2>{event.name}</h2>
           <EventType eventType={event.eventType} label={true} />
           <p>{event.description}</p>
           {( sizeResourcesByEvent > 0) ? <button className="btn btn-info" onClick={this.onClick}>{sizeResourcesByEvent} ressources rattachées</button> : null}
-          <span className="cd-date">
-            {moment(event.dateStart).format('LL')} {(event.dateEnd !== null) ? "-" + moment(event.dateEnd).format('LL') : null }
-          </span>
+
         </div>
       </div>
     );
   },
-
-
 
   renderOverlay: function() {
     if (!this.state.isModalOpen) {
