@@ -1,13 +1,12 @@
 @import "variables.less";
-@import "timeline.less";
-@import "sideMenu.less";
-@import "technology.less";
+@import "mixins.less";
 
-// Dash
-.icon-short-access{
-  color:white;
-  font-size: 80px;
+// Global Styles
+
+body {
+    background-color: @gray-lightest;
 }
+
 // Wrappers
 
 #wrapper {
@@ -272,7 +271,7 @@ table.dataTable thead .sorting:after {
     color: rgba(50,50,50,.5);
 }
 
-// Circle Buttons
+// Circle Buttons 
 
 .btn-circle {
     width: 30px;
@@ -365,5 +364,3 @@ table.dataTable thead .sorting:after {
         }
     }
 }
-
-.z-header-wrapper{height: 50px;}

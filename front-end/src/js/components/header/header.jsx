@@ -34,8 +34,8 @@ var Header = React.createClass({
   getConnectButton: function() {
       return (
         <div id="g-signin2" data-onsuccess={this.signinCallback}>
-          <span class="icon"></span>
-          <span class="buttonText">Google</span>
+          <span className="icon"></span>
+          <span className="buttonText">Google</span>
         </div>
       );
   },

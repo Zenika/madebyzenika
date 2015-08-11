@@ -2,25 +2,29 @@ var React = require("react");
 
 var Router = require("react-router");
 
+var classNames = require('classnames');
+
 var Bootstrap = require("react-bootstrap");
 var OverlayMixin = Bootstrap.OverlayMixin;
 var Modal = Bootstrap.Modal;
 
 var ProjectService = require("../../../utils/ServiceRest/ProjectService");
 
-var DeleteEvent = React.createClass({
+var DeleteProject = React.createClass({
 
   mixins: [Router.Navigation, OverlayMixin],
 
   getInitialState: function() {
     return {
       projectId: this.props.projectId,
-      isModalOpen: false
+      title: this.props.title,
+      isModalOpen: false,
+      buttonStyle: this.props.buttonStyle
     };
   },
 
   componentWillReceiveProps: function(nextProps) {
-    this.setState({ projectId: nextProps.projectId });
+    this.setState({ projectId: nextProps.projectId, title: nextProps.title, buttonStyle: nextProps.buttonStyle });
   },
 
   onClick: function () {
@@ -38,8 +42,13 @@ var DeleteEvent = React.createClass({
   },
 
   render: function () {
+    var classes = classNames({
+      'btn': this.props.isButton,
+      'btn-danger': this.props.isButton
+    });
+
    return (
-        <a onClick={this.onClick} className="btn btn-danger">Supprimer</a>
+        <a onClick={this.onClick} className={classes}>{this.props.title}</a>
     );
   },
 
@@ -63,4 +72,4 @@ var DeleteEvent = React.createClass({
 
 });
 
-module.exports = DeleteEvent;
+module.exports = DeleteProject;

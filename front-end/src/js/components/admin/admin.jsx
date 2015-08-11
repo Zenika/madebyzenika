@@ -8,15 +8,17 @@ var Admin = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div id="wrapper">
           <SideMenu />
-          <div className="container">
+          <div id="page-wrapper">
+            <div className="container-fluid">
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <RouteHandler {...this.props} />
               </div>
             </div>
           </div>
+        </div>
       </div>
     );
   }

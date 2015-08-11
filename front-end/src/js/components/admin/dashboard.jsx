@@ -8,7 +8,7 @@ var Dashboard = React.createClass({
 
   render: function() {
     return (
-      <PageTitle fonticon="icon-map-streamline-user" title="mon espace (PAGE EN TRAVAUX)" />
+      <PageTitle fonticon="icon-map-streamline-user" title="Tableau de bord (PAGE EN TRAVAUX)" />
     );
   }
 });
