@@ -45,17 +45,17 @@ var PageProjectUsersList = React.createClass({
     var ownerId = this.state.project.owner;
     owner = _.first(_.filter(this.state.usersByProject, "id", ownerId));
     return (
-      <div id="page-wrapper">
-        <div id="wrapper">
           <div className="row">
             <div className="col-md-3">
               {owner ? this.getOwnerThumb(owner) : null}
             </div>
+            <div className="row">
             <FormProjectUser users={this.state.users}
                              usersInProject={this.state.usersByProject}
                              owner={this.state.project.owner}
                              addUser={this.addUserToProject}
             />
+          </div>
             <PageTitle title="Membres du projet" />
             <div className="row">
               {_.map(this.state.usersByProject, function(user) {
@@ -65,8 +65,6 @@ var PageProjectUsersList = React.createClass({
               }.bind(this))}
             </div>
           </div>
-        </div>
-      </div>
     )
   },
 
