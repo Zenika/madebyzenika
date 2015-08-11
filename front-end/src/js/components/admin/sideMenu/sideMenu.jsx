@@ -13,7 +13,7 @@ var SideMenu = React.createClass({
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="index.html">Mon espace</a>
+          <span className="navbar-brand">Mon espace</span>
         </div>
       <div className="navbar-default sidebar" role="navigation">
           <div id="admin-navbar" className="sidebar-nav navbar-collapse collapse">

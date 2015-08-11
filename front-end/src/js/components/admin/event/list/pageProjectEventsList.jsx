@@ -32,8 +32,6 @@ var pageProjectEvents = React.createClass({
   },
 
   render: function() {
-    this.props.pageTitle = "Liste de mes projets";
-
     return (
       <div>
           <PageTitle title="Liste des événements" />
