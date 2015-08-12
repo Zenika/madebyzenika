@@ -5,7 +5,6 @@ var ProjectTypeActions = Reflux.createActions({
     "loadProjectTypes": {children: ["completed","failed"]}
 });
 
-// Get project by Id
 ProjectTypeActions.loadProjectTypes.listen(function() {
 
   var thisAction = this;

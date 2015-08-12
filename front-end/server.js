@@ -17,6 +17,8 @@ var serviceRestPort = process.env.SERVICE_REST_PORT;
 var port = isProduction ? 80 : 3000;
 var publicPath = path.resolve(__dirname, 'public');
 
+var ipServerWebPackDev = "http://127.0.0.1:3001";
+
 // Gzip
 app.use(compress());
 
@@ -41,13 +43,13 @@ if (!isProduction) {
 
   app.all('/build/*', function (req, res) {
     proxy.web(req, res, {
-        target: 'http://127.0.0.1:3001'
+        target: ipServerWebPackDev
     });
   });
 
   app.all('/socket.io*', function (req, res) {
     proxy.web(req, res, {
-      target: 'http://127.0.0.1:3001'
+      target: ipServerWebPackDev
     });
   });
 

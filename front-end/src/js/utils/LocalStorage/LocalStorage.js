@@ -1,6 +1,4 @@
-var _ = require("lodash");
-
-var LocalStorage = {
+module.exports = {
 
   set: function(itemName, data) {
     localStorage.setItem(itemName, JSON.stringify(data));
@@ -15,5 +13,3 @@ var LocalStorage = {
   }
 
 };
-
-module.exports = LocalStorage;

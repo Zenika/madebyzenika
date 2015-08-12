@@ -32,10 +32,11 @@ var ProjectType = React.createClass({
     }
 
     var projectType = _.first(_.filter(this.state.projectTypes, "id", this.state.projectTypeId));
-    
+
     if(projectType) {
       if (this.props.icon && this.props.color && projectType) {
         var style = { background: projectType.color };
+
         return (
           <div className="cd-timeline-img cd-icon" style={style}>
             <h3><i className={projectType.classicon}></i></h3>
@@ -55,13 +56,14 @@ var ProjectType = React.createClass({
 
         return  <span>{_.capitalize(projectType.name)}</span>;
       }
-    }else {
+    } else {
+
       return <span></span>;
+
     }
   },
 
   fillLocalStorage: function(projectTypes) {
-    console.log(projectTypes);
     store.set("projectTypes", projectTypes);
   },
 

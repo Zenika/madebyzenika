@@ -4,10 +4,6 @@ var Link = Router.Link;
 
 var Home = React.createClass({
 
-  overImage: function(e) {
-      //console.log(e);
-  },
-
   render: function() {
     return (
       <div className="landing-body">

@@ -21,6 +21,7 @@ var Validation = {
       return d instanceof Date;
     });
   }
+  
 };
 
 module.exports = Validation;

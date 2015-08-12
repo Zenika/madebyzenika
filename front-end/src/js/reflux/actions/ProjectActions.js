@@ -47,7 +47,7 @@ projectActions.loadProjectsByUser.listen(function(id) {
 
 });
 
-// Get projects by user Id
+// Get projects by filter
 projectActions.loadProjectsByFilter.listen(function(filter) {
   var technologies = filter.filter.technologies;
   var type = filter.filter.type;
@@ -70,6 +70,7 @@ projectActions.loadProjectsByFilter.listen(function(filter) {
       })
 
   } else if(technologies != "all" && type == "all") {
+
     ProjectService.getProjectsByTechnologies(0, 20, technologies).then(function(res) {
       return thisAction.completed(res.body);
     }, function(err) {

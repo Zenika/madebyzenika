@@ -1,5 +1,7 @@
 var React = require("react");
+
 var store = require("./LocalStorage");
+
 var _ = require("lodash")
 
 var Reflux = require("reflux");
@@ -15,9 +17,7 @@ var ResourceType = React.createClass({
   },
 
   getInitialState: function() {
-    return {
-      resourceTypeId: this.props.resourceType
-    };
+    return { resourceTypeId: this.props.resourceType };
   },
 
   componentWillReceiveProps: function(nextProps) {
@@ -34,15 +34,16 @@ var ResourceType = React.createClass({
     if(resourceType) {
       if(this.props.icon && this.props.color){
         var style = { background: resourceType.color };
+
         return (
           <div className="cd-timeline-img cd-icon" style={style}>
-            <h3><i className={"fa fa-"+resourceType.classicon}></i></h3>
+            <h3><i className={"fa fa-" + resourceType.classicon}></i></h3>
           </div>
         );
 
       } else if(this.props.icon){
 
-        return <i className={"fa fa-"+resourceType.classicon}></i>;
+        return <i className={"fa fa-" + resourceType.classicon}></i>;
 
       }  else if(this.props.label){
 

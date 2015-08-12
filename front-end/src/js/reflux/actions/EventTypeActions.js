@@ -26,9 +26,9 @@ EventTypeActions.loadEventTypeById.listen(function(id) {
 
   EventTypeService.getEventType(id).then(function(res) {
     return thisAction.completed(res.body);
-  }.bind(this), function(err) {
+  }, function(err) {
     return thisActions.failed(err);
-  }.bind(this));
+  });
 
 });
 

@@ -17,13 +17,17 @@ var TechnologyForm = {
   },
 
   arrayOfTagsTechnologies: t.subtype(t.list(t.Str), function (list) {
+
     var validate = true;
+
       _.forEach(list, function(value) {
         if(_.indexOf(this.techno, value) <= -1){
           validate = validate && false;
         }
       }.bind(this));
+
     return validate;
+
   }),
 
   getTechnologiesAsync: function(data) {
@@ -35,6 +39,7 @@ var TechnologyForm = {
 
     return technologies;
   }
+
 };
 
 module.exports = TechnologyForm;

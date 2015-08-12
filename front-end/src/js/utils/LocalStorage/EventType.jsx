@@ -37,13 +37,13 @@ var EventType = React.createClass({
         var style = { background: eventType.color };
         return (
           <div className="cd-timeline-img cd-icon" style={style}>
-            <h3><i className={"fa fa-"+eventType.classicon}></i></h3>
+            <h3><i className={"fa fa-" + eventType.classicon}></i></h3>
           </div>
         );
 
       } else if(this.props.icon){
 
-        return <i className={"fa fa-"+eventType.classicon}></i>;
+        return <i className={"fa fa-" + eventType.classicon}></i>;
 
       } else if(this.props.label){
 

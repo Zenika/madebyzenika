@@ -1,6 +1,8 @@
 var Reflux = require("reflux");
-var AuthService = require("../../utils/ServiceRest/AuthService");
+
 var Promise = require("promise");
+
+var AuthService = require("../../utils/ServiceRest/AuthService");
 
 var AuthActions = Reflux.createActions({
     "loadAuthorizationCode": {children: ["completed","failed"]},
