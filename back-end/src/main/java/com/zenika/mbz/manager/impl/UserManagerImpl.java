@@ -4,6 +4,8 @@ import com.zenika.mbz.manager.UserManager;
 import com.zenika.mbz.model.User;
 import com.zenika.mbz.repository.DataRepository;
 import com.zenika.mbz.repository.UserRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,8 @@
 package com.zenika.mbz.rest;
 
 import com.zenika.mbz.manager.TechnologyManager;
-import com.zenika.mbz.model.Event;
-import com.zenika.mbz.model.Project;
 import com.zenika.mbz.model.Technology;
-import com.zenika.mbz.rest.MainController;
+
 import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -17,9 +15,6 @@ public class TechnologyController extends MainController {
 
     @Inject
     TechnologyManager technologyManager;
-
-    public TechnologyController() {
-    }
 
     @RequestMapping(method = {RequestMethod.GET})
     public List<Technology> getTechnologies() {
@@ -42,13 +37,13 @@ public class TechnologyController extends MainController {
     }
 
     @RequestMapping(consumes = {"application/json"},method = {RequestMethod.POST})
-    public Technology postTechnology(@Valid @RequestBody Technology event) {
-        return this.technologyManager.save(event);
+    public Technology postTechnology(@Valid @RequestBody Technology technology) {
+        return this.technologyManager.save(technology);
     }
 
     @RequestMapping(value = {"/list"}, consumes = {"application/json"}, method = {RequestMethod.POST})
-    public List<Technology> postTechnologies(@Valid @RequestBody List<Technology> events) {
-        return this.technologyManager.save(events);
+    public List<Technology> postTechnologies(@RequestBody List<Technology> technologies) {
+        return this.technologyManager.save(technologies);
     }
 
     @RequestMapping(value = {"/{id}"}, consumes = {"application/json"}, method = {RequestMethod.PUT})

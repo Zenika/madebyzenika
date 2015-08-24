@@ -1,6 +1,5 @@
 package com.zenika.mbz.manager;
 
-import com.arangodb.ArangoException;
 import java.util.List;
 
 public interface DataManager<T> {
