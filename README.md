@@ -12,7 +12,7 @@ docker build -t arango/mbz sgbd/
 
 Démarrer le container
 ```
-docker run -p 8529:8529 -d --name arangodb arango/mbz standalone --disable-authentication
+docker run -p 8529:8529 -d --name arangodb arango/mbz
 ```
 
 ## Back-end
@@ -23,7 +23,7 @@ docker build -t springboot/mbz back-end/
 
 Démarrer le container
 ```
-docker run -p 8080:8080 -d --name springboot --link arangodb:db -e OAUTH_CLIENT=<clientIdGoogle> -e OAUTH_SECRET=<secretClientGoogle> springboot/mbz
+docker run -p 8080:8080 -d --name springboot --link arangodb:db -e OAUTH_CLIENT=<clientIdGoogle> -e OAUTH_SECRET=<secretClientGoogle> -e SGBD_PORT_8529_TCP_ADDR=db -e SGBD_PORT_8529_TCP_PORT=8529 -e SGBD_USER=<user> -e SGBD_PASSWORD=<password> springboot/mbz
 ```
 
 **Accessible depuis http://localhost:8080**
@@ -40,5 +40,5 @@ npm install
 
 Lancer le front:
 ```
-gulp serve
+npm start
 ```
