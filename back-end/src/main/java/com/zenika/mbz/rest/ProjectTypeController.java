@@ -1,16 +1,17 @@
 package com.zenika.mbz.rest;
 
-import com.arangodb.ArangoException;
 import com.zenika.mbz.manager.ProjectTypeManager;
 import com.zenika.mbz.model.ProjectType;
-import java.util.List;
-import javax.inject.Inject;
-import javax.validation.Valid;
-
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
+import javax.validation.Valid;
+import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
 @RestController
-@RequestMapping(value = {"/projectTypes"}, produces = {"application/json"})
+@RequestMapping(value = "/projectTypes", produces = "application/json")
 public class ProjectTypeController {
 
     @Inject
@@ -18,33 +19,33 @@ public class ProjectTypeController {
 
     public ProjectTypeController() {}
 
-    @RequestMapping(method = {RequestMethod.GET})
+    @RequestMapping(method = GET)
     public List<ProjectType> getProjects() {
-        return this.projectTypeManager.findAll();
+        return projectTypeManager.findAll();
     }
 
-    @RequestMapping(value = {"/{id}"}, method = {RequestMethod.GET})
+    @RequestMapping(value = "/{id}", method = GET)
     public ProjectType getProjectById(@PathVariable("id") String id) {
-        return this.projectTypeManager.findById(id);
+        return projectTypeManager.findById(id);
     }
 
-    @RequestMapping(method = {RequestMethod.GET}, params = {"name"})
+    @RequestMapping(method = GET, params = "name")
     public List<ProjectType> getResourceTypeByName(@RequestParam("name") String name) {
-        return this.projectTypeManager.findByName(name);
+        return projectTypeManager.findByName(name);
     }
 
-    @RequestMapping(consumes = {"application/json"}, method = {RequestMethod.POST})
+    @RequestMapping(consumes = "application/json", method = POST)
     public ProjectType postProject(@Valid @RequestBody ProjectType projectType) {
-        return this.projectTypeManager.save(projectType);
+        return projectTypeManager.save(projectType);
     }
 
-    @RequestMapping(value = {"/{id}"}, consumes = {"application/json"}, method = {RequestMethod.PUT})
+    @RequestMapping(value = "/{id}", consumes = "application/json", method = PUT)
     public ProjectType putProject(@PathVariable("id") String id, @Valid @RequestBody ProjectType projectType) {
-        return this.projectTypeManager.update(id, projectType);
+        return projectTypeManager.update(id, projectType);
     }
 
-    @RequestMapping(value = {"/{id}"}, method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/{id}", method = DELETE)
     public void deleteProject(@PathVariable("id") String id) {
-        this.projectTypeManager.delete(id);
+        projectTypeManager.delete(id);
     }
 }

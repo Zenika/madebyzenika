@@ -9,8 +9,13 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+
 @RestController
-@RequestMapping(value = {"/resources"}, produces = {"application/json"})
+@RequestMapping(value = "/resources", produces = "application/json")
 public class ResourceController extends MainController{
 
     @Inject
@@ -19,38 +24,38 @@ public class ResourceController extends MainController{
     @Inject
     DataManager<Resource> dataManager;
 
-    @RequestMapping(method = {RequestMethod.GET})
+    @RequestMapping(method = GET)
     public List<Resource> getResources() {
-        return this.dataManager.findAll();
+        return dataManager.findAll();
     }
 
-    @RequestMapping(value = {"/{id}"},method = {RequestMethod.GET})
+    @RequestMapping(value = "/{id}",method = GET)
     public Resource getResourceById(@PathVariable("id") String id) {
-        return this.dataManager.findById(id);
+        return dataManager.findById(id);
     }
 
-    @RequestMapping(method = {RequestMethod.GET}, params = "project")
+    @RequestMapping(method = GET, params = "project")
     public List<Resource> getResourcesByProject(@RequestParam("project") String id) {
-        return this.resourceManager.findByProject(id);
+        return resourceManager.findByProject(id);
     }
 
-    @RequestMapping(method = {RequestMethod.GET}, params = "event")
+    @RequestMapping(method = GET, params = "event")
     public List<Resource> getResourcesByEvent(@RequestParam("event") String id) {
-        return this.resourceManager.findByEvent(id);
+        return resourceManager.findByEvent(id);
     }
 
-    @RequestMapping(consumes = {"application/json"}, method = {RequestMethod.POST})
+    @RequestMapping(consumes = "application/json", method = POST)
     public Resource postResource(@Valid @RequestBody Resource resource) {
-        return this.dataManager.save(resource);
+        return dataManager.save(resource);
     }
 
-    @RequestMapping(value = {"/{id}"}, consumes = {"application/json"}, method = {RequestMethod.PUT})
+    @RequestMapping(value = "/{id}", consumes = "application/json", method = PUT)
     public Resource putResource(@PathVariable("id") String id, @Valid @RequestBody Resource resource) {
-        return this.dataManager.update(id, resource);
+        return dataManager.update(id, resource);
     }
 
-    @RequestMapping(value = {"/{id}"}, method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/{id}", method = DELETE)
     public void deleteResource(@PathVariable("id") String id) {
-        this.dataManager.delete(id);
+        dataManager.delete(id);
     }
 }
