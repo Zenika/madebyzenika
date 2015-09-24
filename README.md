@@ -16,6 +16,14 @@ docker run -p 8529:8529 -d --name arangodb arango/mbz
 ```
 
 ## Back-end
+```
+cd back-end
+```
+build maven:
+```
+mvn clean package
+```
+
 Création de l'image:
 ```
 docker build -t springboot/mbz back-end/
