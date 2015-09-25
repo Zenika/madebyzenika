@@ -3,7 +3,7 @@ var _ = require("lodash");
 
 var FontIconActions = require("../actions/FontIconActions");
 
-var fontIcons = require('!json!../../../assets/fonts/fonticons-list.json').icons;
+//var fontIcons = require('!json!../../../assets/fonts/fonticons-list.json').icons;
 
 var fontIconStore = Reflux.createStore({
   data: {
@@ -15,8 +15,8 @@ var fontIconStore = Reflux.createStore({
   },
 
   onGetFontIcons: function() {
-    var fonts = _.pluck(fontIcons, "id");
-    this.data.fonts = fonts;
+    //var fonts = _.pluck(fontIcons, "id");
+    //this.data.fonts = fonts;
     this.trigger(this.data);
   },
 
