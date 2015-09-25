@@ -1,54 +1,31 @@
 package com.zenika.mbz.rest;
 
-import com.zenika.mbz.manager.EventManager;
 import com.zenika.mbz.model.Event;
-import org.springframework.web.bind.annotation.*;
+import com.zenika.mbz.repository.EventRepository;
+import com.zenika.mbz.repository.GenericRepository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping(value = "/events", produces = "application/json")
-public class EventController extends MainController {
+public class EventController extends MainController<Event> {
 
     @Inject
-    EventManager eventManager;
-
-    @RequestMapping(method = GET)
-    public List<Event> getEvents() {
-        return eventManager.findAll();
-    }
-
-    @RequestMapping(value = "/{id}", method = GET)
-    public Event getEventById(@PathVariable("id") String id) {
-        return eventManager.findById(id);
-    }
+    EventRepository eventRepository;
 
     @RequestMapping(method = GET, params = "project")
     public List<Event> getEventByProjectId(@RequestParam("project") String id) {
-        return eventManager.findEventsByProject(id);
+        return eventRepository.findEventsByProject(id);
     }
 
-    @RequestMapping(consumes = "application/json", method = POST)
-    public Event postEvent(@Valid @RequestBody Event event) {
-        return eventManager.save(event);
-    }
-
-    @RequestMapping(value = "/list", consumes = "application/json", method = POST)
-    public List<Event> postEvents(@Valid @RequestBody List<Event> events) {
-        return eventManager.save(events);
-    }
-
-    @RequestMapping(value = "/{id}", consumes = "application/json", method = PUT)
-    public Event putEvent(@PathVariable("id") String id, @Valid @RequestBody Event event) {
-        return eventManager.update(id, event);
-    }
-
-    @RequestMapping(value = "/{id}", method = DELETE)
-    public void deleteEvent(@PathVariable("id") String id) {
-        eventManager.delete(id);
+    @Override
+    protected GenericRepository<Event> getRepository() {
+        return eventRepository;
     }
 }

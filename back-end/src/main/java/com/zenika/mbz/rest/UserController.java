@@ -1,8 +1,8 @@
 package com.zenika.mbz.rest;
 
-import com.zenika.mbz.manager.UserManager;
 import com.zenika.mbz.model.User;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.zenika.mbz.repository.GenericRepository;
+import com.zenika.mbz.repository.UserRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,22 +14,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping(value = "/users", produces = "application/json")
-public class UserController extends MainController {
+public class UserController extends MainController<User> {
     @Inject
-    UserManager userManager;
-
-    @RequestMapping(method = GET)
-    public List<User> getUsers() {
-        return userManager.findAll();
-    }
-
-    @RequestMapping(value = "/{id}", method = GET)
-    public User getUserById(@PathVariable("id") String id) {
-        return userManager.findById(id);
-    }
+    UserRepository userRepository;
 
     @RequestMapping(method = GET, params = "project")
     public List<User> getUsersByProject(@RequestParam("project") String projectId) {
-        return userManager.findUsersByProject(projectId);
+        return userRepository.findUsersByProject(projectId);
+    }
+
+    @Override
+    protected GenericRepository<User> getRepository() {
+        return userRepository;
     }
 }

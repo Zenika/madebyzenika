@@ -24,7 +24,8 @@ public class Resource extends Entity {
 
     protected Long lastModified;
 
-    Resource() {}
+    Resource() {
+    }
 
     Resource(String name, String link, String resourceType, String projectId, String eventId, Long lastModified) {
         this.name = name;

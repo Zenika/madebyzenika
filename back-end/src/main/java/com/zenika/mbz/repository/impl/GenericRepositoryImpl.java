@@ -5,24 +5,23 @@ import com.arangodb.ArangoException;
 import com.arangodb.entity.DocumentEntity;
 import com.arangodb.util.AqlQueryOptions;
 import com.zenika.mbz.model.Entity;
-import com.zenika.mbz.repository.DataRepository;
-import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import com.zenika.mbz.repository.GenericRepository;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.springframework.stereotype.Repository;
+import java.lang.reflect.ParameterizedType;
+import java.util.*;
 
-@Repository
-public abstract class AbstractRepository<T extends Entity> implements DataRepository<T> {
+public abstract class GenericRepositoryImpl<T extends Entity> implements GenericRepository<T> {
 
     @Inject
     @Named("ArangoDriver")
-    private ArangoDriver driver;
+    protected ArangoDriver driver;
 
     protected Class<T> className = (Class)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     protected String collectionName;
 
-    protected AbstractRepository() {
+    protected GenericRepositoryImpl() {
         this.collectionName = this.className.getSimpleName();
     }
 
@@ -54,23 +53,23 @@ public abstract class AbstractRepository<T extends Entity> implements DataReposi
         return this.factoryListDocument(listDocEntity);
     }
     public List<T> findAll() {
-        List listDocEntity = null;
+        List<DocumentEntity<T>> listDocEntity = null;
         try {
             listDocEntity = this.driver.executeSimpleAllDocuments(this.collectionName, 0, 0, this.className).asList();
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return this.factoryListDocument(listDocEntity);
+        return factoryListDocument(listDocEntity);
     }
 
 
     public List<T> save(List<T> ts) {
-        Iterator iteratorOfT = ts.iterator();
-        ArrayList listDocEntity = new ArrayList();
+        Iterator<T> iteratorOfT = ts.iterator();
+        List<DocumentEntity<T>> listDocEntity = new ArrayList<DocumentEntity<T>>();
 
         while(iteratorOfT.hasNext()) {
-            Entity t = (Entity)iteratorOfT.next();
-            DocumentEntity docEntity = null;
+            T t = iteratorOfT.next();
+            DocumentEntity<T> docEntity = null;
             try {
                 docEntity = this.driver.createDocument(this.collectionName, t);
             } catch (ArangoException e) {

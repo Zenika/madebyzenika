@@ -1,9 +1,9 @@
 package com.zenika.mbz.model;
 
-import com.zenika.mbz.model.Entity;
-import java.util.List;
-import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
+import java.util.List;
 
 public class Project extends Entity {
     @NotEmpty(message = "The project name is required")
@@ -11,7 +11,7 @@ public class Project extends Entity {
     protected String name;
 
     @NotEmpty(message = "The project description is required")
-    @Size(min = 20, max = 400,message = "The description of a project must be between 30 and 400 characters")
+    @Size(min = 20, max = 400, message = "The description of a project must be between 30 and 400 characters")
     protected String description;
 
     @NotEmpty(message = "The agency of the project is required")
@@ -67,7 +67,9 @@ public class Project extends Entity {
         return this.projectType;
     }
 
-    public String getOwner() { return this.owner; }
+    public String getOwner() {
+        return this.owner;
+    }
 
     public List<String> getTeam() {
         return this.team;

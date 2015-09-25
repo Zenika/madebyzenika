@@ -1,28 +1,17 @@
 package com.zenika.mbz.repository.impl;
 
-import com.arangodb.ArangoDriver;
 import com.arangodb.ArangoException;
-import com.arangodb.util.AqlQueryOptions;
 import com.arangodb.util.MapBuilder;
 import com.zenika.mbz.model.Project;
 import com.zenika.mbz.repository.ProjectRepository;
-import com.zenika.mbz.repository.impl.AbstractRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProjectRepositoryImpl extends AbstractRepository<Project> implements ProjectRepository {
-
-    @Inject
-    @Named("ArangoDriver")
-    private ArangoDriver driver;
-
-    public ProjectRepositoryImpl() {}
+public class ProjectRepositoryImpl extends GenericRepositoryImpl<Project> implements ProjectRepository {
 
     public List<Project> findAll(Integer skip, Integer limit) {
         List listDocEntity = null;

@@ -1,30 +1,53 @@
 package com.zenika.mbz.rest;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import com.zenika.mbz.repository.GenericRepository;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
-public class MainController {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ModelMap handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        List<FieldError> errors = exception.getBindingResult().getFieldErrors();
-        ModelMap map = new ModelMap();
-        ModelMap errorMap = new ModelMap();
-        map.addAttribute("hasErrors", Boolean.TRUE);
+public abstract class MainController<T> extends AbstractController {
 
-        for (FieldError fieldError : errors) {
-            errorMap.addAttribute(fieldError.getField(), fieldError.getDefaultMessage());
-        }
+    protected abstract GenericRepository<T> getRepository();
 
-        map.addAttribute("bindingErrors", errorMap);
-        return map;
+    @RequestMapping(method = GET)
+    public List<T> findAll() {
+        return getRepository().findAll();
+    }
+
+    @RequestMapping(value = "/{id}", method = GET)
+    public T findById(@PathVariable("id") String id) {
+        return getRepository().findById(id);
+    }
+
+    @RequestMapping(method = GET, params = "name")
+    public List<T> findByName(@RequestParam("name") String name) {
+        return getRepository().findByName(name);
+    }
+
+    @RequestMapping(consumes = "application/json", method = POST)
+    public T save(@Valid @RequestBody T entity) {
+        return getRepository().save(entity);
+    }
+
+    @RequestMapping(value = "/list", consumes = "application/json", method = POST)
+    public List<T> saveAll(@RequestBody List<T> entities) {
+        return getRepository().save(entities);
+    }
+
+    @RequestMapping(value = "/{id}", consumes = "application/json", method = PUT)
+    public T update(@PathVariable("id") String id, @Valid @RequestBody T entity) {
+        return getRepository().update(id, entity);
+    }
+
+    @RequestMapping(value = "/{id}", method = DELETE)
+    public void delete(@PathVariable("id") String id) {
+        getRepository().delete(id);
     }
 }

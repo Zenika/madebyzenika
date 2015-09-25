@@ -1,23 +1,16 @@
 package com.zenika.mbz.repository.impl;
 
-import com.arangodb.ArangoDriver;
 import com.arangodb.ArangoException;
 import com.arangodb.util.MapBuilder;
 import com.zenika.mbz.model.Resource;
 import com.zenika.mbz.repository.ResourceRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ResourceRepositoryImpl extends AbstractRepository<Resource> implements ResourceRepository{
-
-    @Inject
-    @Named("ArangoDriver")
-    private ArangoDriver driver;
+public class ResourceRepositoryImpl extends GenericRepositoryImpl<Resource> implements ResourceRepository{
 
     @Override
     public List<Resource> findByProject(String projectId) {

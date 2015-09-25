@@ -1,26 +1,17 @@
 package com.zenika.mbz.repository.impl;
 
-import com.arangodb.ArangoDriver;
 import com.arangodb.ArangoException;
 import com.arangodb.util.AqlQueryOptions;
 import com.arangodb.util.MapBuilder;
 import com.zenika.mbz.model.User;
 import com.zenika.mbz.repository.UserRepository;
-import com.zenika.mbz.repository.impl.AbstractRepository;
-import java.util.List;
-import java.util.Map;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class UserRepositoryImpl extends AbstractRepository<User> implements UserRepository {
-    @Inject
-    @Named("ArangoDriver")
-    private ArangoDriver driver;
+import java.util.List;
+import java.util.Map;
 
-    public UserRepositoryImpl() {
-    }
+@Repository
+public class UserRepositoryImpl extends GenericRepositoryImpl<User> implements UserRepository {
 
     public List<User> findUsersByProject(String projectId) {
         String query = "FOR p IN Project FILTER p._key == @projectId FOR m IN p.team  FOR u IN " + this.collectionName + " FILTER u._key == m " + "RETURN u";

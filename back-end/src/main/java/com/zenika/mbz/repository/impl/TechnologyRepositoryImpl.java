@@ -1,26 +1,16 @@
 package com.zenika.mbz.repository.impl;
 
-import com.arangodb.ArangoDriver;
 import com.arangodb.ArangoException;
-import com.arangodb.entity.DocumentEntity;
 import com.arangodb.util.MapBuilder;
 import com.zenika.mbz.model.Technology;
 import com.zenika.mbz.repository.TechnologyRepository;
-import com.zenika.mbz.repository.impl.AbstractRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
-public class TechnologyRepositoryImpl extends AbstractRepository<Technology> implements TechnologyRepository {
-
-    @Inject
-    @Named("ArangoDriver")
-    private ArangoDriver driver;
+public class TechnologyRepositoryImpl extends GenericRepositoryImpl<Technology> implements TechnologyRepository {
 
     @Override
     public List<Technology> findTechnologiesByProject(String projectId) {
@@ -36,8 +26,6 @@ public class TechnologyRepositoryImpl extends AbstractRepository<Technology> imp
         List listDocEntity = null;
         try {
             listDocEntity = this.driver.executeDocumentQuery(query, bindVars, null, this.className).asList();
-
-
         } catch (ArangoException e) {
             e.printStackTrace();
         }

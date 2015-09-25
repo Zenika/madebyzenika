@@ -1,11 +1,10 @@
 package com.zenika.mbz.repository;
 
-import com.arangodb.ArangoException;
 import com.zenika.mbz.model.Project;
+
 import java.util.List;
 
-public interface ProjectRepository {
-    List<Project> findAll();
+public interface ProjectRepository extends GenericRepository<Project> {
 
     List<Project> findAll(Integer skip, Integer limit);
 

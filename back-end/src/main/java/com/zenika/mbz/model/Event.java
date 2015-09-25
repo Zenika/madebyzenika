@@ -12,7 +12,7 @@ public class Event extends Entity {
     protected String name;
 
     @NotEmpty(message = "The project description is required")
-    @Size(min = 20,max = 400,message = "The description of an event must be between 20 and 400 characters")
+    @Size(min = 20, max = 400, message = "The description of an event must be between 20 and 400 characters")
     protected String description;
 
     @NotNull(message = "The event start date is required")

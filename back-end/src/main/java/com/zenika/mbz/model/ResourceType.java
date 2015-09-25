@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class ResourceType extends Entity{
+public class ResourceType extends Entity {
 
     @NotEmpty(message = "The resource type name is required")
     @Size(min = 3, max = 60, message = "the name of a resource type must be between 3 and 60 characters")
@@ -19,9 +19,10 @@ public class ResourceType extends Entity{
     @Size(min = 2, max = 25, message = "the classicon of a resource type must be between 2 and 25 characters")
     protected String classicon;
 
-    ResourceType() {}
+    ResourceType() {
+    }
 
-    ResourceType(String name, String color, String classicon){
+    ResourceType(String name, String color, String classicon) {
         this.name = name;
         this.color = color;
         this.classicon = classicon;

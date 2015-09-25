@@ -1,11 +1,8 @@
 package com.zenika.mbz.repository;
 
-import com.arangodb.ArangoException;
-import com.zenika.mbz.model.Project;
-
 import java.util.List;
 
-public interface DataRepository<T> {
+public interface GenericRepository<T> {
     T findById(String id);
 
     List<T> findAll();

@@ -5,8 +5,6 @@
 
 package com.zenika.mbz.model;
 
-import com.zenika.mbz.model.Entity;
-
 public class User extends Entity {
     protected String familyName;
     protected String givenName;
