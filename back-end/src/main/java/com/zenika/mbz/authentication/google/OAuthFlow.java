@@ -15,18 +15,18 @@ import com.google.api.services.oauth2.model.Userinfoplus;
 import com.google.gson.Gson;
 import com.zenika.mbz.authentication.AuthenticationToken;
 import com.zenika.mbz.authentication.TokenService;
-import com.zenika.mbz.authentication.google.OAuthResources;
 import com.zenika.mbz.model.User;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class OAuthFlow {
@@ -47,7 +47,7 @@ public class OAuthFlow {
     private static final JacksonFactory JSON_FACTORY = new JacksonFactory();
     private static final String USER_COLLECTION = "User";
     private static final String RESTRICT_DOMAIN = "zenika.com";
-    private static final List<String> SCOPE = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/plus.login");
+    private static final List<String> SCOPE = Arrays.asList("openid", "email");
     private static final Gson GSON = new Gson();
 
     public OAuthFlow() {

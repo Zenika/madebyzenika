@@ -22,7 +22,7 @@ var Header = React.createClass({
 
   gapiRender: function() {
     gapi.signin2.render('g-signin2', {
-			'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+			'scope': 'openid email',
       'onsuccess': this.signinCallback,
       'theme': 'light',
       'clientid': "1083777438685-kjrgndua0oiqhlhpl67qdjvjqn4okkoo",
