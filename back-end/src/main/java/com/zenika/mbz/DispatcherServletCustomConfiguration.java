@@ -7,8 +7,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
 public class DispatcherServletCustomConfiguration {
-    public DispatcherServletCustomConfiguration() {
-    }
 
     @Bean
     public DispatcherServlet dispatcherServlet() {
