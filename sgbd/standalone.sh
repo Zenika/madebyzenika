@@ -61,8 +61,8 @@ if test "$console" == "1";  then
   /bin/bash
 else
   /usr/sbin/arangod "$@" $AUTH&
-  sleep 5
+  sleep 30
   arangorestore --server.password "" --server.database madebyzenika --create-database true --input-directory "arango-data"&
-  sleep 5
+  sleep 30
   /usr/sbin/arangod /data/databases --server.endpoint tcp://0.0.0.0:8531
 fi
