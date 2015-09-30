@@ -5,7 +5,6 @@ metadata:
     name: sgbd
   name: sgbd
 spec:
-  type: LoadBalancer
   ports:
     - port: 8529
       targetPort: 8529

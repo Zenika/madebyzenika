@@ -5,7 +5,6 @@ metadata:
     name: rest
   name: rest
 spec:
-  type: LoadBalancer
   ports:
     - port: 8080
       targetPort: 8080
