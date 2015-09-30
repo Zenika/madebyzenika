@@ -13,19 +13,9 @@ import java.util.Map;
 @Repository
 public class ProjectRepositoryImpl extends GenericRepositoryImpl<Project> implements ProjectRepository {
 
-    public List<Project> findAll(Integer skip, Integer limit) {
-        List listDocEntity = null;
-        try {
-            listDocEntity = this.driver.executeSimpleAllDocuments(this.collectionName, skip, limit, this.className).asList();
-        } catch (ArangoException e) {
-            e.printStackTrace();
-        }
-        return this.factoryListDocument(listDocEntity);
-    }
-
     @Override
     public List<Project> findByTechnologies(Integer skip, Integer limit, String technologyId) {
-        String query = "FOR p IN " + this.collectionName +
+        String query = "FOR p IN " + collectionName +
                        " FOR t IN p.technologies " +
                        "FILTER t == @technologyId "+
                        " LIMIT @skip, @limit "+
@@ -38,16 +28,16 @@ public class ProjectRepositoryImpl extends GenericRepositoryImpl<Project> implem
 
         List listDocEntity = null;
         try {
-            listDocEntity = this.driver.executeDocumentQuery(query, bindVars, null, this.className).asList();
+            listDocEntity = driver.executeDocumentQuery(query, bindVars, null, entityClass).asList();
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return this.factoryListDocument(listDocEntity);
+        return factoryListDocument(listDocEntity);
     }
 
     @Override
     public List<Project> findByType(Integer skip, Integer limit, String typeId) {
-        String query = "FOR p IN " + this.collectionName +
+        String query = "FOR p IN " + collectionName +
                 " FILTER p.projectType == @typeId "+
                 "LIMIT @skip, @limit "+
                 "RETURN p";
@@ -59,16 +49,16 @@ public class ProjectRepositoryImpl extends GenericRepositoryImpl<Project> implem
 
         List listDocEntity = null;
         try {
-            listDocEntity = this.driver.executeDocumentQuery(query, bindVars, null, this.className).asList();
+            listDocEntity = driver.executeDocumentQuery(query, bindVars, null, entityClass).asList();
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return this.factoryListDocument(listDocEntity);
+        return factoryListDocument(listDocEntity);
     }
 
     @Override
     public List<Project> findByTypeAndTechnologies(Integer skip, Integer limit, String type, String technologyId) {
-        String query = "FOR p IN " + this.collectionName +
+        String query = "FOR p IN " + collectionName +
                 " FILTER p.projectType == @typeId "+
                 " FOR t IN p.technologies " +
                 "FILTER t == @technologyId "+
@@ -83,16 +73,16 @@ public class ProjectRepositoryImpl extends GenericRepositoryImpl<Project> implem
 
         List listDocEntity = null;
         try {
-            listDocEntity = this.driver.executeDocumentQuery(query, bindVars, null, this.className).asList();
+            listDocEntity = driver.executeDocumentQuery(query, bindVars, null, entityClass).asList();
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return this.factoryListDocument(listDocEntity);
+        return factoryListDocument(listDocEntity);
     }
 
     @Override
     public List<Project> findByUser(String userId) {
-        String query = "FOR p IN " + this.collectionName +
+        String query = "FOR p IN " + collectionName +
                        " FOR u IN p.team " +
                        "FILTER u == @userId "+
                        "RETURN p";
@@ -101,10 +91,10 @@ public class ProjectRepositoryImpl extends GenericRepositoryImpl<Project> implem
 
         List listDocEntity = null;
         try {
-            listDocEntity = this.driver.executeDocumentQuery(query, bindVars, null, this.className).asList();
+            listDocEntity = driver.executeDocumentQuery(query, bindVars, null, entityClass).asList();
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return this.factoryListDocument(listDocEntity);
+        return factoryListDocument(listDocEntity);
     }
 }

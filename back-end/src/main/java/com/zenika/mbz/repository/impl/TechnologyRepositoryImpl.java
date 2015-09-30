@@ -1,6 +1,7 @@
 package com.zenika.mbz.repository.impl;
 
 import com.arangodb.ArangoException;
+import com.arangodb.entity.DocumentEntity;
 import com.arangodb.util.MapBuilder;
 import com.zenika.mbz.model.Technology;
 import com.zenika.mbz.repository.TechnologyRepository;
@@ -17,19 +18,19 @@ public class TechnologyRepositoryImpl extends GenericRepositoryImpl<Technology> 
         String query =  "FOR p IN Project " +
                         "FILTER p._key == @projectId " +
                         "FOR pt IN p.technologies " +
-                        "FOR t IN " + this.collectionName +
+                        "FOR t IN " + collectionName +
                         " FILTER t._key == pt " +
                         "RETURN t";
 
         Map<String, Object> bindVars = new MapBuilder().put("projectId", projectId).get();
 
-        List listDocEntity = null;
+        List<DocumentEntity<Technology>> listDocEntity = null;
         try {
-            listDocEntity = this.driver.executeDocumentQuery(query, bindVars, null, this.className).asList();
+            listDocEntity = driver.executeDocumentQuery(query, bindVars, null, entityClass).asList();
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return this.factoryListDocument(listDocEntity);
+        return factoryListDocument(listDocEntity);
     }
 
 

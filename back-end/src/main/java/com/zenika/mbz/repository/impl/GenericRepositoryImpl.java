@@ -3,7 +3,6 @@ package com.zenika.mbz.repository.impl;
 import com.arangodb.ArangoDriver;
 import com.arangodb.ArangoException;
 import com.arangodb.entity.DocumentEntity;
-import com.arangodb.util.AqlQueryOptions;
 import com.zenika.mbz.model.Entity;
 import com.zenika.mbz.repository.GenericRepository;
 
@@ -18,44 +17,54 @@ public abstract class GenericRepositoryImpl<T extends Entity> implements Generic
     @Named("ArangoDriver")
     protected ArangoDriver driver;
 
-    protected Class<T> className = (Class)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    protected Class<T> entityClass = (Class) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     protected String collectionName;
 
     protected GenericRepositoryImpl() {
-        this.collectionName = this.className.getSimpleName();
+        collectionName = entityClass.getSimpleName();
     }
 
-    public T findById(String id){
-        DocumentEntity docEntity = null;
+    public T findById(String id) {
+        DocumentEntity<T> docEntity = null;
         try {
-            docEntity = this.driver.getDocument(this.collectionName, id, this.className);
+            docEntity = driver.getDocument(collectionName, id, entityClass);
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return (T) this.factoryDocument(docEntity);
+        return factoryDocument(docEntity);
     }
 
     @Override
     public List<T> findByName(String name) {
-        String query = "FOR t IN " + this.collectionName +
-                       " FILTER LIKE(t.name, @name, true)" +
-                       " RETURN t";
+        return findByCriterion("name", name);
+    }
+
+
+    protected List<T> findByCriterion(String key, Object criterion) {
+        String query = "FOR t IN " + collectionName +
+                " FILTER LIKE(t." + key + ", @" + key + ", true)" +
+                " RETURN t";
 
         Map<String, Object> bindVars = new HashMap<String, Object>();
-        bindVars.put("name", name);
+        bindVars.put(key, criterion);
 
-        List listDocEntity = null;
+        List<DocumentEntity<T>> listDocEntity = null;
         try {
-            listDocEntity = this.driver.executeDocumentQuery(query, bindVars, null, this.className).asList();
+            listDocEntity = driver.executeDocumentQuery(query, bindVars, null, entityClass).asList();
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return this.factoryListDocument(listDocEntity);
+        return factoryListDocument(listDocEntity);
     }
+
     public List<T> findAll() {
+        return findAll(0, 0);
+    }
+
+    public List<T> findAll(Integer skip, Integer limit) {
         List<DocumentEntity<T>> listDocEntity = null;
         try {
-            listDocEntity = this.driver.executeSimpleAllDocuments(this.collectionName, 0, 0, this.className).asList();
+            listDocEntity = driver.executeSimpleAllDocuments(collectionName, skip, limit, entityClass).asList();
         } catch (ArangoException e) {
             e.printStackTrace();
         }
@@ -67,72 +76,72 @@ public abstract class GenericRepositoryImpl<T extends Entity> implements Generic
         Iterator<T> iteratorOfT = ts.iterator();
         List<DocumentEntity<T>> listDocEntity = new ArrayList<DocumentEntity<T>>();
 
-        while(iteratorOfT.hasNext()) {
+        while (iteratorOfT.hasNext()) {
             T t = iteratorOfT.next();
             DocumentEntity<T> docEntity = null;
             try {
-                docEntity = this.driver.createDocument(this.collectionName, t);
+                docEntity = driver.createDocument(collectionName, t);
             } catch (ArangoException e) {
                 e.printStackTrace();
             }
             listDocEntity.add(docEntity);
         }
 
-        return this.factoryListDocument(listDocEntity);
+        return factoryListDocument(listDocEntity);
     }
 
     public T save(T t) {
-        DocumentEntity docEntity = null;
+        DocumentEntity<T> docEntity = null;
         try {
-            docEntity = this.driver.createDocument(this.collectionName, t);
+            docEntity = driver.createDocument(collectionName, t);
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return (T) this.factoryDocument(docEntity);
+        return factoryDocument(docEntity);
     }
 
     public T update(String id, T t) {
-        DocumentEntity doc = null;
+        DocumentEntity<T> doc = null;
         try {
-            doc = this.driver.replaceDocument(this.collectionName, id, t);
+            doc = driver.replaceDocument(collectionName, id, t);
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return this.findById(doc.getDocumentKey());
+        return findById(doc.getDocumentKey());
     }
 
     public void delete(String id) {
         try {
-            this.driver.deleteDocument(this.collectionName, id);
+            driver.deleteDocument(collectionName, id);
         } catch (ArangoException e) {
             e.printStackTrace();
         }
     }
 
     public List<T> deleteAll() {
-        String query = "FOR t IN " + this.collectionName + " REMOVE t IN " + this.collectionName;
-        List listDocEntity = null;
+        String query = "FOR t IN " + collectionName + " REMOVE t IN " + collectionName;
+        List<DocumentEntity<T>> listDocEntity = null;
         try {
-            listDocEntity = this.driver.executeDocumentQuery(query, (Map)null, (AqlQueryOptions)null, this.className).asList();
+            listDocEntity = driver.executeDocumentQuery(query, null, null, entityClass).asList();
         } catch (ArangoException e) {
             e.printStackTrace();
         }
-        return this.factoryListDocument(listDocEntity);
+        return factoryListDocument(listDocEntity);
     }
 
     protected T factoryDocument(DocumentEntity<T> docEntity) {
-        Entity e = (Entity)docEntity.getEntity();
-        e.setId(docEntity.getDocumentKey());
-        return (T) e;
+        T entity = docEntity.getEntity();
+        entity.setId(docEntity.getDocumentKey());
+        return entity;
     }
 
     protected List<T> factoryListDocument(List<DocumentEntity<T>> listDocEntity) {
-        ArrayList listEntity = new ArrayList();
-        Entity e;
-        for(Iterator var3 = listDocEntity.iterator(); var3.hasNext(); listEntity.add(e)) {
-            DocumentEntity docEntity = (DocumentEntity)var3.next();
-            e = (Entity)docEntity.getEntity();
-            if(e.getId() == null) {
+        List<T> listEntity = new ArrayList<T>();
+        T e;
+        for (Iterator<DocumentEntity<T>> var3 = listDocEntity.iterator(); var3.hasNext(); listEntity.add(e)) {
+            DocumentEntity<T> docEntity = var3.next();
+            e = docEntity.getEntity();
+            if (e.getId() == null) {
                 e.setId(docEntity.getDocumentKey());
             }
         }
@@ -140,27 +149,7 @@ public abstract class GenericRepositoryImpl<T extends Entity> implements Generic
         return listEntity;
     }
 
-    protected List<T> factoryListIDDocument(List<DocumentEntity<T>> listDocEntity) {
-        ArrayList listEntityID = new ArrayList();
-        Entity e;
-        for(DocumentEntity entity : listDocEntity) {
-            String id = entity.getDocumentKey();
-
-            listEntityID.add(id);
-        }
-
-        return listEntityID;
-    }
-
-    protected HashSet<T> factoryListIDDocument(HashSet<DocumentEntity<T>> listDocEntity) {
-        HashSet listEntityID = new HashSet();
-        Entity e;
-        for(DocumentEntity entity : listDocEntity) {
-            String id = entity.getDocumentKey();
-
-            listEntityID.add(id);
-        }
-
-        return listEntityID;
+    public void setDriver(ArangoDriver driver) {
+        this.driver = driver;
     }
 }
