@@ -2,10 +2,6 @@ FROM java:8
 
 MAINTAINER CELLIER Antoine <antoine.cellier@zenika.com>
 
-RUN apt-get update
-
-RUN apt-get install maven -y
-
 ADD target/com-zenika-mbz-1.0-SNAPSHOT.jar /app/
 
 WORKDIR /app/
