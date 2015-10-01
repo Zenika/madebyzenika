@@ -10,6 +10,9 @@ public class Technology extends Entity {
     @Size(min = 2, max = 20, message = "the name of a technology must be between 2 and 20 characters")
     protected String name;
 
+    Technology() {
+    }
+
     Technology(String id, String name) {
         super(id);
         this.name = name;
