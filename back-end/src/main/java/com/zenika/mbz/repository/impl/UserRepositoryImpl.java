@@ -13,6 +13,11 @@ import java.util.Map;
 @Repository
 public class UserRepositoryImpl extends GenericRepositoryImpl<User> implements UserRepository {
 
+    @Override
+    public List<User> findByName(String name) {
+        return findByCriterion("familyName", name);
+    }
+
     public List<User> findUsersByProject(String projectId) {
         String query = "FOR p IN Project FILTER p._key == @projectId FOR m IN p.team  FOR u IN " + collectionName + " FILTER u._key == m  RETURN u";
         Map<String, Object> bindVars = (new MapBuilder()).put("projectId", projectId).get();
