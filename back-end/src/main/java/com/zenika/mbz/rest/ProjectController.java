@@ -33,7 +33,7 @@ public class ProjectController extends MainController<Project> {
     }
 
     @RequestMapping(method = GET, params = {"skip", "limit", "type"})
-    public List<Project> getProjectsByTypeAndTechnologies(
+    public List<Project> getProjectsByType(
             @RequestParam("skip") Integer skip,
             @RequestParam("limit") Integer limit,
             @RequestParam("type") String type) {
