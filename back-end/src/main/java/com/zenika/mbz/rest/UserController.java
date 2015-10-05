@@ -23,6 +23,11 @@ public class UserController extends MainController<User> {
         return userRepository.findUsersByProject(projectId);
     }
 
+    @RequestMapping(method = GET, params = "name")
+    public List<User> findByName(@RequestParam("name") String name) {
+        return getRepository().findByName(name);
+    }
+
     @Override
     protected GenericRepository<User> getRepository() {
         return userRepository;
