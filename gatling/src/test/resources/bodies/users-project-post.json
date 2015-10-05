@@ -1,0 +1,13 @@
+{
+  "agency": "Nantes",
+  "owner": "blah",
+  "name": "Gatling",
+  "description": "Gatling test with some blah because validation.",
+  "projectType": "323485798858",
+  "technologies": [
+    "323485798858"
+  ],
+  "team": [
+    "${id}"
+  ]
+}
