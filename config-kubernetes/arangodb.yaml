@@ -13,7 +13,7 @@ spec:
       name: arangodb
     volumeMounts:
     - name: arangodb-persistent-storage
-      mountPath: /data
+      mountPath: /var/lib/arangodb
   volumes:
   - name: arangodb-persistent-storage
     gcePersistentDisk:
