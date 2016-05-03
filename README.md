@@ -41,12 +41,22 @@ docker run -p 8080:8080 -d --name springboot --link arangodb:db -e OAUTH_CLIENT=
 cd front-end
 ```
 
-Installation des dépendances:
+#### Modification de l'ID client Google
+Modifier le fichier `front-end/public/index.html` et remplacer le `content` (ligne 13) avec votre propre Google Client ID.
+
 ```
-npm install
+<meta name="google-signin-client_id" content="519950289467-attkehsahi8mlprr29i8850tsfird0vt.apps.googleusercontent.com">
 ```
 
-Lancer le front:
+
+#### Création du conteneur
 ```
-npm start
+docker build -t mbz .
 ```
+
+#### Démarrer le conteneur front:
+```
+docker run -p 3000:3000 -d --name mbz --link springboot:springboot -e REST_PORT_8080_TCP_ADDR=springboot -e REST_PORT_8080_TCP_PORT=8080 mbz
+```
+
+**Accessible depuis http://localhost:3000/**
