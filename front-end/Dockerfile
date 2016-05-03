@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:4.4.1
 
 MAINTAINER CELLIER Antoine <antoine.cellier@zenika.com>
 
